@@ -7,7 +7,7 @@
 
 # Site Settings
 title                    : "Wenlin Li (黎文林)"
-description              : "PhD student in Data Science at The Chinese University of Hong Kong, Shenzhen"
+description              : # "PhD student in Data Science at The Chinese University of Hong Kong, Shenzhen"
 repository               : "https://github.com/zipging"
 google_scholar_stats_use_cdn : true
 
