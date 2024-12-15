@@ -7,7 +7,7 @@
 
 # Site Settings
 title                    : "Wenlin Li (黎文林)"
-description              : # "PhD student in Data Science at The Chinese University of Hong Kong, Shenzhen"
+description              : "PhD student in Data Science at The Chinese University of Hong Kong, Shenzhen"
 repository               : "https://github.com/zipging"
 google_scholar_stats_use_cdn : true
 
@@ -24,7 +24,7 @@ baidu_site_verification  : # code-ZxFK3f4pfb
 author:
   name             : "Wenlin Li (黎文林)"
   avatar           : "images/6191734244282_.pic.jpg"
-  bio              : "PhD student in Data Science at The Chinese University of Hong Kong, Shenzhen"
+  bio              : # "PhD student in Data Science at The Chinese University of Hong Kong, Shenzhen"
   location         : "Shenzhen, China"
   employer         :
   pubmed           : 
