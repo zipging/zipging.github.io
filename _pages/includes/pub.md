@@ -5,7 +5,7 @@
 <div class='paper-box-text' markdown="1">
 
 [FastSpeech: Fast, Robust and Controllabe Text to Speech](https://papers.nips.cc/paper/8580-fastspeech-fast-robust-and-controllable-text-to-speech.pdf) \\
-**Yi Ren**, Yangjun Ruan, Xu Tan, Tao Qin, Sheng Zhao, Zhou Zhao, Tie-Yan Liu
+**Wenlin Li^#**, Yucheng Xu^#, Xiaoqing Zheng, Jun Wang, Xiaobo Sun^*
 
 [**Project**](https://speechresearch.github.io/fastspeech/) <strong><span class='show_paper_citations' data='4FA6C0AAAAAJ:qjMakFHDy7sC'></span></strong>
 
