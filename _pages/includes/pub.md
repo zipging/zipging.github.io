@@ -4,8 +4,8 @@
 <div class='paper-box'><div class='paper-box-image'><div><div class="badge">ACM-MM 2024</div><img src='images/DARLC.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
-[FastSpeech: Fast, Robust and Controllabe Text to Speech](https://papers.nips.cc/paper/8580-fastspeech-fast-robust-and-controllable-text-to-speech.pdf) \\
-**Wenlin Li^#**, Yucheng Xu^#, Xiaoqing Zheng, Jun Wang, Xiaobo Sun^*
+[Dual Advancement of Representation Learning and Clustering for Sparse and Noisy Images]([https://papers.nips.cc/paper/8580-fastspeech-fast-robust-and-controllable-text-to-speech.pdf](https://arxiv.org/abs/2409.01781)) \\
+**Wenlin Li#**, Yucheng Xu#, Xiaoqing Zheng, Jun Wang, Xiaobo Sun*
 
 [**Project**](https://speechresearch.github.io/fastspeech/) <strong><span class='show_paper_citations' data='4FA6C0AAAAAJ:qjMakFHDy7sC'></span></strong>
 
