@@ -1,4 +1,4 @@
 # 📖 Educations
-- *2025.06 - now*, Master, Zhejiang University, Hangzhou.
-- *2024.06 - 2024.12*, Department of Statistics and Data Science, Xiamen University.
-- *2020.09 - 2024.06*, Undergraduate, School of Statistics and Mathematics, Zhongnan University of Economics and Law.
+- *2025.09 - now*, *Ph.D. in Data Science*, School of Data Science, The Chinese University of Hong Kong, Shenzhen.
+- *2024.09 - 2024.12*, *Partially Completed M.Sc. in Applied Statistics*, Department of Statistics and Data Science, Xiamen University.
+- *2020.09 - 2024.06*, *B.Sc. in Data Science and Big Data Technology*, School of Statistics and Mathematics, Zhongnan University of Economics and Law.
