@@ -5,7 +5,10 @@ main:
 
   # - title: "News"
   #   url: "/#-news"
-  
+
+  - title: "Researchs"
+    url: "/#-resesarchs"
+
     
   - title: "Publications"
     url: "/#-publications"
