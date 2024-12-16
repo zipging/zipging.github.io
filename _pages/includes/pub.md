@@ -7,10 +7,10 @@
 [Dual Advancement of Representation Learning and Clustering for Sparse and Noisy Images](https://arxiv.org/abs/2409.01781) \\
 **Wenlin Li#**, Yucheng Xu#, Xiaoqing Zheng, Suoya Han, Jun Wang, Xiaobo Sun*
 
-- Proposed DARLC, a unified framework combining contrastive learning, masked image modeling, and deep clustering for sparse and noisy images (SNIs).
-- Introduced a graph attention-based data augmentation method to generate smoothed images for contrastive learning.
-- Designed a Student’s t mixture model for robust clustering of SNIs, addressing class collision issues.
-- Demonstrated DARLC’s superiority over SOTA methods on 12 SNI datasets in clustering and downstream tasks.
+- DARLC is the first unified framework for joint representation learning and clustering of sparse and noisy images (SNIs).
+- DARLC integrates contrastive learning, masked image modeling, and a graph attention-based augmentation to enhance representation learning.
+- DARLC employs a Student’s t mixture model for robust SNI clustering, addressing class collision and improving adaptability.
+- DARLC outperforms state-of-the-art methods on 12 SNI datasets in clustering quality and downstream task performance.
 </div>
 </div>
 
