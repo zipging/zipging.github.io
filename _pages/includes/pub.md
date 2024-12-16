@@ -9,7 +9,7 @@
 
 - Proposed DARLC, a unified framework combining contrastive learning, masked image modeling, and deep clustering for sparse and noisy images (SNIs).
 - Introduced a graph attention-based data augmentation method to generate smoothed images for contrastive learning.
-- Designed a Student’s t mixture model (SMM) for robust clustering of SNIs, addressing class collision issues.
+- Designed a Student’s t mixture model for robust clustering of SNIs, addressing class collision issues.
 - Demonstrated DARLC’s superiority over SOTA methods on 12 SNI datasets in clustering and downstream tasks.
 </div>
 </div>
