@@ -1,3 +1,6 @@
+# 🔥 News
+SIGEL got the Genome Biology revision decision! (April 2025)
+
 # 🔎 Researchs
 I am currently working on cross-sample differential expression analysis in spatial transcriptomics.
 
