@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/a7253c30-9283-4bb2-9837-9aba72de6b55)![image](https://github.com/user-attachments/assets/faa28b47-34ed-468d-8254-4ba2c30de74e)# 🔎 Researchs
+# 🔎 Researchs
 I am currently working on cross-sample differential expression analysis in spatial transcriptomics.
 
 # 📝 Publications 
