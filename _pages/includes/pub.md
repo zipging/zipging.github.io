@@ -1,5 +1,6 @@
 # 🔥 News
 SIGEL got revision decision from Genome Biology! (Apr. 2025)
+
 I am working as a Research Assistant at CUHK-Shenzhen! (Feb. 2025)
 
 # 🔎 Researchs
