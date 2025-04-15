@@ -17,7 +17,7 @@ I am currently working on cross-sample differential expression analysis in spati
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Genome Biology (revising) 2024</div><img src='images/SIGEL.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Genome Biology (revising) 2025</div><img src='images/SIGEL.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 A context-aware genomic representation learning framework for gene spatial expression imputation, pattern recognition, and function discovery \\
