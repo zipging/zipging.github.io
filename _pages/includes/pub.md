@@ -1,4 +1,4 @@
-# 🔎 Researchs
+![image](https://github.com/user-attachments/assets/a7253c30-9283-4bb2-9837-9aba72de6b55)![image](https://github.com/user-attachments/assets/faa28b47-34ed-468d-8254-4ba2c30de74e)# 🔎 Researchs
 I am currently working on cross-sample differential expression analysis in spatial transcriptomics.
 
 # 📝 Publications 
@@ -17,16 +17,29 @@ I am currently working on cross-sample differential expression analysis in spati
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Preprint</div><img src='images/CD3.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Genome Biology (revising) 2024</div><img src='images/SIGEL.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
-Cross-sample Detection of Differential Expression Genes and Domains in Spatial Transcriptomics\\
+A context-aware genomic representation learning framework for gene spatial expression imputation, pattern recognition, and function discovery \\
+**Wenlin Li#**, Yucheng Xu, Mengqian Huang, Jin Chen, Hao Wu*, Xiaobo Sun*
+
+- We develop a “context-aware, self-supervised Spatially Informed Gene Emedding Learning (SIGEL)” framework, addressing the gap in methods for generating gene manifolds and utilizing spatial genomic context.
+- SIGEL generates gene representations (SGRs) that are context-aware, semantically rich, and robust against technical artifacts across different samples, enhancing the biological relevance and functional understanding of genomic contexts.
+- SGRs are applied to important biomedical research tasks such as imputing missing genes in FISH-based ST, detecting genes with specific spatial expression patterns, identifying disease-associated genes and gene-gene interactions, and improving spatial clustering.
+- Extensive experiments with diverse ST datasets across various platforms, species, and tissues demonstrate the superior performance of SGRs in facilitating various analytical tasks, affirming their potential in data-driven genomic research.
+</div>
+</div>
+
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Preprint</div><img src='images/STANDEE.png' alt="sym" width="100%"></div></div>
+<div class='paper-box-text' markdown="1">
+
+Cross-sample Detection of Differential Expression Genes and Cells in Spatial Transcriptomics with STANDEE\\
 **Wenlin Li#**, Yan Lu#, Maocheng Zhu, Hao Wu, Xiaobo Sun*
 
-- CD3 is the first model for DEG detection in ST samples across different conditions.
-- CD3 maps gene expression into a unified latent space, identifies common genes via Fisher’s test, and determines DEGs through ANOVA.
-- CD3 identifies DEGs and DEDs, quantifies developmental/recovery processes, detects vulnerable regions, and analyzes spot-level pathway enrichment.
-- CD3 has shown outstanding performance across various diseases, developmental and injury contexts, different sequencing technologies, and even cross-modal data.
+- STANDEE is the first model for DEG detection in ST samples across different conditions.
+- STANDEE maps gene expression into a unified latent space, identifies common genes via Fisher’s test, and determines DEGs through ANOVA.
+- STANDEE identifies DEGs and DEDs, quantifies developmental/recovery processes, detects vulnerable regions, and analyzes spot-level pathway enrichment.
+- STANDEEhas shown outstanding performance across various diseases, developmental and injury contexts, different sequencing technologies, and even cross-modal data.
 </div>
 </div>
 
@@ -47,7 +60,7 @@ Detecting biologically significant spatial gene expression patterns in spatial t
 <div class='paper-box'><div class='paper-box-image'><div><div class="badge">AAAI 2024</div><img src='images/MEATRD.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
-MEATRD: Multimodal Anomalous Tissue Region Detection Enhanced with Spatial Transcriptomics \\
+[MEATRD: Multimodal Anomalous Tissue Region Detection Enhanced with Spatial Transcriptomics](https://ojs.aaai.org/index.php/AAAI/article/view/33409) \\
 Kaicheng Xu#, Qilong Wu#, Yan Lu, Yinan Zheng, **Wenlin Li**, Xingjie Tang, Jun Wang, Xiaobo Sun*
 
 - MEATRD is the first method to integrate histology images and ST data for anomalous tissue region (ATR) detection across tissue regions.
