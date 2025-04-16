@@ -44,7 +44,7 @@ Cross-sample Detection of Differential Expression Genes and Cells in Spatial Tra
 - STANDEE is the first model for DEG detection in ST samples across different conditions.
 - STANDEE maps gene expression into a unified latent space, identifies common genes via Fisher’s test, and determines DEGs through ANOVA.
 - STANDEE identifies DEGs and DEDs, quantifies developmental/recovery processes, detects vulnerable regions, and analyzes spot-level pathway enrichment.
-- STANDEEhas shown outstanding performance across various diseases, developmental and injury contexts, different sequencing technologies, and even cross-modal data.
+- STANDEE has shown outstanding performance across various diseases, developmental and injury contexts, different sequencing technologies, and even cross-modal data.
 </div>
 </div>
 
