@@ -6,6 +6,9 @@ I am currently working on cross-sample differential expression analysis in spati
 
 # 📝 Publications 
 
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Genome Biology 2025</div><img src='images/Figure_1_GB_00.png' alt="sym" width="100%"></div></div>
+<div class='paper-box-text' markdown="1">
+
 [SIGEL: a context-aware genomic representation learning framework for spatial genomics analysis](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-025-03748-7) \\
 **Wenlin Li#**, Maocheng Zhu, Yucheng Xu, Mengqian Huang, Jin Chen, Hao Wu*, Xiaobo Sun*
 
@@ -15,9 +18,6 @@ I am currently working on cross-sample differential expression analysis in spati
 - Extensive experiments with diverse ST datasets across various platforms, species, and tissues demonstrate the superior performance of SGRs in facilitating various analytical tasks, affirming their potential in data-driven genomic research.
 </div>
 </div>
-
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Preprint</div><img src='images/STANDEE.png' alt="sym" width="100%"></div></div>
-<div class='paper-box-text' markdown="1">
 
 
 <div class='paper-box'><div class='paper-box-image'><div><div class="badge">ACM-MM 2024</div><img src='images/DARLC.png' alt="sym" width="100%"></div></div>
