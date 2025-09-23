@@ -9,7 +9,7 @@ I am currently working on cross-sample differential expression analysis in spati
 <div class='paper-box-text' markdown="1">
 
 [SIGEL: a context-aware genomic representation learning framework for spatial genomics analysis](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-025-03748-7) \\
-**Wenlin Li#**, Maocheng Zhu, Yucheng Xu, Mengqian Huang, Jin Chen, Hao Wu*, Xiaobo Sun*
+**Wenlin Li#**, Maocheng Zhu, Yucheng Xu, Mengqian Huang, Jin Chen, Hao Wu\*, Xiaobo Sun\*
 
 - We develop a “context-aware, self-supervised Spatially Informed Gene Emedding Learning (SIGEL)” framework, addressing the gap in methods for generating gene manifolds and utilizing spatial genomic context.
 - SIGEL generates gene representations (SGRs) that are context-aware, semantically rich, and robust against technical artifacts across different samples, enhancing the biological relevance and functional understanding of genomic contexts.
