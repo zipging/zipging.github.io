@@ -5,7 +5,6 @@ SIGEL is published in Genome Biology! (Sep. 2025)
 I am currently working on cross-sample differential expression analysis in spatial transcriptomics.
 
 # 📝 Publications 
-
 <div class='paper-box'><div class='paper-box-image'><div><div class="badge">Genome Biology 2025</div><img src='images/Figure_1_GB_00.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
@@ -33,7 +32,7 @@ I am currently working on cross-sample differential expression analysis in spati
 </div>
 </div>
 
-<div class='paper-box'><div class='paper-box-image'><div><div class="badge">Genome Biology (revising) 2025</div><img src='images/Figure_1_GB_00.png' alt="sym" width="100%"></div></div>
+<div class='paper-box'><div class='paper-box-image'><div><div class="badge">AAAI 2025</div><img src='images/MEATRD.png' alt="sym" width="100%"></div></div>
 <div class='paper-box-text' markdown="1">
 
 
