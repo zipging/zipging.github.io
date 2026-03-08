@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://zipging.github.io/sitemap.xml
