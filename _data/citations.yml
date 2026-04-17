@@ -1,5 +1,5 @@
 metadata:
-  last_updated: '2026-04-08'
+  last_updated: '2026-04-17'
 papers:
   jIHIvPoAAAAJ:WF5omc3nYNoC:
     citations: 2
@@ -14,7 +14,7 @@ papers:
     title: 'Meatrd: Multimodal anomalous tissue region detection enhanced with spatial transcriptomics'
     year: '2025'
   jIHIvPoAAAAJ:u5HHmVD_uO8C:
-    citations: 52
+    citations: 53
     title: Prediction of air pollutant concentrations based on TCN-BiLSTM-DMAttention with STL decomposition
     year: '2023'
   jIHIvPoAAAAJ:zYLM7Y9cAGgC:
