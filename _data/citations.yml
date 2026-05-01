@@ -1,16 +1,16 @@
 metadata:
-  last_updated: '2026-04-24'
+  last_updated: '2026-05-01'
 papers:
   jIHIvPoAAAAJ:WF5omc3nYNoC:
     citations: 2
     title: 'SIGEL: a context-aware genomic representation learning framework for spatial genomics analysis'
     year: '2025'
   jIHIvPoAAAAJ:_FxGoFyzp5QC:
-    citations: 1
+    citations: 2
     title: Contrastive Learning-Based Deep Embedded Clustering and the TCN-DMAttention Model for Traffic Congestion Prediction
     year: '2025'
   jIHIvPoAAAAJ:eQOLeE2rZwMC:
-    citations: 24
+    citations: 25
     title: 'Meatrd: Multimodal anomalous tissue region detection enhanced with spatial transcriptomics'
     year: '2025'
   jIHIvPoAAAAJ:u5HHmVD_uO8C:
