@@ -1,8 +1,8 @@
 metadata:
-  last_updated: '2026-05-01'
+  last_updated: '2026-05-22'
 papers:
   jIHIvPoAAAAJ:WF5omc3nYNoC:
-    citations: 2
+    citations: 3
     title: 'SIGEL: a context-aware genomic representation learning framework for spatial genomics analysis'
     year: '2025'
   jIHIvPoAAAAJ:_FxGoFyzp5QC:
@@ -14,7 +14,7 @@ papers:
     title: 'Meatrd: Multimodal anomalous tissue region detection enhanced with spatial transcriptomics'
     year: '2025'
   jIHIvPoAAAAJ:u5HHmVD_uO8C:
-    citations: 54
+    citations: 55
     title: Prediction of air pollutant concentrations based on TCN-BiLSTM-DMAttention with STL decomposition
     year: '2023'
   jIHIvPoAAAAJ:zYLM7Y9cAGgC:
