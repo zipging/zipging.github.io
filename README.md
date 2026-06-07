@@ -1,4 +1,4 @@
-# Wenlin Li Academic Homepage
+# Wenlin Li Academic homepage
 
 Static academic homepage generated from the current Google Scholar profile and existing homepage.
 

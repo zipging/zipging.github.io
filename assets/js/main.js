@@ -177,7 +177,7 @@ const renderExperience = () => {
 
 const renderHeader = () => {
   const p = data.person;
-  document.title = `${p.name} - Academic Homepage`;
+  document.title = `${p.name} - Academic homepage`;
   document.querySelector("#name").textContent = `${p.name} (${p.chineseName})`;
   document.querySelector("#role").textContent = p.title;
   document.querySelector("#affiliation").textContent = p.affiliation;
