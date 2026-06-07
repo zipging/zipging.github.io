@@ -55,6 +55,36 @@ window.profileData = {
       text: "Models that integrate tissue images, spatial omics, and graph-structured tissue context."
     }
   ],
+  heroHighlights: [
+    {
+      period: "2025.09 - Present",
+      title: "Ph.D. in Data Science",
+      place: "CUHK-Shenzhen",
+      logo: "assets/images/cuhksz-logo.png",
+      logoAlt: "The Chinese University of Hong Kong, Shenzhen logo"
+    },
+    {
+      period: "2026.05 - Present",
+      title: "Academic Exchange",
+      place: "Shenzhen Loop Area Institute (SLAI)",
+      logo: "assets/images/slai-logo.png",
+      logoAlt: "Shenzhen Loop Area Institute logo"
+    },
+    {
+      period: "2024.09 - 2024.12",
+      title: "M.Sc. in Applied Statistics",
+      place: "Xiamen University (partially completed)",
+      logo: "assets/images/xmu-logo.png",
+      logoAlt: "Xiamen University logo"
+    },
+    {
+      period: "2020.09 - 2024.06",
+      title: "B.Sc. in Data Science and Big Data Technology",
+      place: "ZUEL",
+      logo: "assets/images/zuel-logo.webp",
+      logoAlt: "Zhongnan University of Economics and Law logo"
+    }
+  ],
   featuredPublications: [
     {
       title: "SIGEL: a context-aware genomic representation learning framework for spatial genomics analysis",

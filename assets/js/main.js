@@ -71,6 +71,29 @@ const renderInterests = () => {
   });
 };
 
+const renderHeroHighlights = () => {
+  const root = document.querySelector("#hero-highlights");
+  root.append(el("h2", "hero-highlights-title", "Education & Appointments"));
+
+  const list = el("ol", "hero-highlight-list");
+  data.heroHighlights.forEach((entry) => {
+    const item = el("li", "hero-highlight");
+    if (entry.logo) {
+      const logo = el("img", "hero-highlight-logo");
+      logo.src = entry.logo;
+      logo.alt = entry.logoAlt || "";
+      item.append(logo);
+    }
+    const copy = el("div", "hero-highlight-copy");
+    copy.append(el("span", "hero-highlight-period", entry.period));
+    copy.append(el("strong", "", entry.title));
+    copy.append(el("span", "hero-highlight-place", entry.place));
+    item.append(copy);
+    list.append(item);
+  });
+  root.append(list);
+};
+
 const renderFeaturedPublications = () => {
   const root = document.querySelector("#featured-publications");
   data.featuredPublications.forEach((paper) => {
@@ -199,6 +222,7 @@ const init = () => {
   renderStats();
   renderNews();
   renderInterests();
+  renderHeroHighlights();
   renderFeaturedPublications();
   renderPublications();
   renderExperience();
