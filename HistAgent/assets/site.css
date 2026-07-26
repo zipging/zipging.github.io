@@ -2112,6 +2112,132 @@ pre {
   max-width: 760px;
 }
 
+.chat-config-guide {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  margin: 0 0 18px;
+}
+
+.chat-config-guide summary {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  list-style: none;
+  padding: 16px 20px;
+}
+
+.chat-config-guide summary::-webkit-details-marker {
+  display: none;
+}
+
+.chat-config-guide summary span:first-child {
+  display: grid;
+  gap: 2px;
+}
+
+.chat-config-guide summary strong {
+  color: var(--ink);
+  font-size: 15px;
+}
+
+.chat-config-guide summary small {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.chat-config-action {
+  color: var(--green);
+  flex: 0 0 auto;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.chat-config-guide[open] .chat-config-action {
+  font-size: 0;
+}
+
+.chat-config-guide[open] .chat-config-action::after {
+  content: "Hide guide";
+  font-size: 11px;
+}
+
+.chat-config-grid {
+  border-top: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.chat-config-step {
+  min-width: 0;
+  padding: 20px;
+}
+
+.chat-config-step + .chat-config-step {
+  border-left: 1px solid var(--rule);
+}
+
+.chat-config-step > span {
+  color: var(--green);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.chat-config-step h3 {
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+  margin: 3px 0 7px;
+}
+
+.chat-config-step p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+  margin: 0 0 13px;
+}
+
+.chat-config-step pre {
+  background: #f3f5f1;
+  border: 1px solid #dce2dc;
+  border-radius: 8px;
+  margin: 0;
+  max-height: 170px;
+  overflow: auto;
+  padding: 12px;
+}
+
+.chat-config-step code {
+  color: #263b35;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.chat-config-step p code {
+  background: #eef2ed;
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+.chat-config-links {
+  border-top: 1px solid var(--rule);
+  display: flex;
+  gap: 20px;
+  padding: 12px 20px;
+}
+
+.chat-config-links a {
+  font-size: 13px;
+  font-weight: 700;
+}
+
 .chat-frame-shell {
   background: #f4f1ea;
   border: 1px solid var(--rule);
@@ -2137,10 +2263,21 @@ pre {
   text-align: center;
 }
 
+.chat-unavailable .eyebrow {
+  color: var(--green);
+  margin-bottom: 8px;
+}
+
 .chat-unavailable h2 {
   font-family: var(--serif);
   font-size: 2rem;
   font-weight: 500;
+  margin: 0 0 10px;
+}
+
+.chat-unavailable p:not(.eyebrow) {
+  color: var(--muted);
+  margin: 0 auto 20px;
 }
 
 @media (max-width: 760px) {
@@ -2158,6 +2295,15 @@ pre {
   .agent-panel-heading {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .chat-config-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-config-step + .chat-config-step {
+    border-left: 0;
+    border-top: 1px solid var(--rule);
   }
 }
 

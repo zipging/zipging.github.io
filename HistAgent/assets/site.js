@@ -150,6 +150,9 @@
             : "#spot-chat"
       );
     }
+    document.dispatchEvent(
+      new CustomEvent("histagent:workspace", { detail: { workspace: selected } })
+    );
   }
 
   atlasWorkspaceButtons.forEach((button, index) => {
@@ -553,7 +556,6 @@
         runAtlasSearch(query);
       });
     });
-    runAtlasSearch(queryInput?.value);
   }
 
   async function loadHeOrgans(preferred = "") {
@@ -812,6 +814,16 @@
         }
       }
     });
-    loadHeTaxonomy();
+    let taxonomyLoaded = false;
+    const initializeTissueAnalysis = () => {
+      if (taxonomyLoaded) return;
+      taxonomyLoaded = true;
+      loadHeTaxonomy();
+    };
+    document.addEventListener("histagent:workspace", (event) => {
+      if (event.detail?.workspace === "analyze") initializeTissueAnalysis();
+    });
+    const analyzePanel = document.querySelector('[data-atlas-panel="analyze"]');
+    if (analyzePanel && !analyzePanel.hidden) initializeTissueAnalysis();
   }
 })();
