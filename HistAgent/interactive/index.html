@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Chat with HistAgent, search the spatial transcriptomics atlas, or analyze an H&amp;E tissue image.">
+    <meta name="histagent-chat-origin" content="">
+    <title>Agent Module | HistAgent</title>
+    <link rel="stylesheet" href="/HistAgent/assets/site.css?v=20260726agent1">
+  </head>
+  <body class="atlas-route agent-route">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/HistAgent/"><span class="brand-mark" aria-hidden="true"></span><span class="brand-copy"><strong>HistAgent</strong><small>Project website</small></span></a>
+        <button class="nav-toggle" type="button" data-nav-toggle aria-expanded="false" aria-controls="primary-nav">Menu</button>
+        <nav class="primary-nav" id="primary-nav" data-primary-nav aria-label="Primary navigation">
+          <a href="/HistAgent/">Overview</a>
+          <a href="/HistAgent/tutorials/">Tutorials</a>
+          <a href="/HistAgent/interactive/" aria-current="page">Agent Module</a>
+          <a href="https://github.com/zipging/HistAgent">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <div class="page-shell">
+        <header class="page-hero">
+          <p class="eyebrow">Spatial molecular analysis</p>
+          <h1>HistAgent Agent Module</h1>
+          <p class="lede">Ask questions about a selected tissue location, search the spatial transcriptomics atlas with a biological description, or analyze an H&amp;E image.</p>
+          <div class="page-meta"><span>Spot-level chat</span><span>Natural-language atlas search</span><span>H&amp;E image analysis</span></div>
+        </header>
+
+        <nav class="atlas-workspace-tabs" role="tablist" aria-label="Agent Module workspace">
+          <button type="button" role="tab" aria-selected="true" aria-controls="agent-chat-panel" data-atlas-workspace="chat">
+            <span>01</span>
+            Spot Chat
+            <small>Ask about one tissue location</small>
+          </button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="atlas-explore-panel" data-atlas-workspace="explore">
+            <span>02</span>
+            Atlas Search
+            <small>Retrieve related tissue locations</small>
+          </button>
+          <button type="button" role="tab" aria-selected="false" aria-controls="atlas-analyze-panel" data-atlas-workspace="analyze">
+            <span>03</span>
+            Tissue Analysis
+            <small>Analyze an H&amp;E image</small>
+          </button>
+        </nav>
+
+        <section class="section atlas-workspace-panel agent-chat-panel" id="agent-chat-panel" role="tabpanel" data-atlas-panel="chat">
+          <div class="agent-panel-heading">
+            <div><p class="eyebrow">Spot Chat</p><h2>Discuss a tissue location with HistAgent</h2></div>
+            <div class="button-row">
+              <a class="button" data-chat-open href="http://127.0.0.1:7860/" target="_blank" rel="noopener">Open in a new window</a>
+              <a class="button" href="https://github.com/zipging/HistAgent/tree/main/examples/chat">Configure locally</a>
+            </div>
+          </div>
+          <div class="chat-frame-shell" data-chat-shell aria-label="HistAgent Spot Chat">
+            <iframe data-chat-frame title="HistAgent Spot Chat" loading="eager"></iframe>
+            <div class="chat-unavailable" data-chat-unavailable hidden>
+              <h2>Chat service unavailable</h2>
+              <p>Run the public Chat package locally and connect its address to this page.</p>
+              <a class="button primary" href="https://github.com/zipging/HistAgent/tree/main/examples/chat">Configure Chat locally</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="section atlas-workspace-panel" id="atlas-explore-panel" role="tabpanel" data-atlas-panel="explore" aria-labelledby="search-heading" hidden>
+          <div class="section-intro"><div><p class="eyebrow">Atlas Search</p><h2 id="search-heading">Search biological patterns across the atlas</h2></div><p>Describe a tissue state or biological niche to retrieve related spatial locations.</p></div>
+          <form class="query-bar" data-atlas-search-form>
+            <input type="text" data-query-input value="Find tumor-adjacent TLS-like regions." aria-label="Atlas query">
+            <button class="button primary" type="submit" data-atlas-search-submit>Search atlas</button>
+          </form>
+          <div class="query-presets" aria-label="Example atlas queries">
+            <button type="button" data-query-preset="tls">TLS-like niche</button>
+            <button type="button" data-query-preset="heart">Contractile myocardium</button>
+            <button type="button" data-query-preset="tumor">Epithelial tumor state</button>
+          </div>
+          <p class="atlas-search-status" data-atlas-search-status role="status" aria-live="polite"></p>
+          <div class="atlas-result atlas-result-single">
+            <article class="result-card">
+              <span class="score" data-result-score></span>
+              <p class="eyebrow">Top match</p>
+              <h3 data-result-title>Search the atlas</h3>
+              <p data-result-summary>Enter a biological description to retrieve related tissue locations.</p>
+              <ul class="evidence-list" data-result-evidence></ul>
+              <a class="button" data-result-chat hidden>Continue in Spot Chat</a>
+            </article>
+          </div>
+          <div class="atlas-search-results" data-atlas-search-results></div>
+        </section>
+
+        <section class="section atlas-workspace-panel" id="atlas-analyze-panel" role="tabpanel" data-atlas-panel="analyze" aria-labelledby="analyze-heading" hidden>
+          <div class="section-intro">
+            <div>
+              <p class="eyebrow">Tissue Analysis</p>
+              <h2 id="analyze-heading">Analyze a tissue location from H&amp;E</h2>
+            </div>
+            <p>Upload a spot-scale patch or a larger tissue region. Select the location to analyze, then inspect its ranked genes and related atlas spots.</p>
+          </div>
+
+          <div class="he-analyzer" data-he-analyzer>
+            <form class="he-upload-panel" data-he-form>
+              <div class="he-panel-heading">
+                <span class="he-step">Input</span>
+                <div>
+                  <h3>H&amp;E query image</h3>
+                  <p>PNG, JPEG, TIFF or WebP · up to 16 MB</p>
+                </div>
+              </div>
+
+              <label class="he-drop-zone" data-he-drop>
+                <input type="file" data-he-input accept="image/png,image/jpeg,image/tiff,image/webp,.tif,.tiff">
+                <span class="he-drop-empty" data-he-empty>
+                  <strong>Drop a tissue image here</strong>
+                  <small>or click to choose a file</small>
+                </span>
+                <span class="he-preview" data-he-preview hidden>
+                  <span class="he-preview-visual" data-he-image-stage>
+                    <img data-he-preview-image alt="Selected H&amp;E query">
+                    <button class="he-spot-marker" type="button" data-he-marker aria-label="Selected analysis center"></button>
+                  </span>
+                  <span class="he-preview-meta"><strong data-he-file-name></strong><small data-he-file-meta></small></span>
+                </span>
+              </label>
+
+              <button class="he-example-button" type="button" data-he-example>Use the cortical tissue example</button>
+
+              <div class="he-scale-grid">
+                <label>
+                  <span>Image scale</span>
+                  <span class="he-input-with-unit"><input type="number" min="0.05" max="20" step="0.01" inputmode="decimal" placeholder="e.g. 0.50" data-he-mpp><small>μm / pixel</small></span>
+                </label>
+                <div>
+                  <span>Model field of view</span>
+                  <strong>55 μm spot + 4× context</strong>
+                </div>
+              </div>
+              <p class="he-selection-note" data-he-selection-note>Choose an image, enter its scale and click the tissue location to analyze.</p>
+
+              <div class="he-crop-preview" data-he-crop-preview hidden>
+                <figure><img data-he-local-preview alt="55 micrometer local H&amp;E view"><figcaption>55 μm spot</figcaption></figure>
+                <figure><img data-he-context-preview alt="220 micrometer contextual H&amp;E view"><figcaption>220 μm context</figcaption></figure>
+              </div>
+
+              <div class="he-filter-grid">
+                <label>
+                  <span>Species</span>
+                  <select data-he-species aria-label="Species">
+                    <option value="human">Human</option>
+                    <option value="mouse">Mouse</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Organ</span>
+                  <select data-he-organ aria-label="Organ">
+                    <option value="breast">Breast</option>
+                  </select>
+                </label>
+              </div>
+
+              <p class="he-method-note">HistAgent crops both views around the selected center and uses the selected species and organ for atlas search.</p>
+              <button class="button primary he-submit" type="submit" data-he-submit>Analyze tissue image</button>
+              <p class="he-status" data-he-status role="status" aria-live="polite"></p>
+            </form>
+
+            <section class="he-analysis-output" aria-label="Image analysis results">
+              <div class="he-output-placeholder" data-he-output-placeholder>
+                <span class="he-step">Output</span>
+                <h3>Analysis results</h3>
+                <p>Upload an image or use the cortical example to see ranked genes and related atlas spots.</p>
+              </div>
+
+              <div class="he-output-results" data-he-output-results hidden>
+                <header class="he-result-header">
+                  <div>
+                    <p class="eyebrow">HistAgent image analysis</p>
+                    <h3 data-he-result-title>Molecular profile</h3>
+                    <p data-he-result-summary></p>
+                  </div>
+                </header>
+
+                <div class="he-evidence-grid">
+                  <section class="he-evidence-block">
+                    <span class="he-step">01</span>
+                    <h4>Ranked genes</h4>
+                    <ol class="he-gene-list" data-he-genes></ol>
+                  </section>
+                  <section class="he-evidence-block">
+                    <span class="he-step">02</span>
+                    <h4>Cellular states</h4>
+                    <div class="he-state-list" data-he-states></div>
+                    <h4 class="he-subheading">Biological pathways</h4>
+                    <ul class="he-pathway-list" data-he-pathways></ul>
+                  </section>
+                </div>
+
+                <section class="he-related-section">
+                  <div class="he-related-heading">
+                    <div><span class="he-step">03</span><h4>Related atlas spots</h4></div>
+                    <a class="button" href="/HistAgent/interactive/#spot-chat" data-he-continue hidden>Continue in Spot Chat</a>
+                  </div>
+                  <div class="he-related-spots" data-he-spots></div>
+                </section>
+              </div>
+            </section>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer"><div class="page-shell footer-grid"><div><strong>HistAgent Agent Module</strong><span class="fine-print">Spot Chat, Atlas Search and H&amp;E Tissue Analysis.</span></div><div class="footer-links"><a href="https://huggingface.co/datasets/wli13/HistAgent-data">Data</a><a href="/HistAgent/tutorials/">Tutorials</a><a href="/HistAgent/">Overview</a></div></div></footer>
+    <script src="/HistAgent/assets/site.js?v=20260726agent1"></script>
+    <script>
+      (() => {
+        const localHost = ["127.0.0.1", "localhost"].includes(window.location.hostname);
+        const configured = document.querySelector('meta[name="histagent-chat-origin"]')?.content;
+        const chatOrigin = configured || (localHost ? "http://127.0.0.1:7860/" : "");
+        const frame = document.querySelector("[data-chat-frame]");
+        const open = document.querySelector("[data-chat-open]");
+        const unavailable = document.querySelector("[data-chat-unavailable]");
+        if (chatOrigin) {
+          const chatUrl = new URL(chatOrigin, window.location.href);
+          const requestedSpot = new URLSearchParams(window.location.search).get("spot_key");
+          if (requestedSpot) chatUrl.searchParams.set("spot_key", requestedSpot);
+          frame.src = chatUrl.toString();
+          open.href = chatUrl.toString();
+        } else {
+          frame.hidden = true;
+          open.hidden = true;
+          unavailable.hidden = false;
+        }
+      })();
+    </script>
+  </body>
+</html>
