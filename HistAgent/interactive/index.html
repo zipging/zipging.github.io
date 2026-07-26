@@ -6,7 +6,7 @@
     <meta name="description" content="Chat with HistAgent, search the spatial transcriptomics atlas, or analyze an H&amp;E tissue image.">
     <meta name="histagent-chat-origin" content="">
     <title>Agent Module | HistAgent</title>
-    <link rel="stylesheet" href="/HistAgent/assets/site.css?v=20260726agent1">
+    <link rel="stylesheet" href="/HistAgent/assets/site.css?v=20260726perf1">
   </head>
   <body class="atlas-route agent-route">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -55,15 +55,51 @@
             <div><p class="eyebrow">Spot Chat</p><h2>Discuss a tissue location with HistAgent</h2></div>
             <div class="button-row">
               <a class="button" data-chat-open href="http://127.0.0.1:7860/" target="_blank" rel="noopener">Open in a new window</a>
-              <a class="button" href="https://github.com/zipging/HistAgent/tree/main/examples/chat">Configure locally</a>
+              <a class="button" href="#chat-configuration">Configuration guide</a>
             </div>
           </div>
+          <details class="chat-config-guide" id="chat-configuration" data-chat-guide>
+            <summary>
+              <span><strong>Connect the Agent Module service</strong><small>Install once, then use Spot Chat, Atlas Search and Tissue Analysis from this page.</small></span>
+              <span class="chat-config-action" aria-hidden="true">Show guide</span>
+            </summary>
+            <div class="chat-config-grid">
+              <section class="chat-config-step">
+                <span>01</span>
+                <h3>Install</h3>
+                <p>From the HistAgent repository root, create an environment and install the Agent Module.</p>
+                <pre><code>python -m venv .venv
+source .venv/bin/activate
+python -m pip install -e .
+python -m pip install -r examples/chat/requirements.txt</code></pre>
+              </section>
+              <section class="chat-config-step">
+                <span>02</span>
+                <h3>Configure and start</h3>
+                <p>Copy the template, add your model endpoint, then start the service. The data bundle downloads on first run.</p>
+                <pre><code>cp examples/chat/.env.example examples/chat/.env
+python examples/chat/run_chat.py</code></pre>
+              </section>
+              <section class="chat-config-step">
+                <span>03</span>
+                <h3>Connect</h3>
+                <p>Local pages detect <code>127.0.0.1:7860</code>. A deployed site can set the public service origin in its page head.</p>
+                <pre><code>&lt;meta name="histagent-chat-origin"
+  content="https://your-agent-service.example"&gt;</code></pre>
+              </section>
+            </div>
+            <div class="chat-config-links">
+              <a href="https://github.com/zipging/HistAgent/tree/main/examples/chat">Full setup notes</a>
+              <a href="https://huggingface.co/datasets/wli13/HistAgent-data">Agent Module data</a>
+            </div>
+          </details>
           <div class="chat-frame-shell" data-chat-shell aria-label="HistAgent Spot Chat">
             <iframe data-chat-frame title="HistAgent Spot Chat" loading="eager"></iframe>
             <div class="chat-unavailable" data-chat-unavailable hidden>
-              <h2>Chat service unavailable</h2>
-              <p>Run the public Chat package locally and connect its address to this page.</p>
-              <a class="button primary" href="https://github.com/zipging/HistAgent/tree/main/examples/chat">Configure Chat locally</a>
+              <p class="eyebrow">Service connection</p>
+              <h2>Connect Spot Chat</h2>
+              <p>The Chat interface is part of the Agent Module. Follow the guide above to start it locally or connect a deployed service.</p>
+              <a class="button primary" href="#chat-configuration" data-chat-config-toggle>Open configuration guide</a>
             </div>
           </div>
         </section>
@@ -213,7 +249,7 @@
     </main>
 
     <footer class="site-footer"><div class="page-shell footer-grid"><div><strong>HistAgent Agent Module</strong><span class="fine-print">Spot Chat, Atlas Search and H&amp;E Tissue Analysis.</span></div><div class="footer-links"><a href="https://huggingface.co/datasets/wli13/HistAgent-data">Data</a><a href="/HistAgent/tutorials/">Tutorials</a><a href="/HistAgent/">Overview</a></div></div></footer>
-    <script src="/HistAgent/assets/site.js?v=20260726agent1"></script>
+    <script src="/HistAgent/assets/site.js?v=20260726perf1"></script>
     <script>
       (() => {
         const localHost = ["127.0.0.1", "localhost"].includes(window.location.hostname);
@@ -222,17 +258,33 @@
         const frame = document.querySelector("[data-chat-frame]");
         const open = document.querySelector("[data-chat-open]");
         const unavailable = document.querySelector("[data-chat-unavailable]");
-        if (chatOrigin) {
-          const chatUrl = new URL(chatOrigin, window.location.href);
-          const requestedSpot = new URLSearchParams(window.location.search).get("spot_key");
-          if (requestedSpot) chatUrl.searchParams.set("spot_key", requestedSpot);
-          frame.src = chatUrl.toString();
-          open.href = chatUrl.toString();
-        } else {
-          frame.hidden = true;
-          open.hidden = true;
-          unavailable.hidden = false;
-        }
+        const guide = document.querySelector("[data-chat-guide]");
+        const guideToggle = document.querySelector("[data-chat-config-toggle]");
+        let connected = false;
+        guideToggle?.addEventListener("click", () => {
+          guide.open = true;
+        });
+        const connectChat = () => {
+          if (connected) return;
+          connected = true;
+          if (chatOrigin) {
+            const chatUrl = new URL(chatOrigin, window.location.href);
+            const requestedSpot = new URLSearchParams(window.location.search).get("spot_key");
+            if (requestedSpot) chatUrl.searchParams.set("spot_key", requestedSpot);
+            frame.src = chatUrl.toString();
+            open.href = chatUrl.toString();
+          } else {
+            frame.hidden = true;
+            open.hidden = true;
+            unavailable.hidden = false;
+            guide.open = true;
+          }
+        };
+        document.addEventListener("histagent:workspace", (event) => {
+          if (event.detail?.workspace === "chat") connectChat();
+        });
+        const chatPanel = document.querySelector('[data-atlas-panel="chat"]');
+        if (chatPanel && !chatPanel.hidden) connectChat();
       })();
     </script>
   </body>
