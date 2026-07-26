@@ -26,7 +26,7 @@
     <main id="main">
       <div class="page-shell">
         <header class="page-hero">
-          <p class="eyebrow">Ask · search · analyze</p>
+          <p class="eyebrow">Spatial molecular analysis</p>
           <h1>HistAgent Agent Module</h1>
           <p class="lede">Ask questions about a selected tissue location, search the spatial transcriptomics atlas with a biological description, or analyze an H&amp;E image.</p>
           <div class="page-meta"><span>Spot-level chat</span><span>Natural-language atlas search</span><span>H&amp;E image analysis</span></div>
@@ -82,7 +82,7 @@
           <p class="atlas-search-status" data-atlas-search-status role="status" aria-live="polite"></p>
           <div class="atlas-result atlas-result-single">
             <article class="result-card">
-              <span class="score" data-result-score>—</span>
+              <span class="score" data-result-score></span>
               <p class="eyebrow">Top match</p>
               <h3 data-result-title>Search the atlas</h3>
               <p data-result-summary>Enter a biological description to retrieve related tissue locations.</p>
@@ -162,7 +162,7 @@
                 </label>
               </div>
 
-              <p class="he-method-note">The two views are cropped around the selected center. Species and organ are used for the image analysis and atlas search.</p>
+              <p class="he-method-note">HistAgent crops both views around the selected center and uses the selected species and organ for atlas search.</p>
               <button class="button primary he-submit" type="submit" data-he-submit>Analyze tissue image</button>
               <p class="he-status" data-he-status role="status" aria-live="polite"></p>
             </form>
@@ -212,7 +212,7 @@
       </div>
     </main>
 
-    <footer class="site-footer"><div class="page-shell footer-grid"><div><strong>HistAgent Agent Module</strong><span class="fine-print">Ask, search and analyze from one workspace.</span></div><div class="footer-links"><a href="https://huggingface.co/datasets/wli13/HistAgent-data">Data</a><a href="/HistAgent/tutorials/">Tutorials</a><a href="/HistAgent/">Overview</a></div></div></footer>
+    <footer class="site-footer"><div class="page-shell footer-grid"><div><strong>HistAgent Agent Module</strong><span class="fine-print">Spot Chat, Atlas Search and H&amp;E Tissue Analysis.</span></div><div class="footer-links"><a href="https://huggingface.co/datasets/wli13/HistAgent-data">Data</a><a href="/HistAgent/tutorials/">Tutorials</a><a href="/HistAgent/">Overview</a></div></div></footer>
     <script src="/HistAgent/assets/site.js?v=20260726agent1"></script>
     <script>
       (() => {

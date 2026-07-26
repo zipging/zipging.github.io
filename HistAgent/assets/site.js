@@ -506,7 +506,7 @@
           score.textContent = `${Math.round(Number(row.similarity || 0) * 100)}%`;
           const link = document.createElement("a");
           link.className = "button";
-          link.textContent = "Open in Chat";
+          link.textContent = "Open in Spot Chat";
           link.href = chatHref(row.spot_key);
           actions.append(score, link);
 
@@ -649,15 +649,15 @@
 
           const body = document.createElement("div");
           const title = document.createElement("h5");
-          title.textContent = item.dominant_cell_type || "Related measured spot";
+          title.textContent = item.dominant_cell_type || "Related atlas spot";
           const meta = document.createElement("p");
           meta.textContent = [item.species, item.organ, item.slice_id].filter(Boolean).join(" · ");
           const evidence = document.createElement("p");
           const matches = Array.isArray(item.matched_evidence) ? item.matched_evidence.join(", ") : "";
-          evidence.textContent = matches ? `Matched evidence: ${matches}` : "Related measured atlas spot";
+          evidence.textContent = matches ? `Matched evidence: ${matches}` : "Related atlas spot";
           const chatLink = document.createElement("a");
           chatLink.className = "he-spot-chat";
-          chatLink.textContent = "Open in Chat";
+          chatLink.textContent = "Open in Spot Chat";
           chatLink.href = chatHref(item.spot_key);
           body.append(title, meta, evidence, chatLink);
           card.append(score, body);

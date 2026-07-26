@@ -13107,13 +13107,13 @@ div#notebook {
 <main>
 <div class="border-box-sizing" id="notebook" tabindex="-1">
 <div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=2ffc6beb"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=45110948"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Generate-and-evaluate-ranked-molecular-readouts">Generate and evaluate ranked molecular readouts<a class="anchor-link" href="#Generate-and-evaluate-ranked-molecular-readouts">¶</a></h1><p>Evaluate spot-level gene-ranking recovery and gene-level spatial recovery on five held-out spatial transcriptomics slides.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=df4b10d0"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=69caa3f8"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Installation">Installation<a class="anchor-link" href="#Installation">¶</a></h2><p>Create a Python 3.10+ environment, install the public HistAgent package and add
 the lightweight analysis dependencies used by these notebooks.</p>
@@ -13124,20 +13124,20 @@ python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </s
 python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>numpy<span class="w"> </span>pandas<span class="w"> </span>matplotlib<span class="w"> </span>seaborn<span class="w"> </span>scipy<span class="w"> </span>scikit-learn<span class="w"> </span>huggingface-hub
 </pre></div>
-<p>If a local <code>data/</code> directory is not present, the notebook downloads its data
-from <code>wli13/HistAgent-data</code>. The tutorial examples run without a GPU. New HistAgent inference also
-requires access to the gated Prov-GigaPath model and an authenticated
+<p>If <code>data/</code> is absent, the notebook downloads its data from
+<code>wli13/HistAgent-data</code>. These examples run without a GPU. Running HistAgent on
+new images requires access to the gated Prov-GigaPath model and an authenticated
 Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=116318b0"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=7c917396"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Setup">Setup<a class="anchor-link" href="#Setup">¶</a></h2><p>Import the analysis stack, define the packaged data directory and apply the plotting style used throughout these tutorials.</p>
+<h2 id="Setup">Setup<a class="anchor-link" href="#Setup">¶</a></h2><p>Import the analysis packages, locate the tutorial data and set the plotting style.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=c7f63ba6">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=2b59317f">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13213,13 +13213,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=dc0d0f20"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=0036cd27"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Overview">Overview<a class="anchor-link" href="#Overview">¶</a></h2><p>This first run uses five held-out slides spanning human and mouse stomach, breast, lung, spleen and kidney tissues. HitRate@50 and mAP@50 are calculated from every evaluated spot. The maps use five fixed, biologically interpretable genes with strong measured-versus-predicted spatial agreement; they illustrate the workflow and are not used to estimate overall performance.</p>
+<h2 id="Overview">Overview<a class="anchor-link" href="#Overview">¶</a></h2><p>Five held-out slides cover human and mouse stomach, breast, lung, spleen and kidney tissue. Hit Rate@50 and mAP@50 use every evaluated spot. The spatial maps show five genes with high agreement between measured ST and HistAgent predictions.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=6b372937">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=ad44b14f">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13341,13 +13341,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=4839c9cb"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=4d25396d"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Spot-level-gene-ranking-recovery">Spot-level gene-ranking recovery<a class="anchor-link" href="#Spot-level-gene-ranking-recovery">¶</a></h2><p>Hit Rate@50 is the fraction of measured top-50 genes recovered by the predicted top 50. Average precision also rewards correct genes that appear earlier in the prediction.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=429ae45d">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=6d2a8acf">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13479,13 +13479,13 @@ Recalculated AP@50: 0.703
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=a6c9cfc7"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=07360748"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Gene-level-spatial-recovery">Gene-level spatial recovery<a class="anchor-link" href="#Gene-level-spatial-recovery">¶</a></h2><p>The code below draws five measured maps on the first row and their HistAgent predictions on the second. Each map is visualized on its own 2nd–98th percentile scale so spatial patterns can be compared without an overall offset dominating the color range. The displayed PCC is calculated from the unscaled spot-level values; the cohort-level PCC@50 remains separately reported in the table above.</p>
+<h2 id="Gene-level-spatial-recovery">Gene-level spatial recovery<a class="anchor-link" href="#Gene-level-spatial-recovery">¶</a></h2><p>The first row shows measured expression and the second shows HistAgent predictions. Each gene pair shares its 2nd-98th percentile color scale. PCC is calculated from the unscaled spot values; the table above reports cohort-level PCC@50.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=ceb6c7fc">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=8e55756e">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13539,7 +13539,7 @@ Recalculated AP@50: 0.703
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>&lt;&gt;:28: SyntaxWarning: invalid escape sequence '\m'
 &lt;&gt;:28: SyntaxWarning: invalid escape sequence '\m'
-/var/folders/q1/9j2gt_295b16k7hghzdp3p4h0000gn/T/ipykernel_25696/2731449548.py:28: SyntaxWarning: invalid escape sequence '\m'
+/var/folders/q1/9j2gt_295b16k7hghzdp3p4h0000gn/T/ipykernel_69477/2731449548.py:28: SyntaxWarning: invalid escape sequence '\m'
   f"{info['organ'].title()} · $\mathit{{{gene_label}}}$\n"
 </pre>
 </div>
@@ -13552,13 +13552,13 @@ Recalculated AP@50: 0.703
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=5f48a8cf"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=412418ae"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Verify-the-calculations">Verify the calculations<a class="anchor-link" href="#Verify-the-calculations">¶</a></h2><p>The notebook verifies the spot-level example and reports the cohort metrics without changing their definitions.</p>
+<h2 id="Verify-the-calculations">Verify the calculations<a class="anchor-link" href="#Verify-the-calculations">¶</a></h2><p>The checks below recompute the spot-level example and the three cohort metrics.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=495ef7c9">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=e918150d">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13582,7 +13582,7 @@ Recalculated AP@50: 0.703
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=353077e4"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=c979475c"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Continue">Continue<a class="anchor-link" href="#Continue">¶</a></h2><p>Continue to <strong>Spatial biological findings</strong> to recover and interpret a TLS-like immune niche in renal cell carcinoma.</p>
 </div>

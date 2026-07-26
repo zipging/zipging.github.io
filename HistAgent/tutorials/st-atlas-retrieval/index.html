@@ -13103,17 +13103,17 @@ div#notebook {
     </nav>
   </div>
 </header>
-<div class="nb-workspace"><aside class="nb-sidebar" aria-label="Tutorial directory"><div class="nb-sidebar-heading"><span class="nb-sidebar-kicker">HistAgent</span><h2>Tutorials</h2><p>Five tutorials with code and outputs.</p></div><nav class="nb-tutorial-nav"><div class="nb-nav-group"><a class="nb-nav-chapter" href="/HistAgent/tutorials/"><span class="nb-nav-number">00</span><span><strong>Overview</strong><small>Choose a tutorial</small></span></a></div><div class="nb-nav-group"><a class="nb-nav-chapter" href="/HistAgent/tutorials/ranked-molecular-readouts/"><span class="nb-nav-number">01</span><span><strong>Ranked molecular readouts</strong><small>Hit Rate@50 · mAP@50 · PCC</small></span></a></div><div class="nb-nav-group"><a class="nb-nav-chapter" href="/HistAgent/tutorials/spatial-biological-findings/"><span class="nb-nav-number">02</span><span><strong>Spatial biological findings</strong><small>Expression · TLS · evidence</small></span></a></div><div class="nb-nav-group"><a class="nb-nav-chapter" href="/HistAgent/tutorials/spatial-transcriptomic-analyses/"><span class="nb-nav-number">03</span><span><strong>Spatial transcriptomic analyses</strong><small>SVG · domains · deconvolution</small></span></a></div><div class="nb-nav-group"><a class="nb-nav-chapter" href="/HistAgent/tutorials/clinical-prediction/"><span class="nb-nav-number">04</span><span><strong>Clinical prediction</strong><small>WSI · prognosis</small></span></a></div><div class="nb-nav-group"><a class="nb-nav-chapter" href="/HistAgent/tutorials/st-atlas-retrieval/" aria-current="page"><span class="nb-nav-number">05</span><span><strong>ST atlas retrieval</strong><small>Text · H&E retrieval</small></span></a><nav class="nb-subnav" aria-label="ST atlas retrieval sections"><a href="#Installation">Installation</a><a href="#Setup">Setup</a><a href="#Overview">Overview</a><a href="#Map-the-spatial-transcriptomics-atlas">Map the spatial transcriptomics atlas</a><a href="#Natural-language-retrieval">Natural-language retrieval</a><a href="#H&amp;E-image-retrieval">H&E image retrieval</a><a href="#Verify-the-calculations">Verify the calculations</a><a href="#Continue-in-Chat">Continue in Chat</a></nav></div></nav><div class="nb-sidebar-note"><strong>Downloadable notebooks</strong><span>Use the link at the top of each tutorial page.</span></div></aside><main class="nb-page" id="tutorial-main"><div class="nb-toolbar"><span><a href="/HistAgent/tutorials/">Tutorials</a><span aria-hidden="true"> / </span><strong>ST atlas retrieval</strong></span><a class="nb-download" href="/HistAgent/notebooks/st_atlas_retrieval.ipynb" download>Download .ipynb</a></div>
+<div class="nb-workspace"><aside class="nb-sidebar" aria-label="Tutorial directory"><div class="nb-sidebar-heading"><span class="nb-sidebar-kicker">HistAgent</span><h2>Tutorials</h2><p>Five tutorials with code and outputs.</p></div><nav class="nb-tutorial-nav"><div class="nb-nav-group"><a class="nb-nav-chapter" href="/HistAgent/tutorials/"><span class="nb-nav-number">00</span><span><strong>Overview</strong><small>Choose a tutorial</small></span></a></div><div class="nb-nav-group"><a class="nb-nav-chapter" href="/HistAgent/tutorials/ranked-molecular-readouts/"><span class="nb-nav-number">01</span><span><strong>Ranked molecular readouts</strong><small>Hit Rate@50 · mAP@50 · PCC</small></span></a></div><div class="nb-nav-group"><a class="nb-nav-chapter" href="/HistAgent/tutorials/spatial-biological-findings/"><span class="nb-nav-number">02</span><span><strong>Spatial biological findings</strong><small>Expression · TLS · evidence</small></span></a></div><div class="nb-nav-group"><a class="nb-nav-chapter" href="/HistAgent/tutorials/spatial-transcriptomic-analyses/"><span class="nb-nav-number">03</span><span><strong>Spatial transcriptomic analyses</strong><small>SVG · domains · deconvolution</small></span></a></div><div class="nb-nav-group"><a class="nb-nav-chapter" href="/HistAgent/tutorials/clinical-prediction/"><span class="nb-nav-number">04</span><span><strong>Clinical prediction</strong><small>WSI · prognosis</small></span></a></div><div class="nb-nav-group"><a class="nb-nav-chapter" href="/HistAgent/tutorials/st-atlas-retrieval/" aria-current="page"><span class="nb-nav-number">05</span><span><strong>ST atlas retrieval</strong><small>Text · H&E retrieval</small></span></a><nav class="nb-subnav" aria-label="ST atlas retrieval sections"><a href="#Installation">Installation</a><a href="#Setup">Setup</a><a href="#Overview">Overview</a><a href="#Map-the-spatial-transcriptomics-atlas">Map the spatial transcriptomics atlas</a><a href="#Natural-language-retrieval">Natural-language retrieval</a><a href="#H&amp;E-image-retrieval">H&E image retrieval</a><a href="#Verify-the-calculations">Verify the calculations</a><a href="#Continue-in-the-Agent-Module">Continue in the Agent Module</a></nav></div></nav><div class="nb-sidebar-note"><strong>Downloadable notebooks</strong><span>Use the link at the top of each tutorial page.</span></div></aside><main class="nb-page" id="tutorial-main"><div class="nb-toolbar"><span><a href="/HistAgent/tutorials/">Tutorials</a><span aria-hidden="true"> / </span><strong>ST atlas retrieval</strong></span><a class="nb-download" href="/HistAgent/notebooks/st_atlas_retrieval.ipynb" download>Download .ipynb</a></div>
 <main>
 <div class="border-box-sizing" id="notebook" tabindex="-1">
 <div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=a8e7e73e"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=75eeb637"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Search-the-spatial-transcriptomics-atlas">Search the spatial transcriptomics atlas<a class="anchor-link" href="#Search-the-spatial-transcriptomics-atlas">¶</a></h1><p>Visualize the spatial transcriptomic atlas and retrieve related spots using natural-language and H&amp;E image queries.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=541189b0"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=fecd7c5a"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Installation">Installation<a class="anchor-link" href="#Installation">¶</a></h2><p>Create a Python 3.10+ environment, install the public HistAgent package and add
 the lightweight analysis dependencies used by these notebooks.</p>
@@ -13124,20 +13124,20 @@ python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </s
 python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
 python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>numpy<span class="w"> </span>pandas<span class="w"> </span>matplotlib<span class="w"> </span>seaborn<span class="w"> </span>scipy<span class="w"> </span>scikit-learn<span class="w"> </span>huggingface-hub
 </pre></div>
-<p>If a local <code>data/</code> directory is not present, the notebook downloads its data
-from <code>wli13/HistAgent-data</code>. The tutorial examples run without a GPU. New HistAgent inference also
-requires access to the gated Prov-GigaPath model and an authenticated
+<p>If <code>data/</code> is absent, the notebook downloads its data from
+<code>wli13/HistAgent-data</code>. These examples run without a GPU. Running HistAgent on
+new images requires access to the gated Prov-GigaPath model and an authenticated
 Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=674d6f37"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=cf410f39"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Setup">Setup<a class="anchor-link" href="#Setup">¶</a></h2><p>Import the analysis stack, define the packaged data directory and apply the plotting style used throughout these tutorials.</p>
+<h2 id="Setup">Setup<a class="anchor-link" href="#Setup">¶</a></h2><p>Import the analysis packages, locate the tutorial data and set the plotting style.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=c7f63ba6">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=2b59317f">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13213,13 +13213,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=47914e37"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=5b24ddb3"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Overview">Overview<a class="anchor-link" href="#Overview">¶</a></h2><p>This notebook maps representative spatial atlas locations in two dimensions, then runs natural-language and H&amp;E image retrieval.</p>
+<h2 id="Overview">Overview<a class="anchor-link" href="#Overview">¶</a></h2><p>Project the spatial atlas into two dimensions, then query it with text or H&amp;E images.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=0046d453">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=6a1479a8">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13312,13 +13312,13 @@ Variance retained by 50 PCs: 0.920
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=a87eab90"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=07bb0cb7"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Map-the-spatial-transcriptomics-atlas">Map the spatial transcriptomics atlas<a class="anchor-link" href="#Map-the-spatial-transcriptomics-atlas">¶</a></h2><p>The coordinates below are computed when the notebook runs. A fixed random seed makes the public export reproducible.</p>
+<h2 id="Map-the-spatial-transcriptomics-atlas">Map the spatial transcriptomics atlas<a class="anchor-link" href="#Map-the-spatial-transcriptomics-atlas">¶</a></h2><p>The notebook computes the two-dimensional coordinates with a fixed random seed.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=c3044922">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=1fc4399a">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13369,13 +13369,13 @@ Variance retained by 50 PCs: 0.920
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=2cae0430"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=328153fb"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Natural-language-retrieval">Natural-language retrieval<a class="anchor-link" href="#Natural-language-retrieval">¶</a></h2><p>Cosine similarity ranks atlas spots in the same 50-component space. The result table reports the tissue, cell type and top genes.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=f3779334">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=683abb88">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13560,7 +13560,7 @@ QUERY: heart spots with active muscle pathways
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=6e136b5c">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=49d8cab8">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13588,13 +13588,13 @@ QUERY: heart spots with active muscle pathways
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=b2f2565d"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=ac53af8c"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="H&amp;E-image-retrieval">H&amp;E image retrieval<a class="anchor-link" href="#H&amp;E-image-retrieval">¶</a></h2><p>This example uses a real human cortical H&amp;E field. HistAgent reads a 55 μm spot view together with a 220 μm context view, then retrieves related spatial atlas locations from the resulting gene ranking.</p>
+<h2 id="H&amp;E-image-retrieval">H&amp;E image retrieval<a class="anchor-link" href="#H&amp;E-image-retrieval">¶</a></h2><p>The query is a human cortical H&amp;E field. HistAgent reads a 55 μm spot view and a 220 μm context view, then retrieves related spatial atlas locations from the gene ranking.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=1f002e88">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=bf59fa32">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13707,13 +13707,13 @@ Top matches from the deployed measured-ST atlas:
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=89bf7828"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=2036c2d0"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Retrieve-related-atlas-locations">Retrieve related atlas locations<a class="anchor-link" href="#Retrieve-related-atlas-locations">¶</a></h3><p>The weighted rank-overlap calculation below searches the matching organ subset and returns the closest spatial locations.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=de2c6cd7">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=71af3f4f">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13833,7 +13833,7 @@ Top matches from the deployed measured-ST atlas:
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=6a636f92">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=1d216e8d">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13866,13 +13866,13 @@ Top matches from the deployed measured-ST atlas:
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=5a223843"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=472cde47"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Verify-the-calculations">Verify the calculations<a class="anchor-link" href="#Verify-the-calculations">¶</a></h2><p>The checks confirm that every plotted vector has one metadata row and that the returned similarities are sorted.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=8595140c">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=ac16ef34">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13903,9 +13903,9 @@ Top matches from the deployed measured-ST atlas:
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=dd32968c"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=b4cfc401"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Continue-in-Chat">Continue in Chat<a class="anchor-link" href="#Continue-in-Chat">¶</a></h2><p>Open a retrieved atlas location in Chat to inspect its molecular profile and ask follow-up questions.</p>
+<h2 id="Continue-in-the-Agent-Module">Continue in the Agent Module<a class="anchor-link" href="#Continue-in-the-Agent-Module">¶</a></h2><p>Open a retrieved atlas location in Spot Chat to inspect its molecular profile and ask follow-up questions.</p>
 </div>
 </div>
 </div>
