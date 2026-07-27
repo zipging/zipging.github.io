@@ -13107,13 +13107,13 @@ div#notebook {
 <main>
 <div class="border-box-sizing" id="notebook" tabindex="-1">
 <div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=be2383fd"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=6042aee6"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Interpret-whole-slide-clinical-predictions">Interpret whole-slide clinical predictions<a class="anchor-link" href="#Interpret-whole-slide-clinical-predictions">¶</a></h1><p>Run ABMIL inference on HistAgent tile representations, map tile-level scores back to tissue and analyze patient-level prognostic risk.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=295acc0d"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=a7da4059"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Installation">Installation<a class="anchor-link" href="#Installation">¶</a></h2><p>Create a Python 3.10+ environment, install the public HistAgent package and add
 the lightweight analysis dependencies used by these notebooks.</p>
@@ -13131,13 +13131,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=fc8a2bb4"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=af6f544a"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Setup">Setup<a class="anchor-link" href="#Setup">¶</a></h2><p>Import the analysis packages, locate the tutorial data and set the plotting style.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=63ab55fc">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=7e200d77">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13235,13 +13235,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=0f81332f"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=47580dfd"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Overview">Overview<a class="anchor-link" href="#Overview">¶</a></h2><p>Run a trained ABMIL model on HistAgent tile representations, compare the resulting scores across annotated tissue regions and calculate patient-level prognostic risk.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=9d723396">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=00b2efb5">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13272,13 +13272,13 @@ Out-of-fold patients: 842
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=7a34f2e8"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=d8361a61"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Run-clinical-inference">Run clinical inference<a class="anchor-link" href="#Run-clinical-inference">¶</a></h2><p>The instance encoder maps each 512-dimensional HistAgent representation to a 256-dimensional tile representation. The trained prediction head then produces a subtype probability or survival-risk score for each tile. The two STAD examples average the five trained ABMIL models used for the manuscript visualization; gated attention aggregates the same tile representations for slide-level prediction.</p>
+<h2 id="Run-clinical-inference">Run clinical inference<a class="anchor-link" href="#Run-clinical-inference">¶</a></h2><p>The instance encoder maps each 512-dimensional HistAgent representation to a 256-dimensional tile representation. The trained prediction head then produces a subtype probability or survival-risk score for each tile. The two STAD examples average predictions from five trained ABMIL models; gated attention aggregates the same tile representations for slide-level prediction.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=c1c37f3e">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=b3b0d60e">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13315,100 +13315,246 @@ Out-of-fold patients: 842
         <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">slide</span><span class="p">,</span> <span class="n">attention</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">attn</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">slide</span><span class="p">),</span> <span class="n">attention</span>
-</pre></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=a0bebd97">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">tile_frames</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">inference_summary</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">clinical_meta</span><span class="p">[</span><span class="s2">"cases"</span><span class="p">]:</span>
-    <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">DATA_DIR</span> <span class="o">/</span> <span class="n">info</span><span class="p">[</span><span class="s2">"embedding_file"</span><span class="p">])</span> <span class="k">as</span> <span class="n">case_arrays</span><span class="p">:</span>
-        <span class="n">embeddings</span> <span class="o">=</span> <span class="n">case_arrays</span><span class="p">[</span><span class="s2">"embeddings"</span><span class="p">]</span>
-        <span class="n">coords</span> <span class="o">=</span> <span class="n">case_arrays</span><span class="p">[</span><span class="s2">"coords"</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">region_codes</span> <span class="o">=</span> <span class="n">case_arrays</span><span class="p">[</span><span class="s2">"regions"</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-    <span class="n">checkpoint_files</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">info</span><span class="p">[</span><span class="s2">"checkpoints"</span><span class="p">]</span>
-        <span class="k">if</span> <span class="s2">"checkpoints"</span> <span class="ow">in</span> <span class="n">info</span>
-        <span class="k">else</span> <span class="p">[</span><span class="n">info</span><span class="p">[</span><span class="s2">"checkpoint"</span><span class="p">]]</span>
-    <span class="p">)</span>
-    <span class="n">tile_score_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-    <span class="n">attention_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-    <span class="n">slide_scores</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">for</span> <span class="n">checkpoint_file</span> <span class="ow">in</span> <span class="n">checkpoint_files</span><span class="p">:</span>
-        <span class="n">model</span> <span class="o">=</span> <span class="n">ABMIL</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="n">info</span><span class="p">[</span><span class="s2">"n_classes"</span><span class="p">])</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">HistAgent</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Clinical inference interface used throughout this tutorial."""</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_dir</span><span class="p">,</span> <span class="n">case_metadata</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">"cpu"</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">4096</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">case_metadata</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">row</span><span class="p">[</span><span class="s2">"case"</span><span class="p">]:</span> <span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">case_metadata</span><span class="p">[</span><span class="s2">"cases"</span><span class="p">]</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tile_predictions</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_slide_predictions</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_case</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">case_id</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">case_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">case_metadata</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown clinical case: </span><span class="si">{</span><span class="n">case_id</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">case_metadata</span><span class="p">[</span><span class="n">case_id</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_case</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">case_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Load one slide's representations, coordinates and ROI labels."""</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_case</span><span class="p">(</span><span class="n">case_id</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span> <span class="o">/</span> <span class="n">info</span><span class="p">[</span><span class="s2">"embedding_file"</span><span class="p">])</span> <span class="k">as</span> <span class="n">arrays</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="s2">"embeddings"</span><span class="p">:</span> <span class="n">arrays</span><span class="p">[</span><span class="s2">"embeddings"</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span>
+                <span class="s2">"coords"</span><span class="p">:</span> <span class="n">arrays</span><span class="p">[</span><span class="s2">"coords"</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+                <span class="s2">"region_codes"</span><span class="p">:</span> <span class="n">arrays</span><span class="p">[</span><span class="s2">"regions"</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+            <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_checkpoint_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">"checkpoints"</span> <span class="ow">in</span> <span class="n">info</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">info</span><span class="p">[</span><span class="s2">"checkpoints"</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">info</span><span class="p">[</span><span class="s2">"checkpoint"</span><span class="p">]]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_abmil</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">checkpoint_file</span><span class="p">):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">ABMIL</span><span class="p">(</span><span class="n">n_classes</span><span class="o">=</span><span class="n">info</span><span class="p">[</span><span class="s2">"n_classes"</span><span class="p">])</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         <span class="n">state</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
-            <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="n">checkpoint_file</span><span class="p">,</span>
-            <span class="n">map_location</span><span class="o">=</span><span class="s2">"cpu"</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_dir</span> <span class="o">/</span> <span class="n">checkpoint_file</span><span class="p">,</span>
+            <span class="n">map_location</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
             <span class="n">weights_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
-        <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">_encode_tiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">):</span>
+        <span class="n">batches</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">):</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span>
+                <span class="n">embeddings</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">]</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">batches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">batches</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_forward_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">info</span><span class="p">):</span>
         <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-            <span class="n">encoded_tiles</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span>
-                <span class="n">model</span><span class="o">.</span><span class="n">encoder</span><span class="p">(</span>
-                    <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span>
-                        <span class="n">embeddings</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">start</span> <span class="o">+</span> <span class="mi">4096</span><span class="p">]</span>
-                    <span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
-                <span class="p">)</span>
-                <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">embeddings</span><span class="p">),</span> <span class="mi">4096</span><span class="p">)</span>
-            <span class="p">])</span>
-            <span class="n">tile_logits</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">encoded_tiles</span><span class="p">)</span>
-            <span class="n">slide_representation</span><span class="p">,</span> <span class="n">attention</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">attn</span><span class="p">(</span><span class="n">encoded_tiles</span><span class="p">)</span>
+            <span class="n">encoded</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_encode_tiles</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">embeddings</span><span class="p">)</span>
+            <span class="n">tile_logits</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">encoded</span><span class="p">)</span>
+            <span class="n">slide_representation</span><span class="p">,</span> <span class="n">attention</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">attn</span><span class="p">(</span><span class="n">encoded</span><span class="p">)</span>
             <span class="n">slide_logits</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">slide_representation</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">info</span><span class="p">[</span><span class="s2">"n_classes"</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">fold_tile_score</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">tile_logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span>
+                <span class="n">tile_score</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">tile_logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span>
                     <span class="p">:,</span> <span class="n">info</span><span class="p">[</span><span class="s2">"target_index"</span><span class="p">]</span>
                 <span class="p">]</span>
-                <span class="n">fold_slide_score</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">slide_logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span>
+                <span class="n">slide_score</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">slide_logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span>
                     <span class="n">info</span><span class="p">[</span><span class="s2">"target_index"</span><span class="p">]</span>
-                <span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+                <span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">fold_tile_score</span> <span class="o">=</span> <span class="n">tile_logits</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
-                <span class="n">fold_slide_score</span> <span class="o">=</span> <span class="n">slide_logits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+                <span class="n">tile_score</span> <span class="o">=</span> <span class="n">tile_logits</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+                <span class="n">slide_score</span> <span class="o">=</span> <span class="n">slide_logits</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">tile_score</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span>
+            <span class="n">attention</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span>
+            <span class="nb">float</span><span class="p">(</span><span class="n">slide_score</span><span class="o">.</span><span class="n">cpu</span><span class="p">()),</span>
+        <span class="p">)</span>
 
-        <span class="n">tile_score_sum</span> <span class="o">+=</span> <span class="n">fold_tile_score</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
-        <span class="n">attention_sum</span> <span class="o">+=</span> <span class="n">attention</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
-        <span class="n">slide_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fold_slide_score</span><span class="p">)</span>
-        <span class="k">del</span> <span class="n">encoded_tiles</span><span class="p">,</span> <span class="n">tile_logits</span><span class="p">,</span> <span class="n">fold_tile_score</span><span class="p">,</span> <span class="n">attention</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">predict_tiles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">case_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Calculate tile scores and attention weights for one slide."""</span>
+        <span class="k">if</span> <span class="n">case_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tile_predictions</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tile_predictions</span><span class="p">[</span><span class="n">case_id</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_case</span><span class="p">(</span><span class="n">case_id</span><span class="p">)</span>
+        <span class="n">case</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_case</span><span class="p">(</span><span class="n">case_id</span><span class="p">)</span>
+        <span class="n">score_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">case</span><span class="p">[</span><span class="s2">"embeddings"</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+        <span class="n">attention_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">score_sum</span><span class="p">)</span>
+        <span class="n">slide_scores</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">checkpoints</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint_files</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">checkpoint_file</span> <span class="ow">in</span> <span class="n">checkpoints</span><span class="p">:</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_abmil</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">checkpoint_file</span><span class="p">)</span>
+            <span class="n">score</span><span class="p">,</span> <span class="n">attention</span><span class="p">,</span> <span class="n">slide_score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_checkpoint</span><span class="p">(</span>
+                <span class="n">model</span><span class="p">,</span> <span class="n">case</span><span class="p">[</span><span class="s2">"embeddings"</span><span class="p">],</span> <span class="n">info</span>
+            <span class="p">)</span>
+            <span class="n">score_sum</span> <span class="o">+=</span> <span class="n">score</span>
+            <span class="n">attention_sum</span> <span class="o">+=</span> <span class="n">attention</span>
+            <span class="n">slide_scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">slide_score</span><span class="p">)</span>
 
-    <span class="n">tile_score</span> <span class="o">=</span> <span class="n">tile_score_sum</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">checkpoint_files</span><span class="p">)</span>
-    <span class="n">attention</span> <span class="o">=</span> <span class="n">attention_sum</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">checkpoint_files</span><span class="p">)</span>
-    <span class="n">slide_score</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">slide_scores</span><span class="p">))</span>
+        <span class="n">region_labels</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">"Unannotated"</span> <span class="k">if</span> <span class="n">code</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">info</span><span class="p">[</span><span class="s2">"region_names"</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">code</span><span class="p">)]</span>
+            <span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">case</span><span class="p">[</span><span class="s2">"region_codes"</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+            <span class="s2">"cohort"</span><span class="p">:</span> <span class="n">info</span><span class="p">[</span><span class="s2">"cohort"</span><span class="p">],</span>
+            <span class="s2">"case"</span><span class="p">:</span> <span class="n">case_id</span><span class="p">,</span>
+            <span class="s2">"x"</span><span class="p">:</span> <span class="n">case</span><span class="p">[</span><span class="s2">"coords"</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">],</span>
+            <span class="s2">"y"</span><span class="p">:</span> <span class="n">case</span><span class="p">[</span><span class="s2">"coords"</span><span class="p">][:,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="s2">"region_code"</span><span class="p">:</span> <span class="n">case</span><span class="p">[</span><span class="s2">"region_codes"</span><span class="p">],</span>
+            <span class="s2">"region"</span><span class="p">:</span> <span class="n">region_labels</span><span class="p">,</span>
+            <span class="s2">"score"</span><span class="p">:</span> <span class="n">score_sum</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">checkpoints</span><span class="p">),</span>
+            <span class="s2">"attention"</span><span class="p">:</span> <span class="n">attention_sum</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">checkpoints</span><span class="p">),</span>
+        <span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tile_predictions</span><span class="p">[</span><span class="n">case_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">frame</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_slide_predictions</span><span class="p">[</span><span class="n">case_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">"cohort"</span><span class="p">:</span> <span class="n">info</span><span class="p">[</span><span class="s2">"cohort"</span><span class="p">],</span>
+            <span class="s2">"case"</span><span class="p">:</span> <span class="n">case_id</span><span class="p">,</span>
+            <span class="s2">"tiles"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">frame</span><span class="p">),</span>
+            <span class="s2">"annotated_tiles"</span><span class="p">:</span> <span class="nb">int</span><span class="p">((</span><span class="n">frame</span><span class="p">[</span><span class="s2">"region_code"</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span>
+            <span class="s2">"models"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">checkpoints</span><span class="p">),</span>
+            <span class="s2">"slide_score"</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">slide_scores</span><span class="p">)),</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">frame</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-    <span class="n">region_labels</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">"Unannotated"</span> <span class="k">if</span> <span class="n">code</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">info</span><span class="p">[</span><span class="s2">"region_names"</span><span class="p">][</span><span class="nb">int</span><span class="p">(</span><span class="n">code</span><span class="p">)]</span>
-        <span class="k">for</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">region_codes</span>
-    <span class="p">]</span>
-    <span class="n">tile_frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-        <span class="s2">"cohort"</span><span class="p">:</span> <span class="n">info</span><span class="p">[</span><span class="s2">"cohort"</span><span class="p">],</span>
-        <span class="s2">"case"</span><span class="p">:</span> <span class="n">info</span><span class="p">[</span><span class="s2">"case"</span><span class="p">],</span>
-        <span class="s2">"x"</span><span class="p">:</span> <span class="n">coords</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span>
-        <span class="s2">"y"</span><span class="p">:</span> <span class="n">coords</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span>
-        <span class="s2">"region_code"</span><span class="p">:</span> <span class="n">region_codes</span><span class="p">,</span>
-        <span class="s2">"region"</span><span class="p">:</span> <span class="n">region_labels</span><span class="p">,</span>
-        <span class="s2">"score"</span><span class="p">:</span> <span class="n">tile_score</span><span class="p">,</span>
-        <span class="s2">"attention"</span><span class="p">:</span> <span class="n">attention</span><span class="p">,</span>
-    <span class="p">}))</span>
-    <span class="n">inference_summary</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-        <span class="s2">"cohort"</span><span class="p">:</span> <span class="n">info</span><span class="p">[</span><span class="s2">"cohort"</span><span class="p">],</span>
-        <span class="s2">"case"</span><span class="p">:</span> <span class="n">info</span><span class="p">[</span><span class="s2">"case"</span><span class="p">],</span>
-        <span class="s2">"tiles"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">coords</span><span class="p">),</span>
-        <span class="s2">"annotated_tiles"</span><span class="p">:</span> <span class="nb">int</span><span class="p">((</span><span class="n">region_codes</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()),</span>
-        <span class="s2">"models"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">checkpoint_files</span><span class="p">),</span>
-        <span class="s2">"slide_score"</span><span class="p">:</span> <span class="n">slide_score</span><span class="p">,</span>
-    <span class="p">})</span>
-    <span class="k">del</span> <span class="n">embeddings</span><span class="p">,</span> <span class="n">tile_score</span><span class="p">,</span> <span class="n">attention</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">predict_slide</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">case_id</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Return the attention-aggregated slide prediction."""</span>
+        <span class="k">if</span> <span class="n">case_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slide_predictions</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">predict_tiles</span><span class="p">(</span><span class="n">case_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slide_predictions</span><span class="p">[</span><span class="n">case_id</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-<span class="n">tiles</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">tile_frames</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">inference_summary</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">case_ids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Run the complete tile- and slide-level inference workflow."""</span>
+        <span class="n">case_ids</span> <span class="o">=</span> <span class="n">case_ids</span> <span class="ow">or</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">case_metadata</span><span class="p">)</span>
+        <span class="n">tile_frames</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">predict_tiles</span><span class="p">(</span><span class="n">case_id</span><span class="p">)</span> <span class="k">for</span> <span class="n">case_id</span> <span class="ow">in</span> <span class="n">case_ids</span><span class="p">]</span>
+        <span class="n">slide_rows</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">predict_slide</span><span class="p">(</span><span class="n">case_id</span><span class="p">)</span> <span class="k">for</span> <span class="n">case_id</span> <span class="ow">in</span> <span class="n">case_ids</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">tile_frames</span><span class="p">,</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">slide_rows</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">compare_regions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">region_1</span><span class="p">,</span> <span class="n">region_2</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Test whether scores are higher in region_1 than region_2."""</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">frame</span><span class="p">[</span><span class="s2">"region"</span><span class="p">]</span> <span class="o">==</span> <span class="n">region_1</span><span class="p">,</span> <span class="s2">"score"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">frame</span><span class="p">[</span><span class="s2">"region"</span><span class="p">]</span> <span class="o">==</span> <span class="n">region_2</span><span class="p">,</span> <span class="s2">"score"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+        <span class="n">test</span> <span class="o">=</span> <span class="n">mannwhitneyu</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"greater"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">"comparison"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">region_1</span><span class="si">}</span><span class="s2"> &gt; </span><span class="si">{</span><span class="n">region_2</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="s2">"n_1"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">),</span>
+            <span class="s2">"n_2"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">),</span>
+            <span class="s2">"Mann–Whitney P"</span><span class="p">:</span> <span class="n">test</span><span class="o">.</span><span class="n">pvalue</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">map_scores</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">tile_size</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">"""Map tile footprints to a field in the original WSI coordinates."""</span>
+        <span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">bounds</span>
+        <span class="n">height</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">width</span> <span class="o">*</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)))</span>
+        <span class="n">weighted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">itertuples</span><span class="p">():</span>
+            <span class="n">left</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">row</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span><span class="p">))</span>
+            <span class="n">right</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">tile_size</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span>
+            <span class="p">))</span>
+            <span class="n">top</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">((</span><span class="n">row</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">*</span> <span class="n">height</span><span class="p">))</span>
+            <span class="n">bottom</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">tile_size</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">*</span> <span class="n">height</span>
+            <span class="p">))</span>
+            <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">left</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+            <span class="n">top</span><span class="p">,</span> <span class="n">bottom</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">top</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">bottom</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">left</span> <span class="o">&gt;=</span> <span class="n">right</span> <span class="ow">or</span> <span class="n">top</span> <span class="o">&gt;=</span> <span class="n">bottom</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">weighted</span><span class="p">[</span><span class="n">top</span><span class="p">:</span><span class="n">bottom</span><span class="p">,</span> <span class="n">left</span><span class="p">:</span><span class="n">right</span><span class="p">]</span> <span class="o">+=</span> <span class="n">row</span><span class="o">.</span><span class="n">score</span>
+            <span class="n">counts</span><span class="p">[</span><span class="n">top</span><span class="p">:</span><span class="n">bottom</span><span class="p">,</span> <span class="n">left</span><span class="p">:</span><span class="n">right</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">tissue</span> <span class="o">=</span> <span class="n">counts</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="n">field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span>
+            <span class="n">weighted</span><span class="p">,</span> <span class="n">counts</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">weighted</span><span class="p">),</span> <span class="n">where</span><span class="o">=</span><span class="n">tissue</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">smooth</span><span class="p">:</span>
+            <span class="n">sigma</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">tile_size</span> <span class="o">/</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span> <span class="o">*</span> <span class="mf">0.6</span><span class="p">)</span>
+            <span class="n">smoothed_weight</span> <span class="o">=</span> <span class="n">gaussian_filter</span><span class="p">(</span><span class="n">field</span> <span class="o">*</span> <span class="n">tissue</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
+            <span class="n">smoothed_mask</span> <span class="o">=</span> <span class="n">gaussian_filter</span><span class="p">(</span><span class="n">tissue</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">),</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
+            <span class="n">field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span>
+                <span class="n">smoothed_weight</span><span class="p">,</span> <span class="n">smoothed_mask</span><span class="p">,</span>
+                <span class="n">out</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">field</span><span class="p">),</span> <span class="n">where</span><span class="o">=</span><span class="n">smoothed_mask</span> <span class="o">&gt;</span> <span class="mf">1e-5</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="n">low</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="n">tissue</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">98</span><span class="p">])</span>
+        <span class="n">normalized</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">field</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span> <span class="o">+</span> <span class="mf">1e-9</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">normalized</span><span class="p">,</span> <span class="n">tissue</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">kaplan_meier</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">time</span><span class="p">)[</span><span class="n">order</span><span class="p">]</span>
+        <span class="n">event</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">event</span><span class="p">)[</span><span class="n">order</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">event_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="n">event</span> <span class="o">==</span> <span class="mi">1</span><span class="p">])</span>
+        <span class="n">surv</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">variance_sum</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">event_times</span><span class="p">:</span>
+            <span class="n">at_risk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">time</span> <span class="o">&gt;=</span> <span class="n">t</span><span class="p">)</span>
+            <span class="n">deaths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">time</span> <span class="o">==</span> <span class="n">t</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">event</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">se_before</span> <span class="o">=</span> <span class="n">surv</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">variance_sum</span><span class="p">)</span>
+            <span class="n">xs</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span><span class="p">])</span>
+            <span class="n">ys</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">ys</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">surv</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">deaths</span> <span class="o">/</span> <span class="n">at_risk</span><span class="p">)])</span>
+            <span class="n">lower</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">surv</span> <span class="o">-</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">se_before</span><span class="p">))</span>
+            <span class="n">upper</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">surv</span> <span class="o">+</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">se_before</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">at_risk</span> <span class="o">-</span> <span class="n">deaths</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">variance_sum</span> <span class="o">+=</span> <span class="n">deaths</span> <span class="o">/</span> <span class="p">(</span><span class="n">at_risk</span> <span class="o">*</span> <span class="p">(</span><span class="n">at_risk</span> <span class="o">-</span> <span class="n">deaths</span><span class="p">))</span>
+            <span class="n">surv</span> <span class="o">=</span> <span class="n">ys</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">se_after</span> <span class="o">=</span> <span class="n">surv</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">variance_sum</span><span class="p">)</span>
+            <span class="n">lower</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">surv</span> <span class="o">-</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">se_after</span><span class="p">))</span>
+            <span class="n">upper</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">surv</span> <span class="o">+</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">se_after</span><span class="p">))</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ys</span><span class="p">),</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">lower</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">upper</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">logrank_p</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
+        <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
+        <span class="n">event</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">group</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="n">observed</span> <span class="o">=</span> <span class="n">expected</span> <span class="o">=</span> <span class="n">variance</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="n">event</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]):</span>
+            <span class="n">at_risk</span> <span class="o">=</span> <span class="n">time</span> <span class="o">&gt;=</span> <span class="n">t</span>
+            <span class="n">n</span> <span class="o">=</span> <span class="n">at_risk</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">n1</span> <span class="o">=</span> <span class="p">(</span><span class="n">at_risk</span> <span class="o">&amp;</span> <span class="n">group</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="p">((</span><span class="n">time</span> <span class="o">==</span> <span class="n">t</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">event</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">d1</span> <span class="o">=</span> <span class="p">((</span><span class="n">time</span> <span class="o">==</span> <span class="n">t</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">event</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">group</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">observed</span> <span class="o">+=</span> <span class="n">d1</span>
+            <span class="n">expected</span> <span class="o">+=</span> <span class="n">d</span> <span class="o">*</span> <span class="n">n1</span> <span class="o">/</span> <span class="n">n</span>
+            <span class="n">variance</span> <span class="o">+=</span> <span class="p">(</span>
+                <span class="n">d</span> <span class="o">*</span> <span class="p">(</span><span class="n">n1</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">n1</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="n">d</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="p">)</span>
+        <span class="n">statistic</span> <span class="o">=</span> <span class="p">(</span><span class="n">observed</span> <span class="o">-</span> <span class="n">expected</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">variance</span>
+        <span class="k">return</span> <span class="n">chi2</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">statistic</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<span class="n">agent</span> <span class="o">=</span> <span class="n">HistAgent</span><span class="p">(</span><span class="n">DATA_DIR</span><span class="p">,</span> <span class="n">clinical_meta</span><span class="p">)</span>
+<span class="n">tiles</span><span class="p">,</span> <span class="n">inference_summary</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+<span class="n">display</span><span class="p">(</span><span class="n">inference_summary</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
 <span class="n">tiles</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">"region_code &gt;= 0"</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">"cohort"</span><span class="p">,</span> <span class="s2">"case"</span><span class="p">,</span> <span class="s2">"region"</span><span class="p">]</span>
 <span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span>
@@ -13555,13 +13701,13 @@ Out-of-fold patients: 842
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=e87a82bc"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=5fbe5017"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Compare-annotated-tissue-regions">Compare annotated tissue regions<a class="anchor-link" href="#Compare-annotated-tissue-regions">¶</a></h2><p>The same tile scores are used for the spatial maps and the region-level tests. STAD compares poorly and highly differentiated tissue; BRCA compares tumor and stroma within the annotated ROI.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=c869844f">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=ca153819">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13572,14 +13718,11 @@ Out-of-fold patients: 842
 <span class="n">region_tests</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="p">(</span><span class="n">cohort</span><span class="p">,</span> <span class="n">case</span><span class="p">),</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">tiles</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">"cohort"</span><span class="p">,</span> <span class="s2">"case"</span><span class="p">]):</span>
     <span class="n">region_1</span><span class="p">,</span> <span class="n">region_2</span> <span class="o">=</span> <span class="n">expected_region_pairs</span><span class="p">[</span><span class="n">cohort</span><span class="p">]</span>
-    <span class="n">a</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">frame</span><span class="p">[</span><span class="s2">"region"</span><span class="p">]</span> <span class="o">==</span> <span class="n">region_1</span><span class="p">,</span> <span class="s2">"score"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-    <span class="n">b</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">frame</span><span class="p">[</span><span class="s2">"region"</span><span class="p">]</span> <span class="o">==</span> <span class="n">region_2</span><span class="p">,</span> <span class="s2">"score"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-    <span class="n">test</span> <span class="o">=</span> <span class="n">mannwhitneyu</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="s2">"greater"</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">compare_regions</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">region_1</span><span class="p">,</span> <span class="n">region_2</span><span class="p">)</span>
     <span class="n">region_tests</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
         <span class="s2">"cohort"</span><span class="p">:</span> <span class="n">cohort</span><span class="p">,</span>
         <span class="s2">"case"</span><span class="p">:</span> <span class="n">case</span><span class="p">,</span>
-        <span class="s2">"comparison"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">region_1</span><span class="si">}</span><span class="s2"> &gt; </span><span class="si">{</span><span class="n">region_2</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
-        <span class="s2">"Mann–Whitney P"</span><span class="p">:</span> <span class="n">test</span><span class="o">.</span><span class="n">pvalue</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">result</span><span class="p">,</span>
     <span class="p">})</span>
 <span class="n">region_tests</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">region_tests</span><span class="p">)</span>
 <span class="n">region_tests</span>
@@ -13611,6 +13754,8 @@ Out-of-fold patients: 842
 <th>cohort</th>
 <th>case</th>
 <th>comparison</th>
+<th>n_1</th>
+<th>n_2</th>
 <th>Mann–Whitney P</th>
 </tr>
 </thead>
@@ -13620,6 +13765,8 @@ Out-of-fold patients: 842
 <td>BRCA</td>
 <td>TCGA-E2-A1LH</td>
 <td>Tumor &gt; Stroma</td>
+<td>79</td>
+<td>66</td>
 <td>6.375774e-12</td>
 </tr>
 <tr>
@@ -13627,6 +13774,8 @@ Out-of-fold patients: 842
 <td>STAD</td>
 <td>TCGA-BR-8486</td>
 <td>Poor &gt; High</td>
+<td>52382</td>
+<td>10112</td>
 <td>0.000000e+00</td>
 </tr>
 <tr>
@@ -13634,6 +13783,8 @@ Out-of-fold patients: 842
 <td>STAD</td>
 <td>TCGA-VQ-AA6B</td>
 <td>Poor &gt; High</td>
+<td>28361</td>
+<td>318</td>
 <td>3.835881e-86</td>
 </tr>
 </tbody>
@@ -13643,13 +13794,13 @@ Out-of-fold patients: 842
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=909f1419"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=2283722d"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Spatial-visualization-of-clinical-scores">Spatial visualization of clinical scores<a class="anchor-link" href="#Spatial-visualization-of-clinical-scores">¶</a></h2><p>Map the computed tile-level scores back to the two STAD whole-slide examples and the BRCA ROI.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=de037fcc">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=446dfa5f">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13678,87 +13829,28 @@ Out-of-fold patients: 842
     <span class="n">ax</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s2">"equal"</span><span class="p">,</span> <span class="n">adjustable</span><span class="o">=</span><span class="s2">"box"</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_axis_off</span><span class="p">()</span>
 
+<span class="k">def</span><span class="w"> </span><span class="nf">score_raster</span><span class="p">(</span>
+    <span class="n">frame</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">tile_size</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">valid_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="n">normalized</span><span class="p">,</span> <span class="n">tissue</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">map_scores</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">tile_size</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="n">smooth</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">valid_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">valid_mask</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">tissue</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Mask shape </span><span class="si">{</span><span class="n">valid_mask</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> does not match "</span>
+                <span class="sa">f</span><span class="s2">"score field </span><span class="si">{</span><span class="n">tissue</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">"</span>
+            <span class="p">)</span>
+        <span class="n">tissue</span> <span class="o">&amp;=</span> <span class="n">valid_mask</span>
+    <span class="n">rgba</span> <span class="o">=</span> <span class="n">risk_cmap</span><span class="p">(</span><span class="n">normalized</span><span class="p">)</span>
+    <span class="n">rgba</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">tissue</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rgba</span>
+
 <span class="k">def</span><span class="w"> </span><span class="nf">_raster_geometry</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">):</span>
     <span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">bounds</span>
     <span class="n">height</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">width</span> <span class="o">*</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)))</span>
     <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">width</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">height</span><span class="p">)</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">score_raster</span><span class="p">(</span>
-    <span class="n">frame</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">tile_size</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">False</span>
-<span class="p">):</span>
-    <span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">bounds</span>
-    <span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="n">_raster_geometry</span><span class="p">(</span><span class="n">bounds</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span>
-    <span class="n">radius</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
-        <span class="mi">2</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">tile_size</span> <span class="o">/</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">*</span> <span class="n">width</span><span class="p">)</span>
-    <span class="p">)</span>
-    <span class="n">x_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
-        <span class="p">((</span><span class="n">frame</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">xmax</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
-        <span class="mi">0</span><span class="p">,</span> <span class="n">width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">y_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
-        <span class="p">((</span><span class="n">frame</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">ymax</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">height</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
-        <span class="mi">0</span><span class="p">,</span> <span class="n">height</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">weighted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
-        <span class="n">x_index</span><span class="p">,</span> <span class="n">y_index</span><span class="p">,</span> <span class="n">frame</span><span class="p">[</span><span class="s2">"score"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
-    <span class="p">):</span>
-        <span class="n">left</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="n">radius</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">x</span> <span class="o">+</span> <span class="n">radius</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">top</span><span class="p">,</span> <span class="n">bottom</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">y</span> <span class="o">-</span> <span class="n">radius</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">height</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">radius</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">weighted</span><span class="p">[</span><span class="n">top</span><span class="p">:</span><span class="n">bottom</span><span class="p">,</span> <span class="n">left</span><span class="p">:</span><span class="n">right</span><span class="p">]</span> <span class="o">+=</span> <span class="n">score</span>
-        <span class="n">counts</span><span class="p">[</span><span class="n">top</span><span class="p">:</span><span class="n">bottom</span><span class="p">,</span> <span class="n">left</span><span class="p">:</span><span class="n">right</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="n">tissue</span> <span class="o">=</span> <span class="n">counts</span> <span class="o">&gt;</span> <span class="mi">0</span>
-    <span class="n">field</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span>
-        <span class="n">weighted</span><span class="p">,</span> <span class="n">counts</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">weighted</span><span class="p">),</span> <span class="n">where</span><span class="o">=</span><span class="n">tissue</span>
-    <span class="p">)</span>
-    <span class="k">if</span> <span class="n">smooth</span><span class="p">:</span>
-        <span class="n">field</span> <span class="o">=</span> <span class="n">gaussian_filter</span><span class="p">(</span>
-            <span class="n">field</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mf">.8</span><span class="p">,</span> <span class="n">radius</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
-        <span class="p">)</span>
-    <span class="n">low</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">field</span><span class="p">[</span><span class="n">tissue</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">98</span><span class="p">])</span>
-    <span class="n">normalized</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
-        <span class="p">(</span><span class="n">field</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span> <span class="o">+</span> <span class="mf">1e-9</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
-    <span class="p">)</span>
-    <span class="n">rgba</span> <span class="o">=</span> <span class="n">risk_cmap</span><span class="p">(</span><span class="n">normalized</span><span class="p">)</span>
-    <span class="n">rgba</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">tissue</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">rgba</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">tile_score_raster</span><span class="p">(</span>
-    <span class="n">frame</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">tile_size</span><span class="p">,</span> <span class="n">out_shape</span><span class="p">,</span> <span class="n">valid_mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-    <span class="n">display_tile_size</span><span class="o">=</span><span class="mi">56</span>
-<span class="p">):</span>
-    <span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">bounds</span>
-    <span class="n">height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="n">out_shape</span>
-    <span class="n">heat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="n">counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">frame</span><span class="o">.</span><span class="n">itertuples</span><span class="p">():</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">xmin</span> <span class="o">&lt;=</span> <span class="n">row</span><span class="o">.</span><span class="n">x</span> <span class="o">&lt;</span> <span class="n">xmax</span> <span class="ow">and</span> <span class="n">ymin</span> <span class="o">&lt;=</span> <span class="n">row</span><span class="o">.</span><span class="n">y</span> <span class="o">&lt;</span> <span class="n">ymax</span><span class="p">):</span>
-            <span class="k">continue</span>
-        <span class="n">left</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">row</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">xmin</span><span class="p">)</span> <span class="o">/</span> <span class="n">tile_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">display_tile_size</span>
-        <span class="n">top</span> <span class="o">=</span> <span class="nb">int</span><span class="p">((</span><span class="n">row</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">ymin</span><span class="p">)</span> <span class="o">/</span> <span class="n">tile_size</span><span class="p">)</span> <span class="o">*</span> <span class="n">display_tile_size</span>
-        <span class="n">right</span> <span class="o">=</span> <span class="n">left</span> <span class="o">+</span> <span class="n">display_tile_size</span>
-        <span class="n">bottom</span> <span class="o">=</span> <span class="n">top</span> <span class="o">+</span> <span class="n">display_tile_size</span>
-        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">top</span> <span class="o">&lt;=</span> <span class="n">height</span> <span class="o">-</span> <span class="n">display_tile_size</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">left</span> <span class="o">&lt;=</span> <span class="n">width</span> <span class="o">-</span> <span class="n">display_tile_size</span><span class="p">:</span>
-            <span class="n">heat</span><span class="p">[</span><span class="n">top</span><span class="p">:</span><span class="n">bottom</span><span class="p">,</span> <span class="n">left</span><span class="p">:</span><span class="n">right</span><span class="p">]</span> <span class="o">+=</span> <span class="n">row</span><span class="o">.</span><span class="n">score</span>
-            <span class="n">counts</span><span class="p">[</span><span class="n">top</span><span class="p">:</span><span class="n">bottom</span><span class="p">,</span> <span class="n">left</span><span class="p">:</span><span class="n">right</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="n">tissue</span> <span class="o">=</span> <span class="n">counts</span> <span class="o">&gt;</span> <span class="mi">0</span>
-    <span class="n">heat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span>
-        <span class="n">heat</span><span class="p">,</span> <span class="n">counts</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">heat</span><span class="p">),</span> <span class="n">where</span><span class="o">=</span><span class="n">tissue</span>
-    <span class="p">)</span>
-    <span class="n">heat</span> <span class="o">=</span> <span class="n">gaussian_filter</span><span class="p">(</span>
-        <span class="n">heat</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">display_tile_size</span> <span class="o">*</span> <span class="mf">.6</span><span class="p">)</span>
-    <span class="p">)</span>
-    <span class="n">low</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">heat</span><span class="p">[</span><span class="n">tissue</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">98</span><span class="p">])</span>
-    <span class="n">normalized</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
-        <span class="p">(</span><span class="n">heat</span> <span class="o">-</span> <span class="n">low</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">high</span> <span class="o">-</span> <span class="n">low</span> <span class="o">+</span> <span class="mf">1e-9</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
-    <span class="p">)</span>
-    <span class="n">rgba</span> <span class="o">=</span> <span class="n">risk_cmap</span><span class="p">(</span><span class="n">normalized</span><span class="p">)</span>
-    <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">tissue</span><span class="p">,</span> <span class="mf">.82</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
-    <span class="n">canvas</span> <span class="o">=</span> <span class="n">rgba</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">alpha</span> <span class="o">+</span> <span class="mf">.94</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">valid_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">canvas</span><span class="p">[</span><span class="o">~</span><span class="n">valid_mask</span><span class="p">]</span> <span class="o">=</span> <span class="mf">.96</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dstack</span><span class="p">([</span><span class="n">canvas</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">))])</span>
 
 <span class="k">def</span><span class="w"> </span><span class="nf">region_raster</span><span class="p">(</span><span class="n">frame</span><span class="p">,</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">900</span><span class="p">):</span>
     <span class="n">xmin</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymax</span> <span class="o">=</span> <span class="n">bounds</span>
@@ -13891,13 +13983,13 @@ Out-of-fold patients: 842
 <div class="output">
 <div class="output_area">
 <div class="output_png output_subarea">
-<img loading="lazy" decoding="async" alt="No description has been provided for this image" src="/HistAgent/tutorials/clinical-prediction/_outputs/output-00-0ab7f94f1e16.png"/>
+<img loading="lazy" decoding="async" alt="No description has been provided for this image" src="/HistAgent/tutorials/clinical-prediction/_outputs/output-00-226f5b4dba4f.png"/>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=64d96926">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=71279621">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13978,9 +14070,10 @@ Out-of-fold patients: 842
 <span class="n">brca_axes</span><span class="p">[</span><span class="s2">"roi_region"</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"ROI annotation"</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mf">10.2</span><span class="p">)</span>
 <span class="n">show_raster</span><span class="p">(</span>
     <span class="n">brca_axes</span><span class="p">[</span><span class="s2">"roi_score"</span><span class="p">],</span>
-    <span class="n">tile_score_raster</span><span class="p">(</span>
+    <span class="n">score_raster</span><span class="p">(</span>
         <span class="n">roi_frame</span><span class="p">,</span> <span class="n">roi_bounds</span><span class="p">,</span> <span class="n">brca_info</span><span class="p">[</span><span class="s2">"tile_size_level0_px"</span><span class="p">],</span>
-        <span class="n">roi_image_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">valid_mask</span><span class="o">=</span><span class="n">roi_valid_mask</span><span class="p">,</span>
+        <span class="n">width</span><span class="o">=</span><span class="n">roi_image_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">smooth</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">valid_mask</span><span class="o">=</span><span class="n">roi_valid_mask</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.88</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">roi_bounds</span><span class="p">,</span>
     <span class="n">interpolation</span><span class="o">=</span><span class="s2">"bilinear"</span><span class="p">,</span>
@@ -14083,71 +14176,23 @@ Out-of-fold patients: 842
 <div class="output">
 <div class="output_area">
 <div class="output_png output_subarea">
-<img loading="lazy" decoding="async" alt="No description has been provided for this image" src="/HistAgent/tutorials/clinical-prediction/_outputs/output-01-a43a39f19c4d.png"/>
+<img loading="lazy" decoding="async" alt="No description has been provided for this image" src="/HistAgent/tutorials/clinical-prediction/_outputs/output-01-c4726d08a536.png"/>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=7ac1f57c"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=e147e4a9"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Patient-level-prognostic-risk-stratification">Patient-level prognostic-risk stratification<a class="anchor-link" href="#Patient-level-prognostic-risk-stratification">¶</a></h2><p>Each cohort is split at its median out-of-fold risk. The code below calculates the Kaplan-Meier curves and log-rank p-values.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=fe5a7612">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=160be403">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">km_curve</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>
-    <span class="n">order</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
-    <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">time</span><span class="p">)[</span><span class="n">order</span><span class="p">]</span>
-    <span class="n">event</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">event</span><span class="p">)[</span><span class="n">order</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-    <span class="n">event_times</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="n">event</span> <span class="o">==</span> <span class="mi">1</span><span class="p">])</span>
-    <span class="n">surv</span> <span class="o">=</span> <span class="mf">1.0</span>
-    <span class="n">variance_sum</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="n">xs</span><span class="p">,</span> <span class="n">ys</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">event_times</span><span class="p">:</span>
-        <span class="n">at_risk</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">time</span> <span class="o">&gt;=</span> <span class="n">t</span><span class="p">)</span>
-        <span class="n">deaths</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">time</span> <span class="o">==</span> <span class="n">t</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">event</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="n">se_before</span> <span class="o">=</span> <span class="n">surv</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">variance_sum</span><span class="p">)</span>
-        <span class="n">xs</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span><span class="p">])</span>
-        <span class="n">ys</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">ys</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">surv</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">deaths</span> <span class="o">/</span> <span class="n">at_risk</span><span class="p">)])</span>
-        <span class="n">lower</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">surv</span> <span class="o">-</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">se_before</span><span class="p">))</span>
-        <span class="n">upper</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">surv</span> <span class="o">+</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">se_before</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">at_risk</span> <span class="o">-</span> <span class="n">deaths</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">variance_sum</span> <span class="o">+=</span> <span class="n">deaths</span> <span class="o">/</span> <span class="p">(</span><span class="n">at_risk</span> <span class="o">*</span> <span class="p">(</span><span class="n">at_risk</span> <span class="o">-</span> <span class="n">deaths</span><span class="p">))</span>
-        <span class="n">surv</span> <span class="o">=</span> <span class="n">ys</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">se_after</span> <span class="o">=</span> <span class="n">surv</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">variance_sum</span><span class="p">)</span>
-        <span class="n">lower</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">surv</span> <span class="o">-</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">se_after</span><span class="p">))</span>
-        <span class="n">upper</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">surv</span> <span class="o">+</span> <span class="mf">1.96</span> <span class="o">*</span> <span class="n">se_after</span><span class="p">))</span>
-    <span class="k">return</span> <span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xs</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ys</span><span class="p">),</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">lower</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">upper</span><span class="p">),</span>
-    <span class="p">)</span>
-
-
-<span class="k">def</span><span class="w"> </span><span class="nf">logrank_p</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">event</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
-    <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">time</span><span class="p">)</span>
-    <span class="n">event</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
-    <span class="n">group</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">group</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
-    <span class="n">observed</span> <span class="o">=</span> <span class="n">expected</span> <span class="o">=</span> <span class="n">variance</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">time</span><span class="p">[</span><span class="n">event</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]):</span>
-        <span class="n">at_risk</span> <span class="o">=</span> <span class="n">time</span> <span class="o">&gt;=</span> <span class="n">t</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="n">at_risk</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-        <span class="n">n1</span> <span class="o">=</span> <span class="p">(</span><span class="n">at_risk</span> <span class="o">&amp;</span> <span class="n">group</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="p">((</span><span class="n">time</span> <span class="o">==</span> <span class="n">t</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">event</span> <span class="o">==</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-        <span class="n">d1</span> <span class="o">=</span> <span class="p">((</span><span class="n">time</span> <span class="o">==</span> <span class="n">t</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">event</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">group</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">continue</span>
-        <span class="n">observed</span> <span class="o">+=</span> <span class="n">d1</span>
-        <span class="n">expected</span> <span class="o">+=</span> <span class="n">d</span> <span class="o">*</span> <span class="n">n1</span> <span class="o">/</span> <span class="n">n</span>
-        <span class="n">variance</span> <span class="o">+=</span> <span class="n">d</span> <span class="o">*</span> <span class="p">(</span><span class="n">n1</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">n1</span> <span class="o">/</span> <span class="n">n</span><span class="p">)</span> <span class="o">*</span> <span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="n">d</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-    <span class="n">statistic</span> <span class="o">=</span> <span class="p">(</span><span class="n">observed</span> <span class="o">-</span> <span class="n">expected</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">/</span> <span class="n">variance</span>
-    <span class="k">return</span> <span class="n">chi2</span><span class="o">.</span><span class="n">sf</span><span class="p">(</span><span class="n">statistic</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-
-
-<span class="n">survival</span><span class="p">[</span><span class="s2">"cohort"</span><span class="p">]</span> <span class="o">=</span> <span class="n">survival</span><span class="p">[</span><span class="s2">"task"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"TCGA-"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">survival</span><span class="p">[</span><span class="s2">"cohort"</span><span class="p">]</span> <span class="o">=</span> <span class="n">survival</span><span class="p">[</span><span class="s2">"task"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"TCGA-"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">survival</span><span class="p">[</span><span class="s2">"cohort"</span><span class="p">]</span> <span class="o">=</span> <span class="n">survival</span><span class="p">[</span><span class="s2">"cohort"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"__OS"</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">regex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">survival</span><span class="p">[</span><span class="s2">"risk_group"</span><span class="p">]</span> <span class="o">=</span> <span class="n">survival</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"cohort"</span><span class="p">)[</span><span class="s2">"risk"</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
     <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="n">x</span><span class="o">.</span><span class="n">median</span><span class="p">(),</span> <span class="s2">"High risk"</span><span class="p">,</span> <span class="s2">"Low risk"</span><span class="p">)</span>
@@ -14159,14 +14204,14 @@ Out-of-fold patients: 842
     <span class="s2">"LGG"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">150</span><span class="p">,</span> <span class="mi">200</span><span class="p">]),</span>
 <span class="p">}</span>
 <span class="n">cox_rows</span> <span class="o">=</span> <span class="n">reported</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">"analysis == 'Cox'"</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">6.6</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">),</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">"white"</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">12.2</span><span class="p">,</span> <span class="mf">5.55</span><span class="p">),</span> <span class="n">facecolor</span><span class="o">=</span><span class="s2">"white"</span><span class="p">)</span>
 <span class="n">outer</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_gridspec</span><span class="p">(</span>
-    <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mf">.13</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">.78</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mf">.97</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">.055</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">.42</span>
+    <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="mf">.075</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="mf">.925</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mf">.94</span><span class="p">,</span> <span class="n">bottom</span><span class="o">=</span><span class="mf">.10</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">.42</span>
 <span class="p">)</span>
 <span class="n">km_results</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">row_index</span><span class="p">,</span> <span class="n">cohort</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cohort_order</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">column_index</span><span class="p">,</span> <span class="n">cohort</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cohort_order</span><span class="p">):</span>
     <span class="n">frame</span> <span class="o">=</span> <span class="n">survival</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">"cohort == @cohort"</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">subgrid</span> <span class="o">=</span> <span class="n">outer</span><span class="p">[</span><span class="n">row_index</span><span class="p">]</span><span class="o">.</span><span class="n">subgridspec</span><span class="p">(</span>
+    <span class="n">subgrid</span> <span class="o">=</span> <span class="n">outer</span><span class="p">[</span><span class="n">column_index</span><span class="p">]</span><span class="o">.</span><span class="n">subgridspec</span><span class="p">(</span>
         <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">height_ratios</span><span class="o">=</span><span class="p">[</span><span class="mf">3.35</span><span class="p">,</span> <span class="mf">.66</span><span class="p">,</span> <span class="mf">1.18</span><span class="p">],</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">.08</span>
     <span class="p">)</span>
     <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">subgrid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
@@ -14176,14 +14221,18 @@ Out-of-fold patients: 842
     <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"High risk"</span><span class="p">,</span> <span class="s2">"Low risk"</span><span class="p">]:</span>
         <span class="n">color</span> <span class="o">=</span> <span class="n">SURVIVAL_COLORS</span><span class="p">[</span><span class="n">group</span><span class="p">]</span>
         <span class="n">part</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">"risk_group == @group"</span><span class="p">)</span>
-        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="n">km_curve</span><span class="p">(</span><span class="n">part</span><span class="p">[</span><span class="s2">"time"</span><span class="p">],</span> <span class="n">part</span><span class="p">[</span><span class="s2">"event"</span><span class="p">])</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">kaplan_meier</span><span class="p">(</span>
+            <span class="n">part</span><span class="p">[</span><span class="s2">"time"</span><span class="p">],</span> <span class="n">part</span><span class="p">[</span><span class="s2">"event"</span><span class="p">]</span>
+        <span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
             <span class="n">x</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="s2">"post"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.16</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span>
         <span class="p">)</span>
         <span class="n">ax</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">where</span><span class="o">=</span><span class="s2">"post"</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">group</span><span class="p">,</span>
                 <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.2</span><span class="p">)</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">logrank_p</span><span class="p">(</span><span class="n">frame</span><span class="p">[</span><span class="s2">"time"</span><span class="p">],</span> <span class="n">frame</span><span class="p">[</span><span class="s2">"event"</span><span class="p">],</span>
-                  <span class="n">frame</span><span class="p">[</span><span class="s2">"risk_group"</span><span class="p">]</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="s2">"High risk"</span><span class="p">))</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">logrank_p</span><span class="p">(</span>
+        <span class="n">frame</span><span class="p">[</span><span class="s2">"time"</span><span class="p">],</span> <span class="n">frame</span><span class="p">[</span><span class="s2">"event"</span><span class="p">],</span>
+        <span class="n">frame</span><span class="p">[</span><span class="s2">"risk_group"</span><span class="p">]</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="s2">"High risk"</span><span class="p">),</span>
+    <span class="p">)</span>
     <span class="n">c_index</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span>
         <span class="n">reported</span><span class="o">.</span><span class="n">query</span><span class="p">(</span>
             <span class="s2">"cohort == @cohort and analysis == 'Kaplan–Meier' "</span>
@@ -14194,7 +14243,9 @@ Out-of-fold patients: 842
         <span class="s2">"Cohort"</span><span class="p">:</span> <span class="n">cohort</span><span class="p">,</span> <span class="s2">"C-index"</span><span class="p">:</span> <span class="n">c_index</span><span class="p">,</span> <span class="s2">"Log-rank P"</span><span class="p">:</span> <span class="n">p</span>
     <span class="p">})</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"TCGA-</span><span class="si">{</span><span class="n">cohort</span><span class="si">}</span><span class="s2"> OS"</span><span class="p">)</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">"Overall survival probability"</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span>
+        <span class="s2">"Overall survival probability"</span> <span class="k">if</span> <span class="n">column_index</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">""</span>
+    <span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">time_ticks</span><span class="p">[</span><span class="n">cohort</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">time_ticks</span><span class="p">[</span><span class="n">cohort</span><span class="p">])</span>
@@ -14255,7 +14306,7 @@ Out-of-fold patients: 842
             <span class="mf">1.02</span><span class="p">,</span> <span class="n">y_position</span><span class="p">,</span>
             <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">hazard_ratio</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">ci_low</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">–</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">ci_high</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">]"</span><span class="p">,</span>
             <span class="n">transform</span><span class="o">=</span><span class="n">forest_ax</span><span class="o">.</span><span class="n">get_yaxis_transform</span><span class="p">(),</span>
-            <span class="n">ha</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mf">8.0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">ha</span><span class="o">=</span><span class="s2">"left"</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mf">7.6</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="n">forest_ax</span><span class="o">.</span><span class="n">set_xscale</span><span class="p">(</span><span class="s2">"log"</span><span class="p">)</span>
     <span class="n">forest_ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="mf">.45</span><span class="p">,</span> <span class="mf">4.1</span><span class="p">)</span>
@@ -14276,7 +14327,7 @@ Out-of-fold patients: 842
 <div class="output">
 <div class="output_area">
 <div class="output_png output_subarea">
-<img loading="lazy" decoding="async" alt="No description has been provided for this image" src="/HistAgent/tutorials/clinical-prediction/_outputs/output-02-f9e890e55cef.png"/>
+<img loading="lazy" decoding="async" alt="No description has been provided for this image" src="/HistAgent/tutorials/clinical-prediction/_outputs/output-02-d0b9681ae8a2.png"/>
 </div>
 </div>
 <div class="output_area">
@@ -14323,13 +14374,13 @@ Out-of-fold patients: 842
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=d1e46acd"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=60f470f3"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Multivariable-prognostic-analysis">Multivariable prognostic analysis<a class="anchor-link" href="#Multivariable-prognostic-analysis">¶</a></h2><p>The forest plot uses the reported Cox model estimates. HistAgent risk is entered per standard deviation together with the cohort-specific clinical covariate.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=d5781c01">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=dc8221be">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -14409,13 +14460,13 @@ Out-of-fold patients: 842
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=53fab86f"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=5c53510d"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Verify-the-calculations">Verify the calculations<a class="anchor-link" href="#Verify-the-calculations">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=44b62a83">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=84741523">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -14466,7 +14517,7 @@ Out-of-fold patients: 842
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=44bc6772"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=88cf8297"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Continue">Continue<a class="anchor-link" href="#Continue">¶</a></h2><p>Continue to <strong>ST atlas retrieval</strong> to visualize the spatial transcriptomics atlas and run natural-language and H&amp;E image queries.</p>
 </div>
