@@ -13085,7 +13085,7 @@ div#notebook {
     }
     init_mathjax();
     </script>
-<!-- End of mathjax configuration --><meta name="theme-color" content="#17362f"><link rel="icon" type="image/png" sizes="32x32" href="/HistAgent/assets/favicon-32.png"><link rel="apple-touch-icon" href="/HistAgent/assets/apple-touch-icon.png"><link rel="stylesheet" href="/HistAgent/assets/site.css?v=20260727paper1"><link rel="stylesheet" href="/HistAgent/assets/notebook.css"></head>
+<!-- End of mathjax configuration --><meta name="theme-color" content="#17362f"><link rel="icon" type="image/png" sizes="32x32" href="/HistAgent/assets/favicon-32.png"><link rel="apple-touch-icon" href="/HistAgent/assets/apple-touch-icon.png"><link rel="stylesheet" href="/HistAgent/assets/site.css?v=20260727paper2"><link rel="stylesheet" href="/HistAgent/assets/notebook.css"></head>
 <body>
 <a class="skip-link" href="#tutorial-main">Skip to content</a>
 <header class="site-header">
@@ -13107,13 +13107,13 @@ div#notebook {
 <main>
 <div class="border-box-sizing" id="notebook" tabindex="-1">
 <div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=21da2a4a"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=9d1ecb98"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Generate-and-evaluate-ranked-molecular-readouts">Generate and evaluate ranked molecular readouts<a class="anchor-link" href="#Generate-and-evaluate-ranked-molecular-readouts">¶</a></h1><p>Evaluate spot-level gene-ranking recovery and gene-level spatial recovery on five held-out spatial transcriptomics slides.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=ddd57f26"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=7a8ec4af"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Installation">Installation<a class="anchor-link" href="#Installation">¶</a></h2><p>Create a Python 3.10+ environment, install the public HistAgent package and add
 the lightweight analysis dependencies used by these notebooks.</p>
@@ -13122,7 +13122,7 @@ the lightweight analysis dependencies used by these notebooks.</p>
 python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
 <span class="nb">source</span><span class="w"> </span>.venv/bin/activate
 python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
-python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>numpy<span class="w"> </span>pandas<span class="w"> </span>matplotlib<span class="w"> </span>seaborn<span class="w"> </span>scipy<span class="w"> </span>scikit-learn<span class="w"> </span>huggingface-hub
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>numpy<span class="w"> </span>pandas<span class="w"> </span>matplotlib<span class="w"> </span>seaborn<span class="w"> </span>scipy<span class="w"> </span>scikit-learn<span class="w"> </span>torch<span class="w"> </span>huggingface-hub
 </pre></div>
 <p>If <code>data/</code> is absent, the notebook downloads its data from
 <code>wli13/HistAgent-data</code>. These examples run without a GPU. Running HistAgent on
@@ -13131,13 +13131,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=09c355ac"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=8b0607f7"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Setup">Setup<a class="anchor-link" href="#Setup">¶</a></h2><p>Import the analysis packages, locate the tutorial data and set the plotting style.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=14383dc4">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=afbfc86a">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13235,13 +13235,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=52138306"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=f7debf69"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Overview">Overview<a class="anchor-link" href="#Overview">¶</a></h2><p>Five held-out slides cover human and mouse stomach, breast, lung, spleen and kidney tissue. HitRate@50 and mAP@50 use every evaluated spot. The spatial maps show one representative gene per slide, with PCC reported for the displayed measured and predicted fields.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=87aa776f">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=ca8334e6">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13402,13 +13402,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=0e4f0a09"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=d11f9c73"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Spot-level-gene-ranking-recovery">Spot-level gene-ranking recovery<a class="anchor-link" href="#Spot-level-gene-ranking-recovery">¶</a></h2><p>HitRate@50 is the fraction of measured top-50 genes recovered by the predicted top 50. Average precision also rewards correct genes that appear earlier in the prediction.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=9a07b4a7">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=d147d5f8">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13540,14 +13540,14 @@ Recalculated AP@50: 0.703
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=4b4d18dd"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=f7ac66ac"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Gene-level-spatial-recovery">Gene-level spatial recovery<a class="anchor-link" href="#Gene-level-spatial-recovery">¶</a></h2><p>HistAgent directly generates a top-50 gene ranking, not a continuous expression matrix. The code above downloads compact reference-derived mappers and evaluates the held-out rank-feature matrices with <code>X_query @ coefficients</code>. The displayed fields then use the same top-50 support and spatial smoothing as the downstream analysis.</p>
 <p>Each gene pair shares its 2nd-98th percentile color scale, and PCC is calculated from the unscaled spot values produced in this notebook.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=e32d8beb">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=f03b98fd">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13606,13 +13606,13 @@ Recalculated AP@50: 0.703
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=ba44fed8"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=17123c50"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Verify-the-calculations">Verify the calculations<a class="anchor-link" href="#Verify-the-calculations">¶</a></h2><p>The checks below recompute the spot-level ranking example and verify the five displayed sections.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=6c41a8e2">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=ce05ad85">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13636,7 +13636,7 @@ Recalculated AP@50: 0.703
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=38676db9"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=e5e4084e"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Continue">Continue<a class="anchor-link" href="#Continue">¶</a></h2><p>Continue to <strong>Spatial biological findings</strong> to recover and interpret a TLS-like immune niche in renal cell carcinoma.</p>
 </div>
@@ -13657,5 +13657,5 @@ Recalculated AP@50: 0.703
     </div>
   </div>
 </footer>
-<script src="/HistAgent/assets/site.js?v=20260727paper1"></script><script src="/HistAgent/assets/notebook.js"></script></body>
+<script src="/HistAgent/assets/site.js?v=20260727paper2"></script><script src="/HistAgent/assets/notebook.js"></script></body>
 </html>
