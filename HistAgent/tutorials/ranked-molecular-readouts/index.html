@@ -13107,13 +13107,13 @@ div#notebook {
 <main>
 <div class="border-box-sizing" id="notebook" tabindex="-1">
 <div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=207f59d1"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=21da2a4a"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Generate-and-evaluate-ranked-molecular-readouts">Generate and evaluate ranked molecular readouts<a class="anchor-link" href="#Generate-and-evaluate-ranked-molecular-readouts">¶</a></h1><p>Evaluate spot-level gene-ranking recovery and gene-level spatial recovery on five held-out spatial transcriptomics slides.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=eb6dfc2f"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=ddd57f26"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Installation">Installation<a class="anchor-link" href="#Installation">¶</a></h2><p>Create a Python 3.10+ environment, install the public HistAgent package and add
 the lightweight analysis dependencies used by these notebooks.</p>
@@ -13131,13 +13131,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=96cc1a42"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=09c355ac"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Setup">Setup<a class="anchor-link" href="#Setup">¶</a></h2><p>Import the analysis packages, locate the tutorial data and set the plotting style.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=744fc66c">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=14383dc4">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13164,6 +13164,28 @@ Hugging Face session.</p>
     <span class="p">)</span>
     <span class="n">DATA_DIR</span> <span class="o">=</span> <span class="n">snapshot</span> <span class="o">/</span> <span class="s2">"tutorials"</span>
 <span class="k">assert</span> <span class="n">DATA_DIR</span><span class="o">.</span><span class="n">exists</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">"Tutorial data not found: </span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rankridge_pack_root</span><span class="p">(</span><span class="n">groups</span><span class="p">):</span>
+    <span class="n">configured</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"HISTAGENT_RANKRIDGE_PACKS"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">configured</span><span class="p">:</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">configured</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">root</span> <span class="o">/</span> <span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">root</span> <span class="o">=</span> <span class="n">root</span> <span class="o">/</span> <span class="s2">"rankridge_tutorial_packs"</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">root</span> <span class="o">/</span> <span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">exists</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">"RankRidge pack not found: </span><span class="si">{</span><span class="n">root</span><span class="si">}</span><span class="s2">"</span>
+        <span class="k">return</span> <span class="n">root</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">huggingface_hub</span><span class="w"> </span><span class="kn">import</span> <span class="n">snapshot_download</span>
+
+    <span class="n">snapshot</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
+        <span class="n">snapshot_download</span><span class="p">(</span>
+            <span class="s2">"wli13/HistAgent-data"</span><span class="p">,</span>
+            <span class="n">repo_type</span><span class="o">=</span><span class="s2">"dataset"</span><span class="p">,</span>
+            <span class="n">allow_patterns</span><span class="o">=</span><span class="p">[</span>
+                <span class="sa">f</span><span class="s2">"rankridge_tutorial_packs/</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">/**"</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">snapshot</span> <span class="o">/</span> <span class="s2">"rankridge_tutorial_packs"</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="s2">"talk"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
@@ -13213,13 +13235,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=b7e654ec"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=52138306"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Overview">Overview<a class="anchor-link" href="#Overview">¶</a></h2><p>Five held-out slides cover human and mouse stomach, breast, lung, spleen and kidney tissue. HitRate@50 and mAP@50 use every evaluated spot. The spatial maps show one representative gene per slide, with PCC reported for the displayed measured and predicted fields.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=6499b714">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=87aa776f">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13228,13 +13250,70 @@ Hugging Face session.</p>
 <span class="n">meta</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">((</span><span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"quickstart_expression_maps.json"</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
 
 <span class="n">selected</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">meta</span><span class="p">[</span><span class="s2">"sections"</span><span class="p">])</span>
+<span class="n">section_groups</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"GSE251950_GSM7990478"</span><span class="p">:</span> <span class="s2">"human__stomach"</span><span class="p">,</span>
+    <span class="s2">"GSE213688_GSM6592052"</span><span class="p">:</span> <span class="s2">"human__breast"</span><span class="p">,</span>
+    <span class="s2">"GSE202322_GSM6108350"</span><span class="p">:</span> <span class="s2">"mouse__lung"</span><span class="p">,</span>
+    <span class="s2">"GSE254652_GSM8047883"</span><span class="p">:</span> <span class="s2">"mouse__spleen"</span><span class="p">,</span>
+    <span class="s2">"GSE175540_GSM5924038"</span><span class="p">:</span> <span class="s2">"human__kidney"</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">PACK_DIR</span> <span class="o">=</span> <span class="n">rankridge_pack_root</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">section_groups</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">sparse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.spatial</span><span class="w"> </span><span class="kn">import</span> <span class="n">cKDTree</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">spatial_graph</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">neighbors</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">neighbors</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">cKDTree</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coords</span><span class="p">)),</span> <span class="n">k</span><span class="p">)</span>
+    <span class="n">columns</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">csr_matrix</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">rows</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">columns</span><span class="p">)),</span>
+        <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coords</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">coords</span><span class="p">)),</span>
+    <span class="p">)</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
+    <span class="n">degree</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">inverse</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">divide</span><span class="p">(</span>
+        <span class="mf">1.0</span><span class="p">,</span> <span class="n">degree</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">degree</span><span class="p">),</span> <span class="n">where</span><span class="o">=</span><span class="n">degree</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">sparse</span><span class="o">.</span><span class="n">diags</span><span class="p">(</span><span class="n">inverse</span><span class="p">)</span> <span class="o">@</span> <span class="n">graph</span><span class="p">)</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
+
+<span class="n">inferred_maps</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">spatial_pcc</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">selected</span><span class="p">:</span>
+    <span class="n">pack</span> <span class="o">=</span> <span class="n">PACK_DIR</span> <span class="o">/</span> <span class="n">section_groups</span><span class="p">[</span><span class="n">section</span><span class="p">]</span>
+    <span class="n">x_query</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">load_npz</span><span class="p">(</span><span class="n">pack</span> <span class="o">/</span> <span class="s2">"query_rank_features.npz"</span><span class="p">)</span><span class="o">.</span><span class="n">tocsr</span><span class="p">()</span>
+    <span class="n">coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pack</span> <span class="o">/</span> <span class="s2">"ridge_coefficients.npy"</span><span class="p">)</span>
+    <span class="n">target_genes</span> <span class="o">=</span> <span class="p">(</span><span class="n">pack</span> <span class="o">/</span> <span class="s2">"target_genes.txt"</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="n">feature_genes</span> <span class="o">=</span> <span class="p">(</span><span class="n">pack</span> <span class="o">/</span> <span class="s2">"feature_genes.txt"</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+    <span class="n">manifest</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">((</span><span class="n">pack</span> <span class="o">/</span> <span class="s2">"pack_manifest.json"</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+
+    <span class="n">gene</span> <span class="o">=</span> <span class="n">meta</span><span class="p">[</span><span class="s2">"sections"</span><span class="p">][</span><span class="n">section</span><span class="p">][</span><span class="s2">"gene"</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+    <span class="n">target_index</span> <span class="o">=</span> <span class="p">{</span><span class="n">g</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">target_genes</span><span class="p">)}[</span><span class="n">gene</span><span class="p">]</span>
+    <span class="n">feature_index</span> <span class="o">=</span> <span class="p">{</span><span class="n">g</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">g</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">feature_genes</span><span class="p">)}[</span><span class="n">gene</span><span class="p">]</span>
+    <span class="n">inferred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_query</span> <span class="o">@</span> <span class="n">coefficients</span><span class="p">)[:,</span> <span class="n">target_index</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">manifest</span><span class="p">[</span><span class="s2">"output_transform"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"clip"</span><span class="p">:</span>
+        <span class="n">inferred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">inferred</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1"># The downstream maps retain inferred amplitude where the gene occurs in</span>
+    <span class="c1"># the generated top 50, then apply the paper's six-neighbor smoothing.</span>
+    <span class="n">support</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_query</span><span class="p">[:,</span> <span class="n">feature_index</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">())</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span>
+    <span class="n">inferred</span> <span class="o">=</span> <span class="n">inferred</span> <span class="o">*</span> <span class="n">support</span>
+    <span class="n">graph</span> <span class="o">=</span> <span class="n">spatial_graph</span><span class="p">(</span><span class="n">maps</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">section</span><span class="si">}</span><span class="s2">__coords"</span><span class="p">])</span>
+    <span class="n">inferred</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.75</span> <span class="o">*</span> <span class="n">inferred</span> <span class="o">+</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="p">(</span><span class="n">graph</span> <span class="o">@</span> <span class="n">inferred</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">measured</span> <span class="o">=</span> <span class="n">maps</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">section</span><span class="si">}</span><span class="s2">__measured"</span><span class="p">]</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">inferred</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">measured</span><span class="p">)</span>
+    <span class="n">inferred_maps</span><span class="p">[</span><span class="n">section</span><span class="p">]</span> <span class="o">=</span> <span class="n">inferred</span>
+    <span class="n">spatial_pcc</span><span class="p">[</span><span class="n">section</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">measured</span><span class="p">,</span> <span class="n">inferred</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
 <span class="n">rank5</span> <span class="o">=</span> <span class="n">rank</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="s2">"section in @selected and method == 'HistAgent'"</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">summary</span> <span class="o">=</span> <span class="n">rank5</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">summary</span><span class="p">[</span><span class="s2">"tissue"</span><span class="p">]</span> <span class="o">=</span> <span class="n">summary</span><span class="p">[</span><span class="s2">"section"</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
     <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">meta</span><span class="p">[</span><span class="s1">'sections'</span><span class="p">][</span><span class="n">s</span><span class="p">][</span><span class="s1">'species'</span><span class="p">]</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">meta</span><span class="p">[</span><span class="s1">'sections'</span><span class="p">][</span><span class="n">s</span><span class="p">][</span><span class="s1">'organ'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
 <span class="p">)</span>
 <span class="n">summary</span><span class="p">[</span><span class="s2">"PCC"</span><span class="p">]</span> <span class="o">=</span> <span class="n">summary</span><span class="p">[</span><span class="s2">"section"</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
-    <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">meta</span><span class="p">[</span><span class="s2">"sections"</span><span class="p">][</span><span class="n">s</span><span class="p">][</span><span class="s2">"pcc"</span><span class="p">]</span>
+    <span class="n">spatial_pcc</span>
 <span class="p">)</span>
 <span class="n">summary</span> <span class="o">=</span> <span class="n">summary</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span>
     <span class="s2">"hit_rate_top50"</span><span class="p">:</span> <span class="s2">"HitRate@50"</span><span class="p">,</span>
@@ -13323,13 +13402,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=1b0544a0"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=0e4f0a09"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Spot-level-gene-ranking-recovery">Spot-level gene-ranking recovery<a class="anchor-link" href="#Spot-level-gene-ranking-recovery">¶</a></h2><p>HitRate@50 is the fraction of measured top-50 genes recovered by the predicted top 50. Average precision also rewards correct genes that appear earlier in the prediction.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=c142d397">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=9a07b4a7">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13461,14 +13540,14 @@ Recalculated AP@50: 0.703
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=8de82a74"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=4b4d18dd"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Gene-level-spatial-recovery">Gene-level spatial recovery<a class="anchor-link" href="#Gene-level-spatial-recovery">¶</a></h2><p>HistAgent directly generates a top-50 gene ranking, not a continuous expression matrix. The maps below use archived reference-guided expression estimates produced with independent, species-matched ST references. The entire query study was excluded from mapper fitting; same-organ references were used when at least five slides were available, otherwise the mapper used other organs from the same species.</p>
-<p>The public notebook loads these archived outputs instead of downloading the full reference H5AD collection. Each gene pair shares its 2nd-98th percentile color scale, and PCC is calculated from the unscaled spot values.</p>
+<h2 id="Gene-level-spatial-recovery">Gene-level spatial recovery<a class="anchor-link" href="#Gene-level-spatial-recovery">¶</a></h2><p>HistAgent directly generates a top-50 gene ranking, not a continuous expression matrix. The code above downloads compact reference-derived mappers and evaluates the held-out rank-feature matrices with <code>X_query @ coefficients</code>. The displayed fields then use the same top-50 support and spatial smoothing as the downstream analysis.</p>
+<p>Each gene pair shares its 2nd-98th percentile color scale, and PCC is calculated from the unscaled spot values produced in this notebook.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=8ec7af5d">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=e32d8beb">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13480,7 +13559,7 @@ Recalculated AP@50: 0.703
     <span class="n">info</span> <span class="o">=</span> <span class="n">meta</span><span class="p">[</span><span class="s2">"sections"</span><span class="p">][</span><span class="n">section</span><span class="p">]</span>
     <span class="n">xy</span> <span class="o">=</span> <span class="n">maps</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">section</span><span class="si">}</span><span class="s2">__coords"</span><span class="p">]</span>
     <span class="n">measured</span> <span class="o">=</span> <span class="n">maps</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">section</span><span class="si">}</span><span class="s2">__measured"</span><span class="p">]</span>
-    <span class="n">predicted</span> <span class="o">=</span> <span class="n">maps</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">section</span><span class="si">}</span><span class="s2">__predicted"</span><span class="p">]</span>
+    <span class="n">predicted</span> <span class="o">=</span> <span class="n">inferred_maps</span><span class="p">[</span><span class="n">section</span><span class="p">]</span>
     <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanpercentile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">measured</span><span class="p">,</span> <span class="n">predicted</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">98</span><span class="p">])</span>
     <span class="n">scale</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">row</span><span class="p">,</span> <span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span>
@@ -13499,8 +13578,9 @@ Recalculated AP@50: 0.703
         <span class="k">if</span> <span class="n">row</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">gene_label</span> <span class="o">=</span> <span class="n">info</span><span class="p">[</span><span class="s2">"gene"</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"-"</span><span class="p">,</span> <span class="sa">r</span><span class="s2">"{-}"</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">'organ'</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2"> · $\mathit</span><span class="se">{{</span><span class="si">{</span><span class="n">gene_label</span><span class="si">}</span><span class="se">}}</span><span class="s2">$</span><span class="se">\n</span><span class="s2">"</span>
-                <span class="sa">f</span><span class="s2">"PCC = </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">'pcc'</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">'organ'</span><span class="p">]</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2"> · "</span>
+                <span class="o">+</span> <span class="sa">rf</span><span class="s2">"$\mathit</span><span class="se">{{</span><span class="si">{</span><span class="n">gene_label</span><span class="si">}</span><span class="se">}}</span><span class="s2">$"</span>
+                <span class="o">+</span> <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">PCC = </span><span class="si">{</span><span class="n">spatial_pcc</span><span class="p">[</span><span class="n">section</span><span class="p">]</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
                 <span class="n">pad</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">col</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -13519,29 +13599,20 @@ Recalculated AP@50: 0.703
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>&lt;&gt;:28: SyntaxWarning: invalid escape sequence '\m'
-&lt;&gt;:28: SyntaxWarning: invalid escape sequence '\m'
-/var/folders/q1/9j2gt_295b16k7hghzdp3p4h0000gn/T/ipykernel_34221/2166002186.py:28: SyntaxWarning: invalid escape sequence '\m'
-  f"{info['organ'].title()} · $\mathit{{{gene_label}}}$\n"
-</pre>
-</div>
-</div>
-<div class="output_area">
 <div class="output_png output_subarea">
-<img loading="lazy" decoding="async" alt="No description has been provided for this image" src="/HistAgent/tutorials/ranked-molecular-readouts/_outputs/output-00-859d9e875bf8.png"/>
+<img loading="lazy" decoding="async" alt="No description has been provided for this image" src="/HistAgent/tutorials/ranked-molecular-readouts/_outputs/output-00-1e63433e214b.png"/>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=765123e1"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=ba44fed8"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Verify-the-calculations">Verify the calculations<a class="anchor-link" href="#Verify-the-calculations">¶</a></h2><p>The checks below recompute the spot-level ranking example and verify the five displayed sections.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=8a996b6e">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=6c41a8e2">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13565,7 +13636,7 @@ Recalculated AP@50: 0.703
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=9a69eba1"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=38676db9"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Continue">Continue<a class="anchor-link" href="#Continue">¶</a></h2><p>Continue to <strong>Spatial biological findings</strong> to recover and interpret a TLS-like immune niche in renal cell carcinoma.</p>
 </div>

@@ -13107,13 +13107,13 @@ div#notebook {
 <main>
 <div class="border-box-sizing" id="notebook" tabindex="-1">
 <div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=f51519a3"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=97a1a5aa"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Search-the-spatial-transcriptomics-atlas">Search the spatial transcriptomics atlas<a class="anchor-link" href="#Search-the-spatial-transcriptomics-atlas">¶</a></h1><p>Retrieve related spatial transcriptomics spots using natural-language and H&amp;E image queries.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=7abda776"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=330aa17d"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Installation">Installation<a class="anchor-link" href="#Installation">¶</a></h2><p>Create a Python 3.10+ environment, install the public HistAgent package and add
 the lightweight analysis dependencies used by these notebooks.</p>
@@ -13131,13 +13131,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=5c10233e"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=a2faf4e2"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Setup">Setup<a class="anchor-link" href="#Setup">¶</a></h2><p>Import the analysis packages, locate the tutorial data and set the plotting style.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=744fc66c">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=14383dc4">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13164,6 +13164,28 @@ Hugging Face session.</p>
     <span class="p">)</span>
     <span class="n">DATA_DIR</span> <span class="o">=</span> <span class="n">snapshot</span> <span class="o">/</span> <span class="s2">"tutorials"</span>
 <span class="k">assert</span> <span class="n">DATA_DIR</span><span class="o">.</span><span class="n">exists</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">"Tutorial data not found: </span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rankridge_pack_root</span><span class="p">(</span><span class="n">groups</span><span class="p">):</span>
+    <span class="n">configured</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"HISTAGENT_RANKRIDGE_PACKS"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">configured</span><span class="p">:</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">configured</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">root</span> <span class="o">/</span> <span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">root</span> <span class="o">=</span> <span class="n">root</span> <span class="o">/</span> <span class="s2">"rankridge_tutorial_packs"</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">root</span> <span class="o">/</span> <span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">exists</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">"RankRidge pack not found: </span><span class="si">{</span><span class="n">root</span><span class="si">}</span><span class="s2">"</span>
+        <span class="k">return</span> <span class="n">root</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">huggingface_hub</span><span class="w"> </span><span class="kn">import</span> <span class="n">snapshot_download</span>
+
+    <span class="n">snapshot</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
+        <span class="n">snapshot_download</span><span class="p">(</span>
+            <span class="s2">"wli13/HistAgent-data"</span><span class="p">,</span>
+            <span class="n">repo_type</span><span class="o">=</span><span class="s2">"dataset"</span><span class="p">,</span>
+            <span class="n">allow_patterns</span><span class="o">=</span><span class="p">[</span>
+                <span class="sa">f</span><span class="s2">"rankridge_tutorial_packs/</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">/**"</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">snapshot</span> <span class="o">/</span> <span class="s2">"rankridge_tutorial_packs"</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="s2">"talk"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
@@ -13213,13 +13235,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=411ffca2"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=bbda6028"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Overview">Overview<a class="anchor-link" href="#Overview">¶</a></h2><p>Query a representative spatial transcriptomics atlas with biological descriptions and H&amp;E images.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=23e2ee9b">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=50acbd38">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13309,13 +13331,13 @@ Text queries: 2
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=a61c8596"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=79fa74a0"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Natural-language-retrieval">Natural-language retrieval<a class="anchor-link" href="#Natural-language-retrieval">¶</a></h2><p>The query retrieves ranked atlas spots and reports the tissue, cell type, top genes and pathway evidence used in the paper.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=5ea24d94">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=f4173547">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13524,13 +13546,13 @@ QUERY: heart spots with active muscle pathways
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=d623c581"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=af2dfb97"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="H&amp;E-image-retrieval">H&amp;E image retrieval<a class="anchor-link" href="#H&amp;E-image-retrieval">¶</a></h2><p>The query is a human cortical H&amp;E field. HistAgent reads a 55 μm spot view and a 220 μm context view, then retrieves related spatial atlas locations from the gene ranking.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=b3844e3d">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=5e68d5ea">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13648,13 +13670,13 @@ Top matches from the deployed measured-ST atlas:
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=e7981a17"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=560925be"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="Retrieve-related-atlas-locations">Retrieve related atlas locations<a class="anchor-link" href="#Retrieve-related-atlas-locations">¶</a></h3><p>The weighted rank-overlap calculation below searches the matching organ subset and returns the closest spatial locations.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=d1bf1076">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=5b157ce4">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13770,13 +13792,13 @@ Top matches from the deployed measured-ST atlas:
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=b1598ee8"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=eb347217"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Verify-the-calculations">Verify the calculations<a class="anchor-link" href="#Verify-the-calculations">¶</a></h2><p>The checks confirm that every atlas vector has one metadata row and that the returned similarities are sorted.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=789ff91d">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=ecd235f5">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13806,7 +13828,7 @@ Top matches from the deployed measured-ST atlas:
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=fae042cc"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=e77db972"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Continue-in-the-Agent-Module">Continue in the Agent Module<a class="anchor-link" href="#Continue-in-the-Agent-Module">¶</a></h2><p>Open a retrieved atlas location in Spot Chat to inspect its molecular profile and ask follow-up questions.</p>
 </div>
