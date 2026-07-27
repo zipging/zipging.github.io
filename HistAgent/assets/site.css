@@ -2256,6 +2256,12 @@ pre {
   width: 100%;
 }
 
+.chat-frame-shell iframe[hidden],
+.chat-frame-shell .chat-demo[hidden],
+[data-chat-open][hidden] {
+  display: none;
+}
+
 .sr-only {
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
