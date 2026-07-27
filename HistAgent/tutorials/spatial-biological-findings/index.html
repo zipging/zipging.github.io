@@ -13085,7 +13085,7 @@ div#notebook {
     }
     init_mathjax();
     </script>
-<!-- End of mathjax configuration --><meta name="theme-color" content="#17362f"><link rel="icon" type="image/png" sizes="32x32" href="/HistAgent/assets/favicon-32.png"><link rel="apple-touch-icon" href="/HistAgent/assets/apple-touch-icon.png"><link rel="stylesheet" href="/HistAgent/assets/site.css?v=20260727paper1"><link rel="stylesheet" href="/HistAgent/assets/notebook.css"></head>
+<!-- End of mathjax configuration --><meta name="theme-color" content="#17362f"><link rel="icon" type="image/png" sizes="32x32" href="/HistAgent/assets/favicon-32.png"><link rel="apple-touch-icon" href="/HistAgent/assets/apple-touch-icon.png"><link rel="stylesheet" href="/HistAgent/assets/site.css?v=20260727paper2"><link rel="stylesheet" href="/HistAgent/assets/notebook.css"></head>
 <body>
 <a class="skip-link" href="#tutorial-main">Skip to content</a>
 <header class="site-header">
@@ -13107,13 +13107,13 @@ div#notebook {
 <main>
 <div class="border-box-sizing" id="notebook" tabindex="-1">
 <div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=9ae2f298"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=c11ff522"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Analyze-spatial-biological-findings">Analyze spatial biological findings<a class="anchor-link" href="#Analyze-spatial-biological-findings">¶</a></h1><p>Use a renal cell carcinoma section to compare predicted and measured expression, localize a TLS-like niche and inspect a labeled TLS spot.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=861e8ddf"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=4b001cf7"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Installation">Installation<a class="anchor-link" href="#Installation">¶</a></h2><p>Create a Python 3.10+ environment, install the public HistAgent package and add
 the lightweight analysis dependencies used by these notebooks.</p>
@@ -13122,7 +13122,7 @@ the lightweight analysis dependencies used by these notebooks.</p>
 python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
 <span class="nb">source</span><span class="w"> </span>.venv/bin/activate
 python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
-python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>numpy<span class="w"> </span>pandas<span class="w"> </span>matplotlib<span class="w"> </span>seaborn<span class="w"> </span>scipy<span class="w"> </span>scikit-learn<span class="w"> </span>huggingface-hub
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>jupyter<span class="w"> </span>numpy<span class="w"> </span>pandas<span class="w"> </span>matplotlib<span class="w"> </span>seaborn<span class="w"> </span>scipy<span class="w"> </span>scikit-learn<span class="w"> </span>torch<span class="w"> </span>huggingface-hub
 </pre></div>
 <p>If <code>data/</code> is absent, the notebook downloads its data from
 <code>wli13/HistAgent-data</code>. These examples run without a GPU. Running HistAgent on
@@ -13131,13 +13131,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=36738330"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=6005e29f"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Setup">Setup<a class="anchor-link" href="#Setup">¶</a></h2><p>Import the analysis packages, locate the tutorial data and set the plotting style.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=14383dc4">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=afbfc86a">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13235,13 +13235,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=f3cadcfb"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=a4040c3d"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Overview">Overview<a class="anchor-link" href="#Overview">¶</a></h2><p>The example is renal cell carcinoma section GSE175540_GSM5924038. Compare reference-guided HistAgent expression estimates with measured ST, localize a tertiary lymphoid structure (TLS)-like niche and inspect its molecular profile.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=431aea81">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=519f1d4b">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13264,14 +13264,14 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=0474108e"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=010cb291"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Reference-guided-expression-estimates">Reference-guided expression estimates<a class="anchor-link" href="#Reference-guided-expression-estimates">¶</a></h2><p>Fit the paper's post hoc ridge mapper on the compact kidney reference matrices, then apply it to the RCC rank-feature matrix. The query slide's measured expression is used only for the comparison after inference.</p>
 <p>All eight genes are drawn from their spot coordinates. Four genes share each row, and every measured/predicted pair uses the same within-gene color scale. PCC is recalculated directly from the values produced below.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=0bfe27af">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=9e02aca3">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13348,58 +13348,58 @@ Hugging Face session.</p>
 </div>
 <div class="output_area">
 <div class="output_html rendered_html output_subarea output_execute_result"><style type="text/css">
-#T_b7550_row0_col0, #T_b7550_row1_col0, #T_b7550_row2_col0, #T_b7550_row3_col0, #T_b7550_row4_col0, #T_b7550_row5_col0, #T_b7550_row6_col0, #T_b7550_row7_col0 {
+#T_396d6_row0_col0, #T_396d6_row1_col0, #T_396d6_row2_col0, #T_396d6_row3_col0, #T_396d6_row4_col0, #T_396d6_row5_col0, #T_396d6_row6_col0, #T_396d6_row7_col0 {
   font-style: italic;
 }
 </style>
-<table id="T_b7550">
+<table id="T_396d6">
 <thead>
 <tr>
 <th class="blank level0"> </th>
-<th class="col_heading level0 col0" id="T_b7550_level0_col0">Gene</th>
-<th class="col_heading level0 col1" id="T_b7550_level0_col1">PCC</th>
+<th class="col_heading level0 col0" id="T_396d6_level0_col0">Gene</th>
+<th class="col_heading level0 col1" id="T_396d6_level0_col1">PCC</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<th class="row_heading level0 row0" id="T_b7550_level0_row0">0</th>
-<td class="data row0 col0" id="T_b7550_row0_col0">IGHG2</td>
-<td class="data row0 col1" id="T_b7550_row0_col1">0.491000</td>
+<th class="row_heading level0 row0" id="T_396d6_level0_row0">0</th>
+<td class="data row0 col0" id="T_396d6_row0_col0">IGHG2</td>
+<td class="data row0 col1" id="T_396d6_row0_col1">0.491000</td>
 </tr>
 <tr>
-<th class="row_heading level0 row1" id="T_b7550_level0_row1">1</th>
-<td class="data row1 col0" id="T_b7550_row1_col0">IGHG4</td>
-<td class="data row1 col1" id="T_b7550_row1_col1">0.498000</td>
+<th class="row_heading level0 row1" id="T_396d6_level0_row1">1</th>
+<td class="data row1 col0" id="T_396d6_row1_col0">IGHG4</td>
+<td class="data row1 col1" id="T_396d6_row1_col1">0.498000</td>
 </tr>
 <tr>
-<th class="row_heading level0 row2" id="T_b7550_level0_row2">2</th>
-<td class="data row2 col0" id="T_b7550_row2_col0">IGLV3-1</td>
-<td class="data row2 col1" id="T_b7550_row2_col1">0.509000</td>
+<th class="row_heading level0 row2" id="T_396d6_level0_row2">2</th>
+<td class="data row2 col0" id="T_396d6_row2_col0">IGLV3-1</td>
+<td class="data row2 col1" id="T_396d6_row2_col1">0.509000</td>
 </tr>
 <tr>
-<th class="row_heading level0 row3" id="T_b7550_level0_row3">3</th>
-<td class="data row3 col0" id="T_b7550_row3_col0">C7</td>
-<td class="data row3 col1" id="T_b7550_row3_col1">0.645000</td>
+<th class="row_heading level0 row3" id="T_396d6_level0_row3">3</th>
+<td class="data row3 col0" id="T_396d6_row3_col0">C7</td>
+<td class="data row3 col1" id="T_396d6_row3_col1">0.645000</td>
 </tr>
 <tr>
-<th class="row_heading level0 row4" id="T_b7550_level0_row4">4</th>
-<td class="data row4 col0" id="T_b7550_row4_col0">COL1A1</td>
-<td class="data row4 col1" id="T_b7550_row4_col1">0.572000</td>
+<th class="row_heading level0 row4" id="T_396d6_level0_row4">4</th>
+<td class="data row4 col0" id="T_396d6_row4_col0">COL1A1</td>
+<td class="data row4 col1" id="T_396d6_row4_col1">0.572000</td>
 </tr>
 <tr>
-<th class="row_heading level0 row5" id="T_b7550_level0_row5">5</th>
-<td class="data row5 col0" id="T_b7550_row5_col0">DCN</td>
-<td class="data row5 col1" id="T_b7550_row5_col1">0.613000</td>
+<th class="row_heading level0 row5" id="T_396d6_level0_row5">5</th>
+<td class="data row5 col0" id="T_396d6_row5_col0">DCN</td>
+<td class="data row5 col1" id="T_396d6_row5_col1">0.613000</td>
 </tr>
 <tr>
-<th class="row_heading level0 row6" id="T_b7550_level0_row6">6</th>
-<td class="data row6 col0" id="T_b7550_row6_col0">FN1</td>
-<td class="data row6 col1" id="T_b7550_row6_col1">0.669000</td>
+<th class="row_heading level0 row6" id="T_396d6_level0_row6">6</th>
+<td class="data row6 col0" id="T_396d6_row6_col0">FN1</td>
+<td class="data row6 col1" id="T_396d6_row6_col1">0.669000</td>
 </tr>
 <tr>
-<th class="row_heading level0 row7" id="T_b7550_level0_row7">7</th>
-<td class="data row7 col0" id="T_b7550_row7_col0">TGFBI</td>
-<td class="data row7 col1" id="T_b7550_row7_col1">0.611000</td>
+<th class="row_heading level0 row7" id="T_396d6_level0_row7">7</th>
+<td class="data row7 col0" id="T_396d6_row7_col0">TGFBI</td>
+<td class="data row7 col1" id="T_396d6_row7_col1">0.611000</td>
 </tr>
 </tbody>
 </table>
@@ -13408,7 +13408,7 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=3a829617">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=e3b5e867">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13477,13 +13477,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=f8e5c779"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=5a550bec"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="TLS-localization">TLS localization<a class="anchor-link" href="#TLS-localization">¶</a></h2><p>The TLS score is evaluated against the published spot labels. AUPRC is used because TLS spots are the minority class.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=fb5ef04b">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=c58f7c49">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13546,7 +13546,7 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=32fd8a3d">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=a3619518">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13591,13 +13591,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=9eb0b878"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=998d1cc5"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="TLS-molecular-profile-at-a-measured-spot">TLS molecular profile at a measured spot<a class="anchor-link" href="#TLS-molecular-profile-at-a-measured-spot">¶</a></h2><p>The source study labels this spot as TLS. Its ranked molecular profile combines immunoglobulin, antigen-presentation and stromal-matrix signals.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=bbadeeea">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=2b7b2243">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13654,13 +13654,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=e3e0f30e"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=bc494eee"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Cross-study-biological-finding-recovery">Cross-study biological finding recovery<a class="anchor-link" href="#Cross-study-biological-finding-recovery">¶</a></h2><p>The comparison covers the 12 literature-defined biological findings reported in the paper, evaluated across 29 slide-finding pairs from 22 unique slides. Each bar reports the mean AUPRC across the evaluated slides for one target.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=654980e6">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=54592751">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13725,13 +13725,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=c9bded44"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=6d7b3df6"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Verify-the-calculations">Verify the calculations<a class="anchor-link" href="#Verify-the-calculations">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=007334ab">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=42c01ff9">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13765,7 +13765,7 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=ab69a1fb"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=b57aa9b9"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Continue">Continue<a class="anchor-link" href="#Continue">¶</a></h2><p>Continue to <strong>Spatial transcriptomic analyses</strong> to test whether recovered molecular readouts recapitulate five standard ST analyses across 135 held-out slides.</p>
 </div>
@@ -13786,5 +13786,5 @@ Hugging Face session.</p>
     </div>
   </div>
 </footer>
-<script src="/HistAgent/assets/site.js?v=20260727paper1"></script><script src="/HistAgent/assets/notebook.js"></script></body>
+<script src="/HistAgent/assets/site.js?v=20260727paper2"></script><script src="/HistAgent/assets/notebook.js"></script></body>
 </html>
