@@ -460,7 +460,11 @@
       return;
     }
 
-    if (resultScore) resultScore.textContent = Number(top.similarity || 0).toFixed(2);
+    if (resultScore) {
+      resultScore.hidden = false;
+      resultScore.textContent =
+        `Cosine similarity ${Number(top.similarity || 0).toFixed(2)}`;
+    }
     if (resultTitle) resultTitle.textContent = top.dominant_cell_type || "Related tissue state";
     if (resultSummary) {
       resultSummary.textContent = [top.species, top.organ, top.slice_id]
@@ -506,7 +510,8 @@
           const actions = document.createElement("div");
           actions.className = "atlas-related-actions";
           const score = document.createElement("strong");
-          score.textContent = `${Math.round(Number(row.similarity || 0) * 100)}%`;
+          score.textContent =
+            `Cosine ${Number(row.similarity || 0).toFixed(2)}`;
           const link = document.createElement("a");
           link.className = "button";
           link.textContent = "Open in Spot Chat";
@@ -584,7 +589,7 @@
       values.forEach((value) => {
         const label = String(value || "").trim();
         if (!label) return;
-        counts.set(label, (counts.get(label) || 0) + Number(item.similarity || 0));
+        counts.set(label, (counts.get(label) || 0) + 1);
       });
     });
     return Array.from(counts.entries())
@@ -597,7 +602,6 @@
     const genes = Array.isArray(data.query_genes) ? data.query_genes : [];
     const states = rankedCounts(items, "dominant_cell_type", 4);
     const pathways = rankedCounts(items, "pathways", 5);
-    const stateTotal = states.reduce((sum, entry) => sum + entry[1], 0) || 1;
     const organName = heOrgan?.value || "selected organ";
 
     if (heGenes) {
@@ -614,14 +618,12 @@
 
     if (heStates) {
       heStates.replaceChildren(
-        ...states.map(([label, score]) => {
+        ...states.map(([label]) => {
           const row = document.createElement("div");
           row.className = "he-state-row";
           const name = document.createElement("strong");
           name.textContent = label;
-          const value = document.createElement("span");
-          value.textContent = `${Math.round((score / stateTotal) * 100)}%`;
-          row.append(name, value);
+          row.append(name);
           return row;
         })
       );
@@ -642,14 +644,12 @@
         ...items.slice(0, 5).map((item) => {
           const card = document.createElement("article");
           card.className = "he-spot-card";
-          const score = document.createElement("div");
-          score.className = "he-spot-score";
-          score.textContent = `${Math.round(Number(item.similarity || 0) * 100)}%`;
-          const scoreLabel = document.createElement("small");
-          scoreLabel.textContent = "relevance";
-          score.appendChild(scoreLabel);
 
           const body = document.createElement("div");
+          const similarity = document.createElement("span");
+          similarity.className = "he-spot-similarity";
+          similarity.textContent =
+            `Cosine similarity ${Number(item.similarity || 0).toFixed(2)}`;
           const title = document.createElement("h5");
           title.textContent = item.dominant_cell_type || "Related atlas spot";
           const meta = document.createElement("p");
@@ -661,8 +661,8 @@
           chatLink.className = "he-spot-chat";
           chatLink.textContent = "Open in Spot Chat";
           chatLink.href = chatHref(item.spot_key);
-          body.append(title, meta, evidence, chatLink);
-          card.append(score, body);
+          body.append(similarity, title, meta, evidence, chatLink);
+          card.append(body);
           return card;
         })
       );
