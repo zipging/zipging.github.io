@@ -9,7 +9,7 @@
     <title>Agent Module | HistAgent</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/HistAgent/assets/favicon-32.png">
     <link rel="apple-touch-icon" href="/HistAgent/assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="/HistAgent/assets/site.css?v=20260727paper1">
+    <link rel="stylesheet" href="/HistAgent/assets/site.css?v=20260727paper2">
   </head>
   <body class="atlas-route agent-route">
     <a class="skip-link" href="#main">Skip to content</a>
@@ -98,83 +98,59 @@ python examples/chat/run_chat.py</code></pre>
           </details>
           <div class="chat-frame-shell" data-chat-shell aria-label="HistAgent Spot Chat">
             <iframe data-chat-frame title="HistAgent Spot Chat" loading="eager" hidden></iframe>
-            <div class="chat-demo" data-chat-demo>
-              <div class="chat-demo-status">
-                <span><i aria-hidden="true"></i>Spot Chat preview</span>
-                <p>Connect the Agent Module service for live responses.</p>
-                <a href="#chat-configuration" data-chat-config-toggle>Connect service</a>
+            <div class="chat-interface" data-chat-interface>
+              <div class="chat-interface-status">
+                <span><i aria-hidden="true"></i>Spot Chat</span>
+                <p>The Agent Module service is not connected.</p>
+                <a href="#chat-configuration" data-chat-config-toggle>Set up service</a>
               </div>
-              <div class="chat-demo-app">
-                <aside class="chat-demo-sidebar">
-                  <div class="chat-demo-brand">
+              <div class="chat-interface-app">
+                <aside class="chat-interface-sidebar">
+                  <div class="chat-interface-brand">
                     <span aria-hidden="true">HA</span>
                     <div><strong>HistAgent</strong><small>Molecular analysis of tissue spots</small></div>
                   </div>
 
-                  <section class="chat-demo-panel">
-                    <p class="chat-demo-label">Select a spot</p>
-                    <div class="chat-demo-fields">
-                      <div><span>Species</span><strong>Human</strong></div>
-                      <div><span>Organ</span><strong>Kidney</strong></div>
-                      <div><span>Tissue slice</span><strong>GSM5924038</strong></div>
+                  <section class="chat-interface-panel">
+                    <p class="chat-interface-label">Tissue location</p>
+                    <div class="chat-interface-fields">
+                      <div><span>Species</span><strong>Not selected</strong></div>
+                      <div><span>Organ</span><strong>Not selected</strong></div>
+                      <div><span>Tissue slice</span><strong>Not selected</strong></div>
                     </div>
-                    <div class="chat-demo-tissue">
-                      <img src="/HistAgent/assets/rcc-tissue.jpg" alt="Renal cell carcinoma tissue section with a selected spatial location" loading="lazy" decoding="async">
-                      <span class="chat-demo-marker" aria-label="Selected spatial location"></span>
+                    <div class="chat-interface-tissue empty">
+                      <span>Connect the service to load tissue locations.</span>
                     </div>
-                    <small class="chat-demo-map-note">Selected spot · 55 μm diameter</small>
+                    <small class="chat-interface-map-note">Spot diameter: 55 μm</small>
                   </section>
 
-                  <section class="chat-demo-current">
-                    <p class="chat-demo-label">Current spot</p>
-                    <strong>TTCACGGTCGTCACGT-1</strong>
-                    <span>Renal cell carcinoma · TLS-annotated region</span>
+                  <section class="chat-interface-current">
+                    <p class="chat-interface-label">Current spot</p>
+                    <strong>Not selected</strong>
+                    <span>Select a tissue location after the service starts.</span>
                   </section>
                 </aside>
 
-                <section class="chat-demo-main">
-                  <header class="chat-demo-header">
+                <section class="chat-interface-main">
+                  <header class="chat-interface-header">
                     <div><h3>HistAgent Spot Chat</h3><p>Ask about ranked genes, cellular states, pathways or spatial context.</p></div>
-                    <span>Preview</span>
+                    <span>Not connected</span>
                   </header>
 
-                  <div class="chat-demo-messages" aria-label="Example Spot Chat conversation">
-                    <article class="chat-demo-message assistant">
-                      <span class="chat-demo-avatar" aria-hidden="true">HA</span>
+                  <div class="chat-interface-messages" aria-label="Spot Chat status">
+                    <article class="chat-interface-message assistant">
+                      <span class="chat-interface-avatar" aria-hidden="true">HA</span>
                       <div>
-                        <p>This tissue location is ready. I can interpret its ranked molecular profile and relate it to the surrounding tissue.</p>
-                      </div>
-                    </article>
-                    <article class="chat-demo-message user">
-                      <div><p>What biological state is suggested at this location?</p></div>
-                    </article>
-                    <article class="chat-demo-message assistant">
-                      <span class="chat-demo-avatar" aria-hidden="true">HA</span>
-                      <div>
-                        <p>The profile suggests a TLS-like immune niche with an adjacent stromal program. Immunoglobulin-associated genes are prominent, while collagen genes indicate the local tissue context.</p>
-                        <div class="chat-demo-evidence">
-                          <section><span>Ranked genes</span><p><i>IGKC</i> · <i>IGHG1</i> · <i>COL1A1</i> · <i>CD74</i></p></section>
-                          <section><span>Cellular states</span><p>B and plasma cell activity · stromal niche</p></section>
-                          <section><span>Related pathways</span><p>Immunoglobulin production · extracellular matrix organization</p></section>
-                        </div>
+                        <p>Start the Agent Module service, then select a tissue location to begin a conversation.</p>
                       </div>
                     </article>
                   </div>
 
-                  <div class="chat-demo-suggestions" aria-label="Example follow-up questions">
-                    <span>Suggested follow-ups</span>
-                    <button type="button" data-chat-demo-question>Which genes support this interpretation?</button>
-                    <button type="button" data-chat-demo-question>How does the surrounding tissue differ?</button>
-                  </div>
-
-                  <form class="chat-demo-composer" data-chat-demo-form>
-                    <label class="sr-only" for="chat-demo-input">Ask HistAgent about this tissue location</label>
-                    <textarea id="chat-demo-input" rows="2" data-chat-demo-input placeholder="Ask about this tissue location…"></textarea>
-                    <button type="submit">Send</button>
+                  <form class="chat-interface-composer">
+                    <label class="sr-only" for="chat-interface-input">Ask HistAgent about this tissue location</label>
+                    <textarea id="chat-interface-input" rows="2" placeholder="Ask about this tissue location…" disabled></textarea>
+                    <button type="submit" disabled>Send</button>
                   </form>
-                  <p class="chat-demo-connect-note" data-chat-demo-notice hidden>
-                    Connect the Agent Module service above to run your own query.
-                  </p>
                 </section>
               </div>
             </div>
@@ -326,7 +302,7 @@ python examples/chat/run_chat.py</code></pre>
     </main>
 
     <footer class="site-footer"><div class="page-shell footer-grid"><div><strong>HistAgent Agent Module</strong><span class="fine-print">Spot Chat, Atlas Search and H&amp;E Tissue Analysis.</span></div><div class="footer-links"><a href="https://huggingface.co/datasets/wli13/HistAgent-data">Data</a><a href="/HistAgent/tutorials/">Tutorials</a><a href="/HistAgent/">Overview</a></div></div></footer>
-    <script src="/HistAgent/assets/site.js?v=20260727paper1"></script>
+    <script src="/HistAgent/assets/site.js?v=20260727paper2"></script>
     <script>
       (() => {
         const localHost = ["127.0.0.1", "localhost"].includes(window.location.hostname);
@@ -334,32 +310,19 @@ python examples/chat/run_chat.py</code></pre>
         const chatOrigin = configured || (localHost ? "http://127.0.0.1:7860/" : "");
         const frame = document.querySelector("[data-chat-frame]");
         const open = document.querySelector("[data-chat-open]");
-        const demo = document.querySelector("[data-chat-demo]");
+        const chatInterface = document.querySelector("[data-chat-interface]");
         const guide = document.querySelector("[data-chat-guide]");
         const guideToggles = document.querySelectorAll("[data-chat-config-toggle]");
-        const demoForm = document.querySelector("[data-chat-demo-form]");
-        const demoInput = document.querySelector("[data-chat-demo-input]");
-        const demoNotice = document.querySelector("[data-chat-demo-notice]");
         let connected = false;
         guideToggles.forEach((toggle) => {
           toggle.addEventListener("click", () => {
             guide.open = true;
           });
         });
-        document.querySelectorAll("[data-chat-demo-question]").forEach((question) => {
-          question.addEventListener("click", () => {
-            demoInput.value = question.textContent;
-            demoInput.focus();
-          });
-        });
-        demoForm?.addEventListener("submit", (event) => {
-          event.preventDefault();
-          demoNotice.hidden = false;
-        });
-        const showDemo = () => {
+        const showInterface = () => {
           frame.hidden = true;
           open.hidden = true;
-          demo.hidden = false;
+          chatInterface.hidden = false;
         };
         const connectChat = async () => {
           if (connected) return;
@@ -379,14 +342,14 @@ python examples/chat/run_chat.py</code></pre>
               if (requestedSpot) chatUrl.searchParams.set("spot_key", requestedSpot);
               frame.src = chatUrl.toString();
               frame.hidden = false;
-              demo.hidden = true;
+              chatInterface.hidden = true;
               open.href = chatUrl.toString();
               open.hidden = false;
             } catch {
-              showDemo();
+              showInterface();
             }
           } else {
-            showDemo();
+            showInterface();
           }
         };
         document.addEventListener("histagent:workspace", (event) => {
