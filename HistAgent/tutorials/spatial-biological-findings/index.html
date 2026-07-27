@@ -13107,13 +13107,13 @@ div#notebook {
 <main>
 <div class="border-box-sizing" id="notebook" tabindex="-1">
 <div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=711c5c68"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=9ae2f298"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Analyze-spatial-biological-findings">Analyze spatial biological findings<a class="anchor-link" href="#Analyze-spatial-biological-findings">¶</a></h1><p>Use a renal cell carcinoma section to compare predicted and measured expression, localize a TLS-like niche and inspect a labeled TLS spot.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=289546f0"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=861e8ddf"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Installation">Installation<a class="anchor-link" href="#Installation">¶</a></h2><p>Create a Python 3.10+ environment, install the public HistAgent package and add
 the lightweight analysis dependencies used by these notebooks.</p>
@@ -13131,13 +13131,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=b3dbcec1"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=36738330"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Setup">Setup<a class="anchor-link" href="#Setup">¶</a></h2><p>Import the analysis packages, locate the tutorial data and set the plotting style.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=744fc66c">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=14383dc4">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13164,6 +13164,28 @@ Hugging Face session.</p>
     <span class="p">)</span>
     <span class="n">DATA_DIR</span> <span class="o">=</span> <span class="n">snapshot</span> <span class="o">/</span> <span class="s2">"tutorials"</span>
 <span class="k">assert</span> <span class="n">DATA_DIR</span><span class="o">.</span><span class="n">exists</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">"Tutorial data not found: </span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rankridge_pack_root</span><span class="p">(</span><span class="n">groups</span><span class="p">):</span>
+    <span class="n">configured</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"HISTAGENT_RANKRIDGE_PACKS"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">configured</span><span class="p">:</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">configured</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">root</span> <span class="o">/</span> <span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">root</span> <span class="o">=</span> <span class="n">root</span> <span class="o">/</span> <span class="s2">"rankridge_tutorial_packs"</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">root</span> <span class="o">/</span> <span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">exists</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">"RankRidge pack not found: </span><span class="si">{</span><span class="n">root</span><span class="si">}</span><span class="s2">"</span>
+        <span class="k">return</span> <span class="n">root</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">huggingface_hub</span><span class="w"> </span><span class="kn">import</span> <span class="n">snapshot_download</span>
+
+    <span class="n">snapshot</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
+        <span class="n">snapshot_download</span><span class="p">(</span>
+            <span class="s2">"wli13/HistAgent-data"</span><span class="p">,</span>
+            <span class="n">repo_type</span><span class="o">=</span><span class="s2">"dataset"</span><span class="p">,</span>
+            <span class="n">allow_patterns</span><span class="o">=</span><span class="p">[</span>
+                <span class="sa">f</span><span class="s2">"rankridge_tutorial_packs/</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">/**"</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">snapshot</span> <span class="o">/</span> <span class="s2">"rankridge_tutorial_packs"</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="s2">"talk"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
@@ -13213,13 +13235,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=c1c03eba"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=f3cadcfb"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Overview">Overview<a class="anchor-link" href="#Overview">¶</a></h2><p>The example is renal cell carcinoma section GSE175540_GSM5924038. Compare reference-guided HistAgent expression estimates with measured ST, localize a tertiary lymphoid structure (TLS)-like niche and inspect its molecular profile.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=200265a9">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=431aea81">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13230,18 +13252,86 @@ Hugging Face session.</p>
 <span class="n">coordinates</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"fig2b_spots.json"</span><span class="p">)[</span>
     <span class="p">[</span><span class="s2">"barcode"</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">]</span>
 <span class="p">]</span>
-<span class="n">gene_spots</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-    <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"figure2b_expression_for_pcc.csv"</span>
-<span class="p">)</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">coordinates</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">"barcode"</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="s2">"one_to_one"</span><span class="p">)</span>
-<span class="n">gene_pcc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"fig2b_pcc.json"</span><span class="p">)</span>
+<span class="n">measured_expression</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"figure2b_measured_expression.csv"</span>
+<span class="p">)</span>
 <span class="n">tls_spots</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"fig2c_spots.json"</span><span class="p">)</span>
 <span class="n">tls_metrics</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"fig2c_metrics.json"</span><span class="p">)</span>
 <span class="n">findings</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"fig2e.json"</span><span class="p">)</span>
 <span class="n">tls_example</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">((</span><span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"tls_worked_example.json"</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=0474108e"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Reference-guided-expression-estimates">Reference-guided expression estimates<a class="anchor-link" href="#Reference-guided-expression-estimates">¶</a></h2><p>Fit the paper's post hoc ridge mapper on the compact kidney reference matrices, then apply it to the RCC rank-feature matrix. The query slide's measured expression is used only for the comparison after inference.</p>
+<p>All eight genes are drawn from their spot coordinates. Four genes share each row, and every measured/predicted pair uses the same within-gene color scale. PCC is recalculated directly from the values produced below.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=0bfe27af">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">sparse</span>
 
-<span class="n">gene_pcc</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"gene"</span><span class="p">:</span> <span class="s2">"Gene"</span><span class="p">,</span> <span class="s2">"pcc"</span><span class="p">:</span> <span class="s2">"PCC"</span><span class="p">})[</span>
-    <span class="p">[</span><span class="s2">"Gene"</span><span class="p">,</span> <span class="s2">"PCC"</span><span class="p">]</span>
-<span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">set_properties</span><span class="p">(</span>
+<span class="n">PACK_DIR</span> <span class="o">=</span> <span class="n">rankridge_pack_root</span><span class="p">([</span><span class="s2">"rcc__human_kidney"</span><span class="p">])</span>
+<span class="n">pack</span> <span class="o">=</span> <span class="n">PACK_DIR</span> <span class="o">/</span> <span class="s2">"rcc__human_kidney"</span>
+<span class="n">pack_info</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">((</span><span class="n">pack</span> <span class="o">/</span> <span class="s2">"pack_manifest.json"</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+
+<span class="n">x_reference</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">load_npz</span><span class="p">(</span>
+    <span class="n">pack</span> <span class="o">/</span> <span class="s2">"reference_rank_features.npz"</span>
+<span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+<span class="n">y_reference</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">load_npz</span><span class="p">(</span>
+    <span class="n">pack</span> <span class="o">/</span> <span class="s2">"reference_expression_targets.npz"</span>
+<span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+<span class="n">gram</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_reference</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">x_reference</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">gram</span><span class="o">.</span><span class="n">flat</span><span class="p">[::</span> <span class="n">gram</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">pack_info</span><span class="p">[</span><span class="s2">"alpha"</span><span class="p">]</span>
+<span class="n">cross_product</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_reference</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">y_reference</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+<span class="n">coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">gram</span><span class="p">,</span> <span class="n">cross_product</span><span class="p">)</span>
+
+<span class="n">stored_coefficients</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">pack</span> <span class="o">/</span> <span class="s2">"ridge_coefficients.npy"</span><span class="p">)</span>
+<span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">coefficients</span><span class="p">,</span> <span class="n">stored_coefficients</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">2e-5</span><span class="p">)</span>
+
+<span class="n">x_query</span> <span class="o">=</span> <span class="n">sparse</span><span class="o">.</span><span class="n">load_npz</span><span class="p">(</span><span class="n">pack</span> <span class="o">/</span> <span class="s2">"query_rank_features.npz"</span><span class="p">)</span>
+<span class="n">predicted_expression</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x_query</span> <span class="o">@</span> <span class="n">coefficients</span><span class="p">)</span>
+<span class="n">target_genes</span> <span class="o">=</span> <span class="p">(</span><span class="n">pack</span> <span class="o">/</span> <span class="s2">"target_genes.txt"</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+<span class="n">query_rows</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">pack</span> <span class="o">/</span> <span class="s2">"query_rows.csv"</span><span class="p">)</span>
+
+<span class="n">gene_spots</span> <span class="o">=</span> <span class="n">query_rows</span><span class="p">[[</span><span class="s2">"barcode"</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">gene</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">target_genes</span><span class="p">):</span>
+    <span class="n">gene_spots</span><span class="p">[</span><span class="sa">f</span><span class="s2">"HistAgent_</span><span class="si">{</span><span class="n">gene</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">predicted_expression</span><span class="p">[:,</span> <span class="n">index</span><span class="p">]</span>
+<span class="n">gene_spots</span> <span class="o">=</span> <span class="n">gene_spots</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">measured_expression</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">"barcode"</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="s2">"one_to_one"</span>
+<span class="p">)</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="n">coordinates</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">"barcode"</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="s2">"one_to_one"</span>
+<span class="p">)</span>
+
+<span class="n">genes_to_plot</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"IGHG2"</span><span class="p">,</span> <span class="s2">"IGHG4"</span><span class="p">,</span> <span class="s2">"IGLV3-1"</span><span class="p">,</span> <span class="s2">"C7"</span><span class="p">,</span>
+    <span class="s2">"COL1A1"</span><span class="p">,</span> <span class="s2">"DCN"</span><span class="p">,</span> <span class="s2">"FN1"</span><span class="p">,</span> <span class="s2">"TGFBI"</span><span class="p">,</span>
+<span class="p">]</span>
+<span class="n">recalculated</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">genes_to_plot</span><span class="p">:</span>
+    <span class="n">measured</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">gene_spots</span><span class="p">[</span><span class="sa">f</span><span class="s2">"ST_</span><span class="si">{</span><span class="n">gene</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+    <span class="n">predicted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span>
+        <span class="n">gene_spots</span><span class="p">[</span><span class="sa">f</span><span class="s2">"HistAgent_</span><span class="si">{</span><span class="n">gene</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">recalculated</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+        <span class="s2">"Gene"</span><span class="p">:</span> <span class="n">gene</span><span class="p">,</span>
+        <span class="s2">"PCC"</span><span class="p">:</span> <span class="n">pearsonr</span><span class="p">(</span><span class="n">measured</span><span class="p">,</span> <span class="n">predicted</span><span class="p">)</span><span class="o">.</span><span class="n">statistic</span><span class="p">,</span>
+    <span class="p">})</span>
+
+<span class="n">gene_pcc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">recalculated</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">"Reference spots: </span><span class="si">{</span><span class="n">x_reference</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> · "</span>
+    <span class="sa">f</span><span class="s2">"rank features: </span><span class="si">{</span><span class="n">x_reference</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">,</span><span class="si">}</span><span class="s2"> · "</span>
+    <span class="sa">f</span><span class="s2">"mean PCC: </span><span class="si">{</span><span class="n">gene_pcc</span><span class="p">[</span><span class="s1">'PCC'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span>
+<span class="p">)</span>
+<span class="n">gene_pcc</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">set_properties</span><span class="p">(</span>
     <span class="n">subset</span><span class="o">=</span><span class="p">[</span><span class="s2">"Gene"</span><span class="p">],</span> <span class="o">**</span><span class="p">{</span><span class="s2">"font-style"</span><span class="p">:</span> <span class="s2">"italic"</span><span class="p">}</span>
 <span class="p">)</span>
 </pre></div>
@@ -13251,59 +13341,65 @@ Hugging Face session.</p>
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Reference spots: 42,273 · rank features: 1,000 · mean PCC: 0.576
+</pre>
+</div>
+</div>
+<div class="output_area">
 <div class="output_html rendered_html output_subarea output_execute_result"><style type="text/css">
-#T_c4579_row0_col0, #T_c4579_row1_col0, #T_c4579_row2_col0, #T_c4579_row3_col0, #T_c4579_row4_col0, #T_c4579_row5_col0, #T_c4579_row6_col0, #T_c4579_row7_col0 {
+#T_b7550_row0_col0, #T_b7550_row1_col0, #T_b7550_row2_col0, #T_b7550_row3_col0, #T_b7550_row4_col0, #T_b7550_row5_col0, #T_b7550_row6_col0, #T_b7550_row7_col0 {
   font-style: italic;
 }
 </style>
-<table id="T_c4579">
+<table id="T_b7550">
 <thead>
 <tr>
 <th class="blank level0"> </th>
-<th class="col_heading level0 col0" id="T_c4579_level0_col0">Gene</th>
-<th class="col_heading level0 col1" id="T_c4579_level0_col1">PCC</th>
+<th class="col_heading level0 col0" id="T_b7550_level0_col0">Gene</th>
+<th class="col_heading level0 col1" id="T_b7550_level0_col1">PCC</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<th class="row_heading level0 row0" id="T_c4579_level0_row0">0</th>
-<td class="data row0 col0" id="T_c4579_row0_col0">IGHG2</td>
-<td class="data row0 col1" id="T_c4579_row0_col1">0.491000</td>
+<th class="row_heading level0 row0" id="T_b7550_level0_row0">0</th>
+<td class="data row0 col0" id="T_b7550_row0_col0">IGHG2</td>
+<td class="data row0 col1" id="T_b7550_row0_col1">0.491000</td>
 </tr>
 <tr>
-<th class="row_heading level0 row1" id="T_c4579_level0_row1">1</th>
-<td class="data row1 col0" id="T_c4579_row1_col0">IGHG4</td>
-<td class="data row1 col1" id="T_c4579_row1_col1">0.498000</td>
+<th class="row_heading level0 row1" id="T_b7550_level0_row1">1</th>
+<td class="data row1 col0" id="T_b7550_row1_col0">IGHG4</td>
+<td class="data row1 col1" id="T_b7550_row1_col1">0.498000</td>
 </tr>
 <tr>
-<th class="row_heading level0 row2" id="T_c4579_level0_row2">2</th>
-<td class="data row2 col0" id="T_c4579_row2_col0">IGLV3-1</td>
-<td class="data row2 col1" id="T_c4579_row2_col1">0.509000</td>
+<th class="row_heading level0 row2" id="T_b7550_level0_row2">2</th>
+<td class="data row2 col0" id="T_b7550_row2_col0">IGLV3-1</td>
+<td class="data row2 col1" id="T_b7550_row2_col1">0.509000</td>
 </tr>
 <tr>
-<th class="row_heading level0 row3" id="T_c4579_level0_row3">3</th>
-<td class="data row3 col0" id="T_c4579_row3_col0">C7</td>
-<td class="data row3 col1" id="T_c4579_row3_col1">0.645000</td>
+<th class="row_heading level0 row3" id="T_b7550_level0_row3">3</th>
+<td class="data row3 col0" id="T_b7550_row3_col0">C7</td>
+<td class="data row3 col1" id="T_b7550_row3_col1">0.645000</td>
 </tr>
 <tr>
-<th class="row_heading level0 row4" id="T_c4579_level0_row4">4</th>
-<td class="data row4 col0" id="T_c4579_row4_col0">COL1A1</td>
-<td class="data row4 col1" id="T_c4579_row4_col1">0.572000</td>
+<th class="row_heading level0 row4" id="T_b7550_level0_row4">4</th>
+<td class="data row4 col0" id="T_b7550_row4_col0">COL1A1</td>
+<td class="data row4 col1" id="T_b7550_row4_col1">0.572000</td>
 </tr>
 <tr>
-<th class="row_heading level0 row5" id="T_c4579_level0_row5">5</th>
-<td class="data row5 col0" id="T_c4579_row5_col0">DCN</td>
-<td class="data row5 col1" id="T_c4579_row5_col1">0.613000</td>
+<th class="row_heading level0 row5" id="T_b7550_level0_row5">5</th>
+<td class="data row5 col0" id="T_b7550_row5_col0">DCN</td>
+<td class="data row5 col1" id="T_b7550_row5_col1">0.613000</td>
 </tr>
 <tr>
-<th class="row_heading level0 row6" id="T_c4579_level0_row6">6</th>
-<td class="data row6 col0" id="T_c4579_row6_col0">FN1</td>
-<td class="data row6 col1" id="T_c4579_row6_col1">0.669000</td>
+<th class="row_heading level0 row6" id="T_b7550_level0_row6">6</th>
+<td class="data row6 col0" id="T_b7550_row6_col0">FN1</td>
+<td class="data row6 col1" id="T_b7550_row6_col1">0.669000</td>
 </tr>
 <tr>
-<th class="row_heading level0 row7" id="T_c4579_level0_row7">7</th>
-<td class="data row7 col0" id="T_c4579_row7_col0">TGFBI</td>
-<td class="data row7 col1" id="T_c4579_row7_col1">0.611000</td>
+<th class="row_heading level0 row7" id="T_b7550_level0_row7">7</th>
+<td class="data row7 col0" id="T_b7550_row7_col0">TGFBI</td>
+<td class="data row7 col1" id="T_b7550_row7_col1">0.611000</td>
 </tr>
 </tbody>
 </table>
@@ -13312,23 +13408,11 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=98c56c33"><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Reference-guided-expression-estimates">Reference-guided expression estimates<a class="anchor-link" href="#Reference-guided-expression-estimates">¶</a></h2><p>The paper's post hoc RankRidge mapper was fitted on independent ST sections after excluding the complete query study. It used inverse-rank features, species-matched references, normalized log-transformed expression targets, ridge alpha = 10 and non-negative output clipping. This tutorial loads the archived mapped output for the RCC slide; it does not fit against the slide being evaluated.</p>
-<p>All eight genes are drawn from their spot coordinates. Four genes share each row, and every measured/predicted pair uses the same within-gene color scale. PCC is recalculated directly from the spot-level values.</p>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=53232833">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=3a829617">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">genes_to_plot</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">"IGHG2"</span><span class="p">,</span> <span class="s2">"IGHG4"</span><span class="p">,</span> <span class="s2">"IGLV3-1"</span><span class="p">,</span> <span class="s2">"C7"</span><span class="p">,</span>
-    <span class="s2">"COL1A1"</span><span class="p">,</span> <span class="s2">"DCN"</span><span class="p">,</span> <span class="s2">"FN1"</span><span class="p">,</span> <span class="s2">"TGFBI"</span><span class="p">,</span>
-<span class="p">]</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">recalculated</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">14</span><span class="p">),</span> <span class="n">constrained_layout</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">gene</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">genes_to_plot</span><span class="p">):</span>
     <span class="n">block</span> <span class="o">=</span> <span class="n">index</span> <span class="o">//</span> <span class="mi">4</span>
@@ -13337,10 +13421,9 @@ Hugging Face session.</p>
     <span class="n">predicted_row</span> <span class="o">=</span> <span class="n">measured_row</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="n">measured</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">gene_spots</span><span class="p">[</span><span class="sa">f</span><span class="s2">"ST_</span><span class="si">{</span><span class="n">gene</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="nb">float</span><span class="p">))</span>
     <span class="n">predicted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span>
-        <span class="n">gene_spots</span><span class="p">[</span><span class="sa">f</span><span class="s2">"HR_raw_</span><span class="si">{</span><span class="n">gene</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="n">gene_spots</span><span class="p">[</span><span class="sa">f</span><span class="s2">"HistAgent_</span><span class="si">{</span><span class="n">gene</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
     <span class="p">)</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">pearsonr</span><span class="p">(</span><span class="n">measured</span><span class="p">,</span> <span class="n">predicted</span><span class="p">)</span><span class="o">.</span><span class="n">statistic</span>
-    <span class="n">recalculated</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"gene"</span><span class="p">:</span> <span class="n">gene</span><span class="p">,</span> <span class="s2">"PCC"</span><span class="p">:</span> <span class="n">r</span><span class="p">})</span>
     <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanpercentile</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="n">measured</span><span class="p">,</span> <span class="n">predicted</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">98</span><span class="p">])</span>
     <span class="n">scale</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">hi</span> <span class="o">-</span> <span class="n">lo</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span><span class="p">)</span>
 
@@ -13362,7 +13445,7 @@ Hugging Face session.</p>
         <span class="k">if</span> <span class="n">row</span> <span class="o">==</span> <span class="n">measured_row</span><span class="p">:</span>
             <span class="n">gene_label</span> <span class="o">=</span> <span class="n">gene</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"-"</span><span class="p">,</span> <span class="sa">r</span><span class="s2">"{-}"</span><span class="p">)</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">"$\mathit</span><span class="se">{{</span><span class="si">{</span><span class="n">gene_label</span><span class="si">}</span><span class="se">}}</span><span class="s2">$"</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">"bold"</span>
+                <span class="sa">rf</span><span class="s2">"$\mathit</span><span class="se">{{</span><span class="si">{</span><span class="n">gene_label</span><span class="si">}</span><span class="se">}}</span><span class="s2">$"</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">"bold"</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
@@ -13387,15 +13470,6 @@ Hugging Face session.</p>
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>&lt;&gt;:40: SyntaxWarning: invalid escape sequence '\m'
-&lt;&gt;:40: SyntaxWarning: invalid escape sequence '\m'
-/var/folders/q1/9j2gt_295b16k7hghzdp3p4h0000gn/T/ipykernel_34349/954483325.py:40: SyntaxWarning: invalid escape sequence '\m'
-  f"$\mathit{{{gene_label}}}$", pad=9, fontweight="bold"
-</pre>
-</div>
-</div>
-<div class="output_area">
 <div class="output_png output_subarea">
 <img loading="lazy" decoding="async" alt="No description has been provided for this image" src="/HistAgent/tutorials/spatial-biological-findings/_outputs/output-00-44a8631d44a3.png"/>
 </div>
@@ -13403,13 +13477,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=d56c7ffd"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=f8e5c779"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="TLS-localization">TLS localization<a class="anchor-link" href="#TLS-localization">¶</a></h2><p>The TLS score is evaluated against the published spot labels. AUPRC is used because TLS spots are the minority class.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=de612dd5">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=fb5ef04b">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13472,7 +13546,7 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=893194b5">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=32fd8a3d">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13517,13 +13591,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=c44f8616"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=9eb0b878"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="TLS-molecular-profile-at-a-measured-spot">TLS molecular profile at a measured spot<a class="anchor-link" href="#TLS-molecular-profile-at-a-measured-spot">¶</a></h2><p>The source study labels this spot as TLS. Its ranked molecular profile combines immunoglobulin, antigen-presentation and stromal-matrix signals.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=90807206">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=bbadeeea">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13580,13 +13654,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=a7a95534"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=e3e0f30e"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Cross-study-biological-finding-recovery">Cross-study biological finding recovery<a class="anchor-link" href="#Cross-study-biological-finding-recovery">¶</a></h2><p>The comparison covers the 12 literature-defined biological findings reported in the paper, evaluated across 29 slide-finding pairs from 22 unique slides. Each bar reports the mean AUPRC across the evaluated slides for one target.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=1b416b64">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=654980e6">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13651,13 +13725,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=6caee88c"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=c9bded44"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Verify-the-calculations">Verify the calculations<a class="anchor-link" href="#Verify-the-calculations">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=ad6c4c32">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=007334ab">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13665,10 +13739,12 @@ Hugging Face session.</p>
 <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
     <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"AUPRC"</span><span class="p">],</span> <span class="n">reported</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">"method"</span><span class="p">]])</span>
 
-<span class="n">direct_pcc</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="s2">"gene"</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="s2">"PCC"</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">recalculated</span><span class="p">)</span>
-<span class="n">saved_pcc</span> <span class="o">=</span> <span class="n">gene_pcc</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"gene"</span><span class="p">)[</span><span class="s2">"pcc"</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<span class="n">direct_pcc</span> <span class="o">=</span> <span class="n">gene_pcc</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"Gene"</span><span class="p">)[</span><span class="s2">"PCC"</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<span class="n">saved_pcc</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span>
+    <span class="n">DATA_DIR</span> <span class="o">/</span> <span class="s2">"fig2b_pcc.json"</span>
+<span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"gene"</span><span class="p">)[</span><span class="s2">"pcc"</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
 <span class="k">for</span> <span class="n">gene</span> <span class="ow">in</span> <span class="n">genes_to_plot</span><span class="p">:</span>
-    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">direct_pcc</span><span class="p">[</span><span class="n">gene</span><span class="p">],</span> <span class="n">saved_pcc</span><span class="p">[</span><span class="n">gene</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">isclose</span><span class="p">(</span><span class="n">direct_pcc</span><span class="p">[</span><span class="n">gene</span><span class="p">],</span> <span class="n">saved_pcc</span><span class="p">[</span><span class="n">gene</span><span class="p">],</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">)</span>
 
 <span class="k">assert</span> <span class="n">findings</span><span class="p">[</span><span class="s2">"Biological target"</span><span class="p">]</span><span class="o">.</span><span class="n">nunique</span><span class="p">()</span> <span class="o">==</span> <span class="mi">12</span>
 <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">findings</span><span class="p">)</span> <span class="o">==</span> <span class="mi">29</span>
@@ -13689,7 +13765,7 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=b012aba1"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=ab69a1fb"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Continue">Continue<a class="anchor-link" href="#Continue">¶</a></h2><p>Continue to <strong>Spatial transcriptomic analyses</strong> to test whether recovered molecular readouts recapitulate five standard ST analyses across 135 held-out slides.</p>
 </div>

@@ -13107,13 +13107,13 @@ div#notebook {
 <main>
 <div class="border-box-sizing" id="notebook" tabindex="-1">
 <div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=fcab852c"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=2921fe96"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Interpret-whole-slide-clinical-predictions">Interpret whole-slide clinical predictions<a class="anchor-link" href="#Interpret-whole-slide-clinical-predictions">¶</a></h1><p>Map released tile-level predictions back to tissue and analyze patient-level prognostic risk.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=60e4dbf3"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=06db8090"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Installation">Installation<a class="anchor-link" href="#Installation">¶</a></h2><p>Create a Python 3.10+ environment, install the public HistAgent package and add
 the lightweight analysis dependencies used by these notebooks.</p>
@@ -13131,13 +13131,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=278ae668"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=5db8f91c"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Setup">Setup<a class="anchor-link" href="#Setup">¶</a></h2><p>Import the analysis packages, locate the tutorial data and set the plotting style.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=744fc66c">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=14383dc4">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13164,6 +13164,28 @@ Hugging Face session.</p>
     <span class="p">)</span>
     <span class="n">DATA_DIR</span> <span class="o">=</span> <span class="n">snapshot</span> <span class="o">/</span> <span class="s2">"tutorials"</span>
 <span class="k">assert</span> <span class="n">DATA_DIR</span><span class="o">.</span><span class="n">exists</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">"Tutorial data not found: </span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rankridge_pack_root</span><span class="p">(</span><span class="n">groups</span><span class="p">):</span>
+    <span class="n">configured</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"HISTAGENT_RANKRIDGE_PACKS"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">configured</span><span class="p">:</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">configured</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">root</span> <span class="o">/</span> <span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">root</span> <span class="o">=</span> <span class="n">root</span> <span class="o">/</span> <span class="s2">"rankridge_tutorial_packs"</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">root</span> <span class="o">/</span> <span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">exists</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">"RankRidge pack not found: </span><span class="si">{</span><span class="n">root</span><span class="si">}</span><span class="s2">"</span>
+        <span class="k">return</span> <span class="n">root</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">huggingface_hub</span><span class="w"> </span><span class="kn">import</span> <span class="n">snapshot_download</span>
+
+    <span class="n">snapshot</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
+        <span class="n">snapshot_download</span><span class="p">(</span>
+            <span class="s2">"wli13/HistAgent-data"</span><span class="p">,</span>
+            <span class="n">repo_type</span><span class="o">=</span><span class="s2">"dataset"</span><span class="p">,</span>
+            <span class="n">allow_patterns</span><span class="o">=</span><span class="p">[</span>
+                <span class="sa">f</span><span class="s2">"rankridge_tutorial_packs/</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">/**"</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">snapshot</span> <span class="o">/</span> <span class="s2">"rankridge_tutorial_packs"</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="s2">"talk"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
@@ -13213,13 +13235,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=a3ec375e"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=e4a82e61"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Overview">Overview<a class="anchor-link" href="#Overview">¶</a></h2><p>Map released tile scores back to whole-slide tissue regions, compare annotated regions and calculate patient-level prognostic risk.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=092ddee4">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=21983509">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13251,13 +13273,13 @@ Out-of-fold patients: 843
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=013362c4"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=f98e55bc"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Spatial-visualization-of-slide-level-predictions">Spatial visualization of slide-level predictions<a class="anchor-link" href="#Spatial-visualization-of-slide-level-predictions">¶</a></h2><p>Map tile-level scores back onto BRCA and STAD whole-slide images. The panels use the same arrangement, legends and score ranges as the paper.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=8f215dbc">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=7a0f5c85">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13380,13 +13402,13 @@ Out-of-fold patients: 843
 <div class="output">
 <div class="output_area">
 <div class="output_png output_subarea">
-<img loading="lazy" decoding="async" alt="No description has been provided for this image" src="/HistAgent/tutorials/clinical-prediction/_outputs/output-00-fa1724cf4afa.png"/>
+<img loading="lazy" decoding="async" alt="No description has been provided for this image" src="/HistAgent/tutorials/clinical-prediction/_outputs/output-00-30e4c61180a8.png"/>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=64d8b1a4">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=5b1bfeaf">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13438,13 +13460,13 @@ Out-of-fold patients: 843
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=6142b806"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=c6ef396d"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Tile-level-scores-in-annotated-regions">Tile-level scores in annotated regions<a class="anchor-link" href="#Tile-level-scores-in-annotated-regions">¶</a></h2><p>Compare tile-level scores between annotated regions in the STAD and BRCA examples.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=45fe301d">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=01b27f60">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13469,7 +13491,7 @@ Out-of-fold patients: 843
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=1a04d452">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=3192f1e8">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13522,19 +13544,19 @@ Out-of-fold patients: 843
 <div class="output">
 <div class="output_area">
 <div class="output_png output_subarea">
-<img loading="lazy" decoding="async" alt="No description has been provided for this image" src="/HistAgent/tutorials/clinical-prediction/_outputs/output-02-935a8bdc94ce.png"/>
+<img loading="lazy" decoding="async" alt="No description has been provided for this image" src="/HistAgent/tutorials/clinical-prediction/_outputs/output-02-e7a79c5c2a00.png"/>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=81a956bd"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=a431d14e"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Patient-level-prognostic-risk-stratification">Patient-level prognostic-risk stratification<a class="anchor-link" href="#Patient-level-prognostic-risk-stratification">¶</a></h2><p>Each cohort is split at its median out-of-fold risk. The code below calculates the Kaplan-Meier curves and log-rank p-values.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=ff559b79">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=79bd8d81">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13667,13 +13689,13 @@ Out-of-fold patients: 843
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=157c1f65"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=ad411fe0"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Multivariable-prognostic-analysis">Multivariable prognostic analysis<a class="anchor-link" href="#Multivariable-prognostic-analysis">¶</a></h2><p>The forest plot uses the reported Cox model estimates. HistAgent risk is entered per standard deviation together with the cohort-specific clinical covariate.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=4055ba37">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=d1ea2c7a">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13784,13 +13806,13 @@ Out-of-fold patients: 843
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=5ba0fef5"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=be9b157e"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Verify-the-calculations">Verify the calculations<a class="anchor-link" href="#Verify-the-calculations">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=330096cf">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=df2d2232">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13821,7 +13843,7 @@ Out-of-fold patients: 843
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=ab2858f6"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=99c42df3"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Continue">Continue<a class="anchor-link" href="#Continue">¶</a></h2><p>Continue to <strong>ST atlas retrieval</strong> to visualize the spatial transcriptomics atlas and run natural-language and H&amp;E image queries.</p>
 </div>

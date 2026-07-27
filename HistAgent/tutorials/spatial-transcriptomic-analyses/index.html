@@ -13107,13 +13107,13 @@ div#notebook {
 <main>
 <div class="border-box-sizing" id="notebook" tabindex="-1">
 <div class="container" id="notebook-container">
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=47ac0365"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=0376f74f"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Run-standard-spatial-transcriptomic-analyses">Run standard spatial transcriptomic analyses<a class="anchor-link" href="#Run-standard-spatial-transcriptomic-analyses">¶</a></h1><p>Evaluate molecular recovery across 135 held-out ST slides, run five standard downstream analyses and inspect representative spatial readouts.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=509e5a44"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=8e82e69f"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Installation">Installation<a class="anchor-link" href="#Installation">¶</a></h2><p>Create a Python 3.10+ environment, install the public HistAgent package and add
 the lightweight analysis dependencies used by these notebooks.</p>
@@ -13131,13 +13131,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=ad646963"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=2d766b15"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Setup">Setup<a class="anchor-link" href="#Setup">¶</a></h2><p>Import the analysis packages, locate the tutorial data and set the plotting style.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=744fc66c">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=14383dc4">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13164,6 +13164,28 @@ Hugging Face session.</p>
     <span class="p">)</span>
     <span class="n">DATA_DIR</span> <span class="o">=</span> <span class="n">snapshot</span> <span class="o">/</span> <span class="s2">"tutorials"</span>
 <span class="k">assert</span> <span class="n">DATA_DIR</span><span class="o">.</span><span class="n">exists</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">"Tutorial data not found: </span><span class="si">{</span><span class="n">DATA_DIR</span><span class="si">}</span><span class="s2">"</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">rankridge_pack_root</span><span class="p">(</span><span class="n">groups</span><span class="p">):</span>
+    <span class="n">configured</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">"HISTAGENT_RANKRIDGE_PACKS"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">configured</span><span class="p">:</span>
+        <span class="n">root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">configured</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">root</span> <span class="o">/</span> <span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">root</span> <span class="o">=</span> <span class="n">root</span> <span class="o">/</span> <span class="s2">"rankridge_tutorial_packs"</span>
+        <span class="k">assert</span> <span class="p">(</span><span class="n">root</span> <span class="o">/</span> <span class="n">groups</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">exists</span><span class="p">(),</span> <span class="sa">f</span><span class="s2">"RankRidge pack not found: </span><span class="si">{</span><span class="n">root</span><span class="si">}</span><span class="s2">"</span>
+        <span class="k">return</span> <span class="n">root</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">huggingface_hub</span><span class="w"> </span><span class="kn">import</span> <span class="n">snapshot_download</span>
+
+    <span class="n">snapshot</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
+        <span class="n">snapshot_download</span><span class="p">(</span>
+            <span class="s2">"wli13/HistAgent-data"</span><span class="p">,</span>
+            <span class="n">repo_type</span><span class="o">=</span><span class="s2">"dataset"</span><span class="p">,</span>
+            <span class="n">allow_patterns</span><span class="o">=</span><span class="p">[</span>
+                <span class="sa">f</span><span class="s2">"rankridge_tutorial_packs/</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">/**"</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">snapshot</span> <span class="o">/</span> <span class="s2">"rankridge_tutorial_packs"</span>
 
 <span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">"white"</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="s2">"talk"</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
@@ -13213,13 +13235,13 @@ Hugging Face session.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=3ff9193f"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=76aeeb0a"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Overview">Overview<a class="anchor-link" href="#Overview">¶</a></h2><p>The benchmark covers five standard ST analyses across 135 held-out slides. The examples pair measured ST with HistAgent fields.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=8dd0ceaf">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=356ae97d">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13255,13 +13277,13 @@ Organs: 13
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=01549f0f"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=ab0eb4a9"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Spot-level-gene-ranking-recovery">Spot-level gene-ranking recovery<a class="anchor-link" href="#Spot-level-gene-ranking-recovery">¶</a></h2><p>The benchmark reports HitRate@50 and mAP@50 for each section. The table below recomputes method-level summaries from the 405 section and method rows.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=638432d3">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=e387c95c">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13351,7 +13373,7 @@ Organs: 13
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=3f5417d4">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=7b80807b">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13382,13 +13404,13 @@ Organs: 13
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=30ae1482"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=3fe96677"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Five-standard-spatial-transcriptomic-analyses">Five standard spatial transcriptomic analyses<a class="anchor-link" href="#Five-standard-spatial-transcriptomic-analyses">¶</a></h2><p>The paper reports six metrics across five analyses: spatially variable genes, spatial domains, cell-type deconvolution, differential expression and pathway enrichment. Four slides are then used to show representative spatial outputs.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=a9e5c83f">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=c0962fcd">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13484,7 +13506,7 @@ Organs: 13
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=46c1ffd3">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=1144510e">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13527,13 +13549,13 @@ Organs: 13
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=616888c7"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=49b11c52"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Calculate-representative-spatial-readouts">Calculate representative spatial readouts<a class="anchor-link" href="#Calculate-representative-spatial-readouts">¶</a></h2><p>Continuous tasks use Spearman correlation. Domain recovery uses ARI and NMI. The calculations below run on the spot-level arrays before anything is plotted.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=30d2088e">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=1ef2899c">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13566,13 +13588,13 @@ Organs: 13
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=e6adc9a6"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=c00b892f"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Paired-measured-ST-and-HistAgent-fields">Paired measured ST and HistAgent fields<a class="anchor-link" href="#Paired-measured-ST-and-HistAgent-fields">¶</a></h2><p>Each slide gets a two-row view: five measured fields on the first row and five HistAgent fields on the second.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=73cc259c">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=0d69cf17">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13607,7 +13629,7 @@ Organs: 13
             <span class="k">if</span> <span class="n">side</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">task</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"svg"</span><span class="p">,</span> <span class="s2">"deg"</span><span class="p">}:</span>
                     <span class="n">gene_label</span> <span class="o">=</span> <span class="n">feature</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"-"</span><span class="p">,</span> <span class="sa">r</span><span class="s2">"{-}"</span><span class="p">)</span>
-                    <span class="n">feature</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"$\mathit</span><span class="se">{{</span><span class="si">{</span><span class="n">gene_label</span><span class="si">}</span><span class="se">}}</span><span class="s2">$"</span>
+                    <span class="n">feature</span> <span class="o">=</span> <span class="sa">rf</span><span class="s2">"$\mathit</span><span class="se">{{</span><span class="si">{</span><span class="n">gene_label</span><span class="si">}</span><span class="se">}}</span><span class="s2">$"</span>
                 <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">task</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">feature</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mi">8</span>
                 <span class="p">)</span>
@@ -13623,15 +13645,6 @@ Organs: 13
 </div>
 <div class="output_wrapper">
 <div class="output">
-<div class="output_area">
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>&lt;&gt;:32: SyntaxWarning: invalid escape sequence '\m'
-&lt;&gt;:32: SyntaxWarning: invalid escape sequence '\m'
-/var/folders/q1/9j2gt_295b16k7hghzdp3p4h0000gn/T/ipykernel_35482/1604776750.py:32: SyntaxWarning: invalid escape sequence '\m'
-  feature = f"$\mathit{{{gene_label}}}$"
-</pre>
-</div>
-</div>
 <div class="output_area">
 <div class="output_png output_subarea">
 <img loading="lazy" decoding="async" alt="No description has been provided for this image" src="/HistAgent/tutorials/spatial-transcriptomic-analyses/_outputs/output-02-a46116c22f5d.png"/>
@@ -13655,13 +13668,13 @@ Organs: 13
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=b38dc606"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=5d4e6a5a"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Spatial-readout-agreement">Spatial-readout agreement<a class="anchor-link" href="#Spatial-readout-agreement">¶</a></h2><p>The table reports the task-specific score for every example above.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=ed2555a1">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=a782fefa">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13762,13 +13775,13 @@ Organs: 13
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=f455f1b2"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=f5aa5fd5"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Verify-the-calculations">Verify the calculations<a class="anchor-link" href="#Verify-the-calculations">¶</a></h2>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=5c169ee9">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=2351512b">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
@@ -13800,7 +13813,7 @@ Organs: 13
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=852fb520"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=ddac7094"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Continue">Continue<a class="anchor-link" href="#Continue">¶</a></h2><p>Continue to <strong>Clinical prediction</strong> to inspect pretrained visual-omics representations, spatial slide-level predictions and patient-level prognostic risk.</p>
 </div>
