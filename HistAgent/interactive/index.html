@@ -70,25 +70,33 @@
               <section class="chat-config-step">
                 <span>01</span>
                 <h3>Install</h3>
-                <p>From the HistAgent repository root, create an environment and install the Agent Module.</p>
-                <pre><code>python -m venv .venv
+                <p>Clone HistAgent, create an environment and install the Agent Module dependencies.</p>
+                <pre><code>git clone https://github.com/zipging/HistAgent.git
+cd HistAgent
+python -m venv .venv
 source .venv/bin/activate
 python -m pip install -e .
-python -m pip install -r examples/chat/requirements.txt</code></pre>
+python -m pip install -r examples/chat/requirements.txt
+cp examples/chat/.env.example examples/chat/.env</code></pre>
               </section>
               <section class="chat-config-step">
                 <span>02</span>
-                <h3>Configure and start</h3>
-                <p>Copy the template, add your model endpoint, then start the service. The data bundle downloads on first run.</p>
-                <pre><code>cp examples/chat/.env.example examples/chat/.env
-python examples/chat/run_chat.py</code></pre>
+                <h3>Start the language model</h3>
+                <p>Run Qwen3-8B in the first terminal. Alternatively, enter another OpenAI-compatible endpoint in <code>examples/chat/.env</code>.</p>
+                <pre><code>python -m pip install \
+  -r examples/chat/requirements-llm.txt
+HISTAGENT_QWEN_PATH=Qwen/Qwen3-8B \
+  python examples/chat/llm_server.py</code></pre>
               </section>
               <section class="chat-config-step">
                 <span>03</span>
-                <h3>Connect</h3>
-                <p>Local pages detect <code>127.0.0.1:7860</code>. A deployed site can set the public service origin in its page head.</p>
-                <pre><code>&lt;meta name="histagent-chat-origin"
-  content="https://your-agent-service.example"&gt;</code></pre>
+                <h3>Start the Agent Module</h3>
+                <p>Keep the language model running. In a second terminal, start the Web/API service; the data bundle downloads automatically.</p>
+                <pre><code>cd HistAgent
+source .venv/bin/activate
+python examples/chat/run_chat.py
+
+# Open http://127.0.0.1:7860</code></pre>
               </section>
             </div>
             <div class="chat-config-links">
